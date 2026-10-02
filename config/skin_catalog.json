@@ -1,0 +1,83 @@
+{
+  "default_skin_id": "smpl",
+  "skins": [
+    {
+      "id": "smpl",
+      "label": "标准人体",
+      "category": "基础人体模型",
+      "description": "查看标准 SMPL / SMPL-X 人体网格动画",
+      "output_kind": "smpl",
+      "backend_mode": "smplx"
+    },
+    {
+      "id": "kenney_cc0",
+      "label": "开源卡通角色",
+      "category": "角色蒙皮",
+      "description": "Kenney CC0 角色，可直接渲染，不依赖 SMPL-X 模型",
+      "output_kind": "retarget",
+      "backend_mode": "smplx",
+      "target_fbx": "../../HumanAction-runtime/assets/kenney-protagonists/Model/characterMedium.fbx",
+      "mapping_file": "../../HumanAction-runtime/assets/kenney_mapping.json"
+    },
+    {
+      "id": "nailong",
+      "label": "奶龙",
+      "category": "角色蒙皮",
+      "description": "奶龙卡通角色，已验证单人舞蹈重定向",
+      "output_kind": "retarget",
+      "backend_mode": "smplx",
+      "target_fbx": "../../HumanAction-runtime/assets/nailong/nailong.fbx",
+      "mapping_file": "../../HumanAction-runtime/assets/nailong/mapping.json"
+    },
+    {
+      "id": "robot",
+      "label": "粉色机器人",
+      "category": "角色蒙皮",
+      "description": "查看经过 Blender / Rokoko 重定向的机器人动画",
+      "output_kind": "retarget",
+      "backend_mode": "smplx",
+      "target_fbx": "../../X Bot.fbx",
+      "mapping_file": "../../momask-main/assets/mapping.json"
+    },
+    {
+      "id": "aj",
+      "label": "街头少年",
+      "category": "角色蒙皮",
+      "description": "查看经过 Blender / Rokoko 重定向的 AJ 卡通人物动画",
+      "output_kind": "retarget",
+      "backend_mode": "smplx",
+      "target_fbx": "../../Aj (1).fbx",
+      "mapping_file": "../../momask-main/assets/mapping.json"
+    },
+    {
+      "id": "ch09_nonpbr",
+      "label": "绿衣少年",
+      "category": "角色蒙皮",
+      "description": "查看经过 Blender / Rokoko 重定向的 Ch09 角色动画",
+      "output_kind": "retarget",
+      "backend_mode": "smplx",
+      "target_fbx": "../../Ch09_nonPBR (1).fbx",
+      "mapping_file": "../../momask-main/assets/mapping6.json"
+    },
+    {
+      "id": "ch46_nonpbr",
+      "label": "动漫少女",
+      "category": "角色蒙皮",
+      "description": "查看经过 Blender / Rokoko 重定向的 Ch46 角色动画",
+      "output_kind": "retarget",
+      "backend_mode": "smplx",
+      "target_fbx": "../../Ch46_nonPBR (1).fbx",
+      "mapping_file": "../../momask-main/assets/mapping.json"
+    },
+    {
+      "id": "y_bot",
+      "label": "蓝色机器人",
+      "category": "角色蒙皮",
+      "description": "查看经过 Blender / Rokoko 重定向的 Y Bot 机器人动画",
+      "output_kind": "retarget",
+      "backend_mode": "smplx",
+      "target_fbx": "../../Y Bot.fbx",
+      "mapping_file": "../../momask-main/assets/mapping.json"
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "status": "local_review_only",
+  "redaction": "Machine paths redacted; source and packaged hashes retained",
+  "human_evaluation": "pending",
+  "files": [
+    {
+      "path": "reports/first_prize/controlled/summary.json",
+      "source_sha256": "75fda80587870a3e814066bbb878b62d6896a3dfbb2f658990aec6563fefba7a",
+      "packaged_sha256": "c16f69563d26b2130891ab4e5ee1dc5ba9973e3c2065d11bf1ec24a953f7f9c8",
+      "published_path": "evidence/controlled/summary.json"
+    },
+    {
+      "path": "reports/first_prize/controlled/inputs/manifest.json",
+      "source_sha256": "e4b530c08881f1c31becf1dafbf3609e5c6b9e66531b8e625eb6ad14e5337b3f",
+      "packaged_sha256": "f1bde1d5ce8910717f035ae5be60841b0050100b0d3aabdf17d151725b654611",
+      "published_path": "evidence/controlled/inputs/manifest.json"
+    },
+    {
+      "path": "reports/first_prize/controlled/inputs/truth_verification.json",
+      "source_sha256": "92cc8f6e1bed61906280f2c155e085fa07b09d41037748700ffafce86e9fc8a6",
+      "packaged_sha256": "6361992c712e372442fc703a2de2df4d7731febc2ac3ebbc13f180120a571125",
+      "published_path": "evidence/controlled/inputs/truth_verification.json"
+    },
+    {
+      "path": "reports/first_prize/study/protocol.json",
+      "source_sha256": "259f1909f1d6524244ceb659884d94e0f5a30afd681c31f85a09d2f07905547a",
+      "packaged_sha256": "9d28888d15a8e27965a1bbd6a704805db0a0fd53b046c6758f7948f23b1ff24d",
+      "published_path": "evidence/study/protocol.json"
+    },
+    {
+      "path": "reports/first_prize/study/generation.json",
+      "source_sha256": "25c4e03ba544a11216a77eea14e0a006e27b3f653392913b93eb735fd5ae03f4",
+      "packaged_sha256": "a6c344564ac3a695a1660cc1a3aa274979bef1e8b85bb061bd4266d1a9aab065",
+      "published_path": "evidence/study/generation.json"
+    },
+    {
+      "path": "reports/first_prize/study/music/manifest.json",
+      "source_sha256": "da97f13f1096b99960065964362ba1f8039b72fc3354b6be11b14f80dfb267b6",
+      "packaged_sha256": "f92f0b0c31a4c2a2e730dba0cc68bbecdefe0e15b470fc4e73093c86a2a1c5f7",
+      "published_path": "evidence/study/music/manifest.json"
+    },
+    {
+      "path": "reports/first_prize/study/video_verification.json",
+      "source_sha256": "b0c50addb376e124b3c27ed30cc401d19fbe3f1f68054f141e04282364c4bfac",
+      "packaged_sha256": "68ce9d29ceed86e79c1c48a9dc9333e3723cacf8ea294eb6b8fa28337a0d12fc",
+      "published_path": "evidence/study/video_verification.json"
+    },
+    {
+      "path": "reports/first_prize/study/comparisons/development/aggregate.json",
+      "source_sha256": "291f939af97d100cbab8b628e18675daece63dac9e3ce1d85e8e7eb7befb27dc",
+      "packaged_sha256": "f032acc1d7044fac5f97563e665417de8a455fc56a1385ea8f8e23740e3bcf41",
+      "published_path": "evidence/study/comparisons/development/aggregate.json"
+    },
+    {
+      "path": "reports/first_prize/study/comparisons/development/summary.json",
+      "source_sha256": "4c70b8f36384fcc153a62712217a94cf7f1f77edc4b45d174121eb44b2ec004c",
+      "packaged_sha256": "4be69791921a4799a5e5221d1d6f39428dd8bda74e25769b88ef425908960bcd",
+      "published_path": "evidence/study/comparisons/development/summary.json"
+    },
+    {
+      "path": "reports/first_prize/portable/verification.json",
+      "source_sha256": "2596e6cda8121a217489f759b3a97d6f5ebdd185713410bad9afb32135aca536",
+      "packaged_sha256": "854375a15a87e6495feccf59ab39509da961d3a4b434bf9d25ffa11984827e24",
+      "published_path": "evidence/portable/verification.json"
+    },
+    {
+      "path": "reports/first_prize/engineering_verification.json",
+      "source_sha256": "8c7e71134019abb27ab84fea0e5998c33af78703a393ebf0700bf864eee6fb02",
+      "packaged_sha256": "440c91ec2f961b063c79e3463d6c36dd3ad2e6e9bee1ff0634e0e76a3f092e55",
+      "published_path": "evidence/engineering_verification.json"
+    },
+    {
+      "path": "reports/first_prize/portable311/verification.json",
+      "source_sha256": "58e61370d2c02157eda2f62aa94e3eb43a7f92f72691cdee6e0a6ccf788e1ca5",
+      "packaged_sha256": "a9a1f0024a38e0a9f4c76c046776719cae21f5233cffcfcced8b874f67517fcf",
+      "published_path": "evidence/portable311/verification.json"
+    },
+    {
+      "path": "reports/first_prize/browser/verification.json",
+      "source_sha256": "422cc12025f967f8833a205a9b075dea9c3b6f5b41ea4a5e4eb4459067d88e45",
+      "packaged_sha256": "cb7294fb128b190d33d5adecd3053740586b37bef7afd3c92f0e1f619205e017",
+      "published_path": "evidence/browser/verification.json"
+    },
+    {
+      "path": "reports/first_prize/report_validation.json",
+      "source_sha256": "d01aa2e08145a547b98802ee57824ac3d590d9ac20deafca59b03be76444f96c",
+      "packaged_sha256": "57464e1a9a9b3298cc1d389bf1d27770a9aa4bd3a3a35793b52725bd24ebcb1a",
+      "published_path": "evidence/report_validation.json"
+    },
+    {
+      "path": "reports/first_prize/browser/video_verification.json",
+      "source_sha256": "68304c72cf58c93e4cb079064e0e59ee49568f1bd28cad85da865ad156090a78",
+      "packaged_sha256": "546e54fb8f8693a6b62f0148a0348c8a139cd219a7c2ea7c4950a7be659ec7dc",
+      "published_path": "evidence/browser/video_verification.json"
+    },
+    {
+      "path": "reports/first_prize/browser/demo_provenance.json",
+      "source_sha256": "ea4c36d949a75dc3a18bb56079a2abeedee80aa295d90ca616c1f4bc6b810f01",
+      "packaged_sha256": "1732c89390a25369d18c2cce6391223fc78b5c5c231051d5c1727afb43d30189",
+      "published_path": "evidence/browser/demo_provenance.json"
+    },
+    {
+      "path": "reports/first_prize/cli_demo/installation.json",
+      "source_sha256": "abdd4dda7a9211f24bfdfad16cb8c103a4fb1bc58578725a62bb7eb29b6cf529",
+      "packaged_sha256": "1cf25fb8b716d918a47c21e1ad0e9716f2409f932d4c9e9ae6f5b2317d1ef403",
+      "published_path": "evidence/cli_demo/installation.json"
+    },
+    {
+      "path": "reports/first_prize/browser/narrated_video_verification.json",
+      "source_sha256": "914809b22ad544be1b587a0e035eab21e5a5ece40bcd5b3213e6e06bc350207d",
+      "packaged_sha256": "5a31d7ba80302e4490bd1b4f6b9f282a6d0921aea30daae75a7733837cf282e5",
+      "published_path": "evidence/browser/narrated_video_verification.json"
+    },
+    {
+      "path": "reports/first_prize/lodge_loading/manifest.json",
+      "source_sha256": "b69108b89574422bc00c12abc3850e33b7b6b5b62e44365d0d58c1aba4708849",
+      "packaged_sha256": "0b23704ed31390db39f9b9e08d96603cd381fd4b5fd80e749aca8aa35eeb94d1",
+      "published_path": "evidence/lodge_loading/manifest.json"
+    },
+    {
+      "path": "reports/first_prize/lodge_loading/song_identifier_validation.json",
+      "source_sha256": "789695d604b895dfe66bb87647d7a3955e28c5cf4cc300bb9b7d024c52d2b989",
+      "packaged_sha256": "23695241099a6870864936516981eed90321d188e2c9fbb368a61f9b4bc4e06b",
+      "published_path": "evidence/lodge_loading/song_identifier_validation.json"
+    },
+    {
+      "path": "reports/first_prize/lodge_loading/checkpoint_mmap.patch",
+      "source_sha256": "8edbba5d0c4e8befaec66b40015343e6c67779e2107c347635b585cad49222e6",
+      "packaged_sha256": "924ddc6d9bd6ed68c402a057a678b8ca0894dce6f2a5858193673195ea9996ed",
+      "published_path": "evidence/lodge_loading/checkpoint_mmap.patch"
+    },
+    {
+      "path": "reports/first_prize/lodge_loading/song_identifier.patch",
+      "source_sha256": "97ded73b4112a9ab94f50407b9d88a421843236540b1ac7eca368769ea50c8c9",
+      "packaged_sha256": "cd0e8fade78b588e2509d5b8e37c937995c08181a86602180508a1e0646f69cd",
+      "published_path": "evidence/lodge_loading/song_identifier.patch"
+    }
+  ]
+}

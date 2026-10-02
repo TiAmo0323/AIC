@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>本机动作生成视频预览</title>
+  <style>
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #17191f; color: #f3f4f6; font: 16px system-ui, sans-serif; }
+    main { width: min(90vw, 900px); padding: 24px 0; }
+    h1 { font-size: 22px; }
+    h2 { margin-top: 34px; font-size: 18px; }
+    video { display: block; width: 100%; background: white; border-radius: 12px; }
+    p { line-height: 1.6; color: #b9bfcc; }
+    a { color: #94c5ff; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>本机生成视频</h1>
+    <h2>LODGE 音乐生成舞蹈 · SMPL-X 人体</h2>
+    <video controls muted loop playsinline poster="/local-lodge-smplx.png">
+      <source src="/local-lodge-smplx.mp4" type="video/mp4">
+      当前浏览器无法播放此 MP4。
+    </video>
+    <p>34 秒、1024 帧，使用已授权下载的 SMPL-X 人体模型，含测试节拍音轨。点击播放并取消静音即可听到音频。
+      <a href="/local-lodge-smplx.mp4" download>下载人体视频</a></p>
+    <h2>InterGen 双人卡通角色</h2>
+    <video controls autoplay muted loop playsinline poster="/local-intergen-kenney.png">
+      <source src="/local-intergen-kenney.mp4" type="video/mp4">
+      当前浏览器无法播放此 MP4。
+    </video>
+    <p>6 秒、180 帧。<a href="/local-intergen-kenney.mp4" download>下载角色视频</a></p>
+    <h2>LODGE 音乐生成舞蹈 · 卡通角色</h2>
+    <video controls muted loop playsinline poster="/local-lodge-kenney.png">
+      <source src="/local-lodge-kenney.mp4" type="video/mp4">
+      当前浏览器无法播放此 MP4。
+    </video>
+    <p>34 秒、1024 帧，含测试节拍音轨。点击播放并取消静音即可听到音频。
+      <a href="/local-lodge-kenney.mp4" download>下载舞蹈视频</a></p>
+    <h2>InterGen 双人骨架</h2>
+    <video controls autoplay muted loop playsinline poster="/local-motion-preview.png">
+      <source src="/local-motion-preview.mp4" type="video/mp4">
+      当前浏览器无法播放此 MP4。
+    </video>
+    <p>6 秒、180 帧。若浏览器禁止自动播放，请点击视频中央的播放按钮。
+      <a href="/local-motion-preview.mp4" download>下载视频</a></p>
+  </main>
+</body>
+</html>

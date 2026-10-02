@@ -1,0 +1,3397 @@
+{
+  "schema_version": 1,
+  "purpose": "Controlled target-test evaluation; collateral checks on injected clips are unlabelled, not negatives",
+  "provenance": "Self-authored procedural skeleton and injected defects; not human validation",
+  "motions": [
+    {
+      "id": "temporal_continuity_00",
+      "input": "temporal_continuity_00.npy",
+      "fps": 30,
+      "seed": 41000,
+      "floor_height_m": 0.0,
+      "sha256": "8db997b3a8733625be2ae97e2550527a55483b0f839fef6c49d02e24021a337c",
+      "evaluated_tests": [
+        "temporal_continuity"
+      ],
+      "events": [
+        {
+          "test_name": "temporal_continuity",
+          "actor_id": 0,
+          "joint_ids": [
+            0
+          ],
+          "start_frame": 92,
+          "end_frame": 92,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "temporal_continuity",
+        "severity": 0,
+        "parameter": 0.24,
+        "analytic_quantity": 0.24
+      }
+    },
+    {
+      "id": "temporal_continuity_01",
+      "input": "temporal_continuity_01.npy",
+      "fps": 30,
+      "seed": 41001,
+      "floor_height_m": 0.0,
+      "sha256": "6de74b53ba570c77b557d2c66fd2777b081a78a0ebcbdfdb35409b55434e38e6",
+      "evaluated_tests": [
+        "temporal_continuity"
+      ],
+      "events": [
+        {
+          "test_name": "temporal_continuity",
+          "actor_id": 0,
+          "joint_ids": [
+            0
+          ],
+          "start_frame": 90,
+          "end_frame": 90,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "temporal_continuity",
+        "severity": 0,
+        "parameter": 0.24,
+        "analytic_quantity": 0.24
+      }
+    },
+    {
+      "id": "temporal_continuity_02",
+      "input": "temporal_continuity_02.npy",
+      "fps": 30,
+      "seed": 41002,
+      "floor_height_m": 0.0,
+      "sha256": "b151e208407c9b6b0ed34fa8019b31788dce3ea17d40223e9c5d101957c20393",
+      "evaluated_tests": [
+        "temporal_continuity"
+      ],
+      "events": [
+        {
+          "test_name": "temporal_continuity",
+          "actor_id": 0,
+          "joint_ids": [
+            0
+          ],
+          "start_frame": 137,
+          "end_frame": 137,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "temporal_continuity",
+        "severity": 0,
+        "parameter": 0.24,
+        "analytic_quantity": 0.24
+      }
+    },
+    {
+      "id": "temporal_continuity_03",
+      "input": "temporal_continuity_03.npy",
+      "fps": 30,
+      "seed": 41003,
+      "floor_height_m": 0.0,
+      "sha256": "0ccf5b4d3c3331faa3cc9fd2ec137950fab84730db9f3db3dc71115333972ee1",
+      "evaluated_tests": [
+        "temporal_continuity"
+      ],
+      "events": [
+        {
+          "test_name": "temporal_continuity",
+          "actor_id": 0,
+          "joint_ids": [
+            0
+          ],
+          "start_frame": 151,
+          "end_frame": 151,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "temporal_continuity",
+        "severity": 0,
+        "parameter": 0.24,
+        "analytic_quantity": 0.24
+      }
+    },
+    {
+      "id": "temporal_continuity_04",
+      "input": "temporal_continuity_04.npy",
+      "fps": 30,
+      "seed": 41004,
+      "floor_height_m": 0.0,
+      "sha256": "5b9d95d951c442b5b578951811e456f984cd6e91749e55a0058741cc4e76e1b2",
+      "evaluated_tests": [
+        "temporal_continuity"
+      ],
+      "events": [
+        {
+          "test_name": "temporal_continuity",
+          "actor_id": 0,
+          "joint_ids": [
+            0
+          ],
+          "start_frame": 127,
+          "end_frame": 127,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "temporal_continuity",
+        "severity": 0,
+        "parameter": 0.24,
+        "analytic_quantity": 0.24
+      }
+    },
+    {
+      "id": "temporal_continuity_05",
+      "input": "temporal_continuity_05.npy",
+      "fps": 30,
+      "seed": 41005,
+      "floor_height_m": 0.0,
+      "sha256": "e04e9b966181dad10e183bc676f956b763e6d90ebb3385da2215c02beecb8100",
+      "evaluated_tests": [
+        "temporal_continuity"
+      ],
+      "events": [
+        {
+          "test_name": "temporal_continuity",
+          "actor_id": 0,
+          "joint_ids": [
+            0
+          ],
+          "start_frame": 153,
+          "end_frame": 153,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "temporal_continuity",
+        "severity": 1,
+        "parameter": 0.36,
+        "analytic_quantity": 0.36
+      }
+    },
+    {
+      "id": "temporal_continuity_06",
+      "input": "temporal_continuity_06.npy",
+      "fps": 30,
+      "seed": 41006,
+      "floor_height_m": 0.0,
+      "sha256": "e2d4244fff333d64dc4d4e4f49ba9704d2a5b553f01d1170382f6755c09eb4e2",
+      "evaluated_tests": [
+        "temporal_continuity"
+      ],
+      "events": [
+        {
+          "test_name": "temporal_continuity",
+          "actor_id": 0,
+          "joint_ids": [
+            0
+          ],
+          "start_frame": 115,
+          "end_frame": 115,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "temporal_continuity",
+        "severity": 1,
+        "parameter": 0.36,
+        "analytic_quantity": 0.36
+      }
+    },
+    {
+      "id": "temporal_continuity_07",
+      "input": "temporal_continuity_07.npy",
+      "fps": 30,
+      "seed": 41007,
+      "floor_height_m": 0.0,
+      "sha256": "5c055d9fa7dc2ee75dc17c828ca2d9067874c3c4469dc43ea24b9cd44330c935",
+      "evaluated_tests": [
+        "temporal_continuity"
+      ],
+      "events": [
+        {
+          "test_name": "temporal_continuity",
+          "actor_id": 0,
+          "joint_ids": [
+            0
+          ],
+          "start_frame": 138,
+          "end_frame": 138,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "temporal_continuity",
+        "severity": 1,
+        "parameter": 0.36,
+        "analytic_quantity": 0.36
+      }
+    },
+    {
+      "id": "temporal_continuity_08",
+      "input": "temporal_continuity_08.npy",
+      "fps": 30,
+      "seed": 41008,
+      "floor_height_m": 0.0,
+      "sha256": "bbc98f845a5cfbfc94d5d58e9660a35243f7158e7361d4f62cd07d474b18c75e",
+      "evaluated_tests": [
+        "temporal_continuity"
+      ],
+      "events": [
+        {
+          "test_name": "temporal_continuity",
+          "actor_id": 0,
+          "joint_ids": [
+            0
+          ],
+          "start_frame": 95,
+          "end_frame": 95,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "temporal_continuity",
+        "severity": 1,
+        "parameter": 0.36,
+        "analytic_quantity": 0.36
+      }
+    },
+    {
+      "id": "temporal_continuity_09",
+      "input": "temporal_continuity_09.npy",
+      "fps": 30,
+      "seed": 41009,
+      "floor_height_m": 0.0,
+      "sha256": "167330961c26db6d91abd29ef6a0aa5269140fd0bc431b6cba8521251ecc27c1",
+      "evaluated_tests": [
+        "temporal_continuity"
+      ],
+      "events": [
+        {
+          "test_name": "temporal_continuity",
+          "actor_id": 0,
+          "joint_ids": [
+            0
+          ],
+          "start_frame": 132,
+          "end_frame": 132,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "temporal_continuity",
+        "severity": 1,
+        "parameter": 0.36,
+        "analytic_quantity": 0.36
+      }
+    },
+    {
+      "id": "temporal_continuity_10",
+      "input": "temporal_continuity_10.npy",
+      "fps": 30,
+      "seed": 41010,
+      "floor_height_m": 0.0,
+      "sha256": "93edd93753350c842a29b89caea0d369c2797bf22a49239e6bd4ce8ad7f849ab",
+      "evaluated_tests": [
+        "temporal_continuity"
+      ],
+      "events": [
+        {
+          "test_name": "temporal_continuity",
+          "actor_id": 0,
+          "joint_ids": [
+            0
+          ],
+          "start_frame": 117,
+          "end_frame": 117,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "temporal_continuity",
+        "severity": 2,
+        "parameter": 0.48,
+        "analytic_quantity": 0.48
+      }
+    },
+    {
+      "id": "temporal_continuity_11",
+      "input": "temporal_continuity_11.npy",
+      "fps": 30,
+      "seed": 41011,
+      "floor_height_m": 0.0,
+      "sha256": "631e207ef8ef817ee5179307c351970652685c0e3bfc774267366ebe5be94d3e",
+      "evaluated_tests": [
+        "temporal_continuity"
+      ],
+      "events": [
+        {
+          "test_name": "temporal_continuity",
+          "actor_id": 0,
+          "joint_ids": [
+            0
+          ],
+          "start_frame": 134,
+          "end_frame": 134,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "temporal_continuity",
+        "severity": 2,
+        "parameter": 0.48,
+        "analytic_quantity": 0.48
+      }
+    },
+    {
+      "id": "temporal_continuity_12",
+      "input": "temporal_continuity_12.npy",
+      "fps": 30,
+      "seed": 41012,
+      "floor_height_m": 0.0,
+      "sha256": "571e95874e638c0f911de9a642ca0e13bfb4a8c3f4f18f9cd9bd329153e8209d",
+      "evaluated_tests": [
+        "temporal_continuity"
+      ],
+      "events": [
+        {
+          "test_name": "temporal_continuity",
+          "actor_id": 0,
+          "joint_ids": [
+            0
+          ],
+          "start_frame": 135,
+          "end_frame": 135,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "temporal_continuity",
+        "severity": 2,
+        "parameter": 0.48,
+        "analytic_quantity": 0.48
+      }
+    },
+    {
+      "id": "temporal_continuity_13",
+      "input": "temporal_continuity_13.npy",
+      "fps": 30,
+      "seed": 41013,
+      "floor_height_m": 0.0,
+      "sha256": "b8aa5aca5c0a68d0d11bc440c7e0d96b896bdfe888cd6da47c165918a88c6183",
+      "evaluated_tests": [
+        "temporal_continuity"
+      ],
+      "events": [
+        {
+          "test_name": "temporal_continuity",
+          "actor_id": 0,
+          "joint_ids": [
+            0
+          ],
+          "start_frame": 99,
+          "end_frame": 99,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "temporal_continuity",
+        "severity": 2,
+        "parameter": 0.48,
+        "analytic_quantity": 0.48
+      }
+    },
+    {
+      "id": "temporal_continuity_14",
+      "input": "temporal_continuity_14.npy",
+      "fps": 30,
+      "seed": 41014,
+      "floor_height_m": 0.0,
+      "sha256": "14a6675cf90d544aac6e4ec8e1c4a3c52b78a38e10ae123d351863176628d74b",
+      "evaluated_tests": [
+        "temporal_continuity"
+      ],
+      "events": [
+        {
+          "test_name": "temporal_continuity",
+          "actor_id": 0,
+          "joint_ids": [
+            0
+          ],
+          "start_frame": 128,
+          "end_frame": 128,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "temporal_continuity",
+        "severity": 2,
+        "parameter": 0.48,
+        "analytic_quantity": 0.48
+      }
+    },
+    {
+      "id": "skeleton_integrity_00",
+      "input": "skeleton_integrity_00.npy",
+      "fps": 30,
+      "seed": 41000,
+      "floor_height_m": 0.0,
+      "sha256": "c683446e93b8ca5511468ad2eeac1e17bfd519d44c66a11d59f9ddb220f84688",
+      "evaluated_tests": [
+        "skeleton_integrity"
+      ],
+      "events": [
+        {
+          "test_name": "skeleton_integrity",
+          "actor_id": 0,
+          "joint_ids": [
+            18,
+            20
+          ],
+          "start_frame": 92,
+          "end_frame": 123,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "skeleton_integrity",
+        "severity": 0,
+        "parameter": 0.2,
+        "analytic_quantity": 0.8152949542541672
+      }
+    },
+    {
+      "id": "skeleton_integrity_01",
+      "input": "skeleton_integrity_01.npy",
+      "fps": 30,
+      "seed": 41001,
+      "floor_height_m": 0.0,
+      "sha256": "9015fc9f81105991c9632eb2d6f715fbb777b3b079c5805e266087847e990e28",
+      "evaluated_tests": [
+        "skeleton_integrity"
+      ],
+      "events": [
+        {
+          "test_name": "skeleton_integrity",
+          "actor_id": 0,
+          "joint_ids": [
+            18,
+            20
+          ],
+          "start_frame": 90,
+          "end_frame": 138,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "skeleton_integrity",
+        "severity": 0,
+        "parameter": 0.2,
+        "analytic_quantity": 0.8340536331056592
+      }
+    },
+    {
+      "id": "skeleton_integrity_02",
+      "input": "skeleton_integrity_02.npy",
+      "fps": 30,
+      "seed": 41002,
+      "floor_height_m": 0.0,
+      "sha256": "90082b6092a896dadc3db56ec7d0d5b6cf18b94c86dc896b9553fa953d1c28b1",
+      "evaluated_tests": [
+        "skeleton_integrity"
+      ],
+      "events": [
+        {
+          "test_name": "skeleton_integrity",
+          "actor_id": 0,
+          "joint_ids": [
+            18,
+            20
+          ],
+          "start_frame": 137,
+          "end_frame": 174,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "skeleton_integrity",
+        "severity": 0,
+        "parameter": 0.2,
+        "analytic_quantity": 0.7938858050305418
+      }
+    },
+    {
+      "id": "skeleton_integrity_03",
+      "input": "skeleton_integrity_03.npy",
+      "fps": 30,
+      "seed": 41003,
+      "floor_height_m": 0.0,
+      "sha256": "d39b09166a94c73bbe65a4d363b4d2a7ce00955406b5a35b1fd08ca5e80a4e7e",
+      "evaluated_tests": [
+        "skeleton_integrity"
+      ],
+      "events": [
+        {
+          "test_name": "skeleton_integrity",
+          "actor_id": 0,
+          "joint_ids": [
+            18,
+            20
+          ],
+          "start_frame": 151,
+          "end_frame": 184,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "skeleton_integrity",
+        "severity": 0,
+        "parameter": 0.2,
+        "analytic_quantity": 0.8802470659699175
+      }
+    },
+    {
+      "id": "skeleton_integrity_04",
+      "input": "skeleton_integrity_04.npy",
+      "fps": 30,
+      "seed": 41004,
+      "floor_height_m": 0.0,
+      "sha256": "e5bf05659346fd6d3bd46056f220a0578683098632e9d5e39f19cfaab9ba4117",
+      "evaluated_tests": [
+        "skeleton_integrity"
+      ],
+      "events": [
+        {
+          "test_name": "skeleton_integrity",
+          "actor_id": 0,
+          "joint_ids": [
+            18,
+            20
+          ],
+          "start_frame": 127,
+          "end_frame": 170,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "skeleton_integrity",
+        "severity": 0,
+        "parameter": 0.2,
+        "analytic_quantity": 0.7854369777833481
+      }
+    },
+    {
+      "id": "skeleton_integrity_05",
+      "input": "skeleton_integrity_05.npy",
+      "fps": 30,
+      "seed": 41005,
+      "floor_height_m": 0.0,
+      "sha256": "5619599feb8dc489d4d47501dee20db6a8beef4bfefd0c548b51167d99db9159",
+      "evaluated_tests": [
+        "skeleton_integrity"
+      ],
+      "events": [
+        {
+          "test_name": "skeleton_integrity",
+          "actor_id": 0,
+          "joint_ids": [
+            18,
+            20
+          ],
+          "start_frame": 153,
+          "end_frame": 195,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "skeleton_integrity",
+        "severity": 1,
+        "parameter": 0.35,
+        "analytic_quantity": 1.3992520189025004
+      }
+    },
+    {
+      "id": "skeleton_integrity_06",
+      "input": "skeleton_integrity_06.npy",
+      "fps": 30,
+      "seed": 41006,
+      "floor_height_m": 0.0,
+      "sha256": "4fc72373968531cb865d1e7e0b8414591b3648cbdde4e00a127a78bbb9bb7964",
+      "evaluated_tests": [
+        "skeleton_integrity"
+      ],
+      "events": [
+        {
+          "test_name": "skeleton_integrity",
+          "actor_id": 0,
+          "joint_ids": [
+            18,
+            20
+          ],
+          "start_frame": 115,
+          "end_frame": 152,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "skeleton_integrity",
+        "severity": 1,
+        "parameter": 0.35,
+        "analytic_quantity": 1.2179442448883637
+      }
+    },
+    {
+      "id": "skeleton_integrity_07",
+      "input": "skeleton_integrity_07.npy",
+      "fps": 30,
+      "seed": 41007,
+      "floor_height_m": 0.0,
+      "sha256": "4ae33bc738261760a8b7e0c8b0898dda27f87cbd62955f31fce7d1562db38b3a",
+      "evaluated_tests": [
+        "skeleton_integrity"
+      ],
+      "events": [
+        {
+          "test_name": "skeleton_integrity",
+          "actor_id": 0,
+          "joint_ids": [
+            18,
+            20
+          ],
+          "start_frame": 138,
+          "end_frame": 177,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "skeleton_integrity",
+        "severity": 1,
+        "parameter": 0.35,
+        "analytic_quantity": 1.5164109049569268
+      }
+    },
+    {
+      "id": "skeleton_integrity_08",
+      "input": "skeleton_integrity_08.npy",
+      "fps": 30,
+      "seed": 41008,
+      "floor_height_m": 0.0,
+      "sha256": "c0a812c0e2a7f39ca862e5b29d80427f695ba95253bcbeccebc1cc01846806fa",
+      "evaluated_tests": [
+        "skeleton_integrity"
+      ],
+      "events": [
+        {
+          "test_name": "skeleton_integrity",
+          "actor_id": 0,
+          "joint_ids": [
+            18,
+            20
+          ],
+          "start_frame": 95,
+          "end_frame": 120,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "skeleton_integrity",
+        "severity": 1,
+        "parameter": 0.35,
+        "analytic_quantity": 1.2439279145599749
+      }
+    },
+    {
+      "id": "skeleton_integrity_09",
+      "input": "skeleton_integrity_09.npy",
+      "fps": 30,
+      "seed": 41009,
+      "floor_height_m": 0.0,
+      "sha256": "202baa3282b7d321f32a92769277c80f6bc6f81c85da080a6f8ef9231d1227bb",
+      "evaluated_tests": [
+        "skeleton_integrity"
+      ],
+      "events": [
+        {
+          "test_name": "skeleton_integrity",
+          "actor_id": 0,
+          "joint_ids": [
+            18,
+            20
+          ],
+          "start_frame": 132,
+          "end_frame": 176,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "skeleton_integrity",
+        "severity": 1,
+        "parameter": 0.35,
+        "analytic_quantity": 1.3376714511438683
+      }
+    },
+    {
+      "id": "skeleton_integrity_10",
+      "input": "skeleton_integrity_10.npy",
+      "fps": 30,
+      "seed": 41010,
+      "floor_height_m": 0.0,
+      "sha256": "34f0d3f472c98c4412c2bd1535d79c63104268f6adfa74512a6855e81894275c",
+      "evaluated_tests": [
+        "skeleton_integrity"
+      ],
+      "events": [
+        {
+          "test_name": "skeleton_integrity",
+          "actor_id": 0,
+          "joint_ids": [
+            18,
+            20
+          ],
+          "start_frame": 117,
+          "end_frame": 165,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "skeleton_integrity",
+        "severity": 2,
+        "parameter": 0.5,
+        "analytic_quantity": 2.1080341503174513
+      }
+    },
+    {
+      "id": "skeleton_integrity_11",
+      "input": "skeleton_integrity_11.npy",
+      "fps": 30,
+      "seed": 41011,
+      "floor_height_m": 0.0,
+      "sha256": "e552fbcf8c97eb3a7a41393f784ede6e3eb25f0ff18705b331fac08aa5bf2f04",
+      "evaluated_tests": [
+        "skeleton_integrity"
+      ],
+      "events": [
+        {
+          "test_name": "skeleton_integrity",
+          "actor_id": 0,
+          "joint_ids": [
+            18,
+            20
+          ],
+          "start_frame": 134,
+          "end_frame": 178,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "skeleton_integrity",
+        "severity": 2,
+        "parameter": 0.5,
+        "analytic_quantity": 1.9432850391158654
+      }
+    },
+    {
+      "id": "skeleton_integrity_12",
+      "input": "skeleton_integrity_12.npy",
+      "fps": 30,
+      "seed": 41012,
+      "floor_height_m": 0.0,
+      "sha256": "398ee66a7f7d7c9af4e7b4f04f4cf514bddfbc909c69233bf82607623bb5f931",
+      "evaluated_tests": [
+        "skeleton_integrity"
+      ],
+      "events": [
+        {
+          "test_name": "skeleton_integrity",
+          "actor_id": 0,
+          "joint_ids": [
+            18,
+            20
+          ],
+          "start_frame": 135,
+          "end_frame": 168,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "skeleton_integrity",
+        "severity": 2,
+        "parameter": 0.5,
+        "analytic_quantity": 1.7286461041728538
+      }
+    },
+    {
+      "id": "skeleton_integrity_13",
+      "input": "skeleton_integrity_13.npy",
+      "fps": 30,
+      "seed": 41013,
+      "floor_height_m": 0.0,
+      "sha256": "0ea3a20d10cd86b8b78ecb3fb728bfe9b3a5189deff2860910a86686c81e22f6",
+      "evaluated_tests": [
+        "skeleton_integrity"
+      ],
+      "events": [
+        {
+          "test_name": "skeleton_integrity",
+          "actor_id": 0,
+          "joint_ids": [
+            18,
+            20
+          ],
+          "start_frame": 99,
+          "end_frame": 131,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "skeleton_integrity",
+        "severity": 2,
+        "parameter": 0.5,
+        "analytic_quantity": 2.2430408111248075
+      }
+    },
+    {
+      "id": "skeleton_integrity_14",
+      "input": "skeleton_integrity_14.npy",
+      "fps": 30,
+      "seed": 41014,
+      "floor_height_m": 0.0,
+      "sha256": "295eddf2a069ba60905b2109bc64f03f83b68f0a6bbcc0a211d61a9c57e333dd",
+      "evaluated_tests": [
+        "skeleton_integrity"
+      ],
+      "events": [
+        {
+          "test_name": "skeleton_integrity",
+          "actor_id": 0,
+          "joint_ids": [
+            18,
+            20
+          ],
+          "start_frame": 128,
+          "end_frame": 175,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "skeleton_integrity",
+        "severity": 2,
+        "parameter": 0.5,
+        "analytic_quantity": 2.0652160293736235
+      }
+    },
+    {
+      "id": "foot_sliding_00",
+      "input": "foot_sliding_00.npy",
+      "fps": 30,
+      "seed": 41000,
+      "floor_height_m": 0.0,
+      "sha256": "f38f03c486bbe3cbde2c30dfa6cdb5c787f8615b03679bea414350dd217e737f",
+      "evaluated_tests": [
+        "foot_sliding"
+      ],
+      "events": [
+        {
+          "test_name": "foot_sliding",
+          "actor_id": 0,
+          "joint_ids": [
+            10,
+            11
+          ],
+          "start_frame": 92,
+          "end_frame": 123,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "foot_sliding",
+        "severity": 0,
+        "parameter": 0.2,
+        "analytic_quantity": 0.2
+      }
+    },
+    {
+      "id": "foot_sliding_01",
+      "input": "foot_sliding_01.npy",
+      "fps": 30,
+      "seed": 41001,
+      "floor_height_m": 0.0,
+      "sha256": "7093ce857a9f41ad4d3526379954084c0f04a181d825e82d44b42fde30962ced",
+      "evaluated_tests": [
+        "foot_sliding"
+      ],
+      "events": [
+        {
+          "test_name": "foot_sliding",
+          "actor_id": 0,
+          "joint_ids": [
+            10,
+            11
+          ],
+          "start_frame": 90,
+          "end_frame": 138,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "foot_sliding",
+        "severity": 0,
+        "parameter": 0.2,
+        "analytic_quantity": 0.2
+      }
+    },
+    {
+      "id": "foot_sliding_02",
+      "input": "foot_sliding_02.npy",
+      "fps": 30,
+      "seed": 41002,
+      "floor_height_m": 0.0,
+      "sha256": "f9854a032c63ded145cba3f788397ea6bd334a9ecca30bb2e77b88cb9683a120",
+      "evaluated_tests": [
+        "foot_sliding"
+      ],
+      "events": [
+        {
+          "test_name": "foot_sliding",
+          "actor_id": 0,
+          "joint_ids": [
+            10,
+            11
+          ],
+          "start_frame": 137,
+          "end_frame": 174,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "foot_sliding",
+        "severity": 0,
+        "parameter": 0.2,
+        "analytic_quantity": 0.2
+      }
+    },
+    {
+      "id": "foot_sliding_03",
+      "input": "foot_sliding_03.npy",
+      "fps": 30,
+      "seed": 41003,
+      "floor_height_m": 0.0,
+      "sha256": "238261d23d56ea1fb7d4558a5b424a31cb29c67e8ff70a1711d1ccd9ab72c36f",
+      "evaluated_tests": [
+        "foot_sliding"
+      ],
+      "events": [
+        {
+          "test_name": "foot_sliding",
+          "actor_id": 0,
+          "joint_ids": [
+            10,
+            11
+          ],
+          "start_frame": 151,
+          "end_frame": 184,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "foot_sliding",
+        "severity": 0,
+        "parameter": 0.2,
+        "analytic_quantity": 0.2
+      }
+    },
+    {
+      "id": "foot_sliding_04",
+      "input": "foot_sliding_04.npy",
+      "fps": 30,
+      "seed": 41004,
+      "floor_height_m": 0.0,
+      "sha256": "531bb0826c166d4be199b04e5746253b324365f4fbfa2b00cfa5131bfebc583d",
+      "evaluated_tests": [
+        "foot_sliding"
+      ],
+      "events": [
+        {
+          "test_name": "foot_sliding",
+          "actor_id": 0,
+          "joint_ids": [
+            10,
+            11
+          ],
+          "start_frame": 127,
+          "end_frame": 170,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "foot_sliding",
+        "severity": 0,
+        "parameter": 0.2,
+        "analytic_quantity": 0.2
+      }
+    },
+    {
+      "id": "foot_sliding_05",
+      "input": "foot_sliding_05.npy",
+      "fps": 30,
+      "seed": 41005,
+      "floor_height_m": 0.0,
+      "sha256": "ee99a8d77a44bc561601c0673fbfcff7ba705279937ec66baa93fb7a350af3a2",
+      "evaluated_tests": [
+        "foot_sliding"
+      ],
+      "events": [
+        {
+          "test_name": "foot_sliding",
+          "actor_id": 0,
+          "joint_ids": [
+            10,
+            11
+          ],
+          "start_frame": 153,
+          "end_frame": 195,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "foot_sliding",
+        "severity": 1,
+        "parameter": 0.28,
+        "analytic_quantity": 0.28
+      }
+    },
+    {
+      "id": "foot_sliding_06",
+      "input": "foot_sliding_06.npy",
+      "fps": 30,
+      "seed": 41006,
+      "floor_height_m": 0.0,
+      "sha256": "199f713015a19112afcbd66e6e187d2415f5bbbd713c0ef38df8825baea20b22",
+      "evaluated_tests": [
+        "foot_sliding"
+      ],
+      "events": [
+        {
+          "test_name": "foot_sliding",
+          "actor_id": 0,
+          "joint_ids": [
+            10,
+            11
+          ],
+          "start_frame": 115,
+          "end_frame": 152,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "foot_sliding",
+        "severity": 1,
+        "parameter": 0.28,
+        "analytic_quantity": 0.28
+      }
+    },
+    {
+      "id": "foot_sliding_07",
+      "input": "foot_sliding_07.npy",
+      "fps": 30,
+      "seed": 41007,
+      "floor_height_m": 0.0,
+      "sha256": "5dd2536b3241d4464e3365cee756b53d33f4be91614f7ee8c4d1ed7b220e2f71",
+      "evaluated_tests": [
+        "foot_sliding"
+      ],
+      "events": [
+        {
+          "test_name": "foot_sliding",
+          "actor_id": 0,
+          "joint_ids": [
+            10,
+            11
+          ],
+          "start_frame": 138,
+          "end_frame": 177,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "foot_sliding",
+        "severity": 1,
+        "parameter": 0.28,
+        "analytic_quantity": 0.28
+      }
+    },
+    {
+      "id": "foot_sliding_08",
+      "input": "foot_sliding_08.npy",
+      "fps": 30,
+      "seed": 41008,
+      "floor_height_m": 0.0,
+      "sha256": "03fecbace028e931de72d95f9175c0023405ecdbd9666273ed7d0f1dc330c4d1",
+      "evaluated_tests": [
+        "foot_sliding"
+      ],
+      "events": [
+        {
+          "test_name": "foot_sliding",
+          "actor_id": 0,
+          "joint_ids": [
+            10,
+            11
+          ],
+          "start_frame": 95,
+          "end_frame": 120,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "foot_sliding",
+        "severity": 1,
+        "parameter": 0.28,
+        "analytic_quantity": 0.28
+      }
+    },
+    {
+      "id": "foot_sliding_09",
+      "input": "foot_sliding_09.npy",
+      "fps": 30,
+      "seed": 41009,
+      "floor_height_m": 0.0,
+      "sha256": "9dcf41a4f625687520a1fc4b5779a7b3d967c485deba8c19da3521a9d8024f23",
+      "evaluated_tests": [
+        "foot_sliding"
+      ],
+      "events": [
+        {
+          "test_name": "foot_sliding",
+          "actor_id": 0,
+          "joint_ids": [
+            10,
+            11
+          ],
+          "start_frame": 132,
+          "end_frame": 176,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "foot_sliding",
+        "severity": 1,
+        "parameter": 0.28,
+        "analytic_quantity": 0.28
+      }
+    },
+    {
+      "id": "foot_sliding_10",
+      "input": "foot_sliding_10.npy",
+      "fps": 30,
+      "seed": 41010,
+      "floor_height_m": 0.0,
+      "sha256": "87bb090d6a8fa2ac0a80055637c63642ae89342720f6541310d381ec2ba05108",
+      "evaluated_tests": [
+        "foot_sliding"
+      ],
+      "events": [
+        {
+          "test_name": "foot_sliding",
+          "actor_id": 0,
+          "joint_ids": [
+            10,
+            11
+          ],
+          "start_frame": 117,
+          "end_frame": 165,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "foot_sliding",
+        "severity": 2,
+        "parameter": 0.36,
+        "analytic_quantity": 0.36
+      }
+    },
+    {
+      "id": "foot_sliding_11",
+      "input": "foot_sliding_11.npy",
+      "fps": 30,
+      "seed": 41011,
+      "floor_height_m": 0.0,
+      "sha256": "2edb087f2241a4c2c3cdc58909c1fd3e0e9b6c0827cd357dddb8dd60a2ea9d1b",
+      "evaluated_tests": [
+        "foot_sliding"
+      ],
+      "events": [
+        {
+          "test_name": "foot_sliding",
+          "actor_id": 0,
+          "joint_ids": [
+            10,
+            11
+          ],
+          "start_frame": 134,
+          "end_frame": 178,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "foot_sliding",
+        "severity": 2,
+        "parameter": 0.36,
+        "analytic_quantity": 0.36
+      }
+    },
+    {
+      "id": "foot_sliding_12",
+      "input": "foot_sliding_12.npy",
+      "fps": 30,
+      "seed": 41012,
+      "floor_height_m": 0.0,
+      "sha256": "7c5d9ad33eaf4d077991626dac0aac4f4389a713a1c129baf00e21eb3f83f822",
+      "evaluated_tests": [
+        "foot_sliding"
+      ],
+      "events": [
+        {
+          "test_name": "foot_sliding",
+          "actor_id": 0,
+          "joint_ids": [
+            10,
+            11
+          ],
+          "start_frame": 135,
+          "end_frame": 168,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "foot_sliding",
+        "severity": 2,
+        "parameter": 0.36,
+        "analytic_quantity": 0.36
+      }
+    },
+    {
+      "id": "foot_sliding_13",
+      "input": "foot_sliding_13.npy",
+      "fps": 30,
+      "seed": 41013,
+      "floor_height_m": 0.0,
+      "sha256": "106625162757b67ca76c233935b1da880517fb04fa4285f517f95e93ebc205b1",
+      "evaluated_tests": [
+        "foot_sliding"
+      ],
+      "events": [
+        {
+          "test_name": "foot_sliding",
+          "actor_id": 0,
+          "joint_ids": [
+            10,
+            11
+          ],
+          "start_frame": 99,
+          "end_frame": 131,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "foot_sliding",
+        "severity": 2,
+        "parameter": 0.36,
+        "analytic_quantity": 0.36
+      }
+    },
+    {
+      "id": "foot_sliding_14",
+      "input": "foot_sliding_14.npy",
+      "fps": 30,
+      "seed": 41014,
+      "floor_height_m": 0.0,
+      "sha256": "8f6b8c813cb78c761a71ec13eaf2a2696d4f1fcf1d1fa1ee318d92469fd162bc",
+      "evaluated_tests": [
+        "foot_sliding"
+      ],
+      "events": [
+        {
+          "test_name": "foot_sliding",
+          "actor_id": 0,
+          "joint_ids": [
+            10,
+            11
+          ],
+          "start_frame": 128,
+          "end_frame": 175,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "foot_sliding",
+        "severity": 2,
+        "parameter": 0.36,
+        "analytic_quantity": 0.36
+      }
+    },
+    {
+      "id": "ground_contact_00",
+      "input": "ground_contact_00.npy",
+      "fps": 30,
+      "seed": 41000,
+      "floor_height_m": 0.0,
+      "sha256": "a04e10a68180d2cdf9e7865a44af0d27dacd96f8400d7c6d3738aa6618845702",
+      "evaluated_tests": [
+        "ground_contact"
+      ],
+      "events": [
+        {
+          "test_name": "ground_contact",
+          "actor_id": 0,
+          "joint_ids": [
+            7,
+            8,
+            10,
+            11
+          ],
+          "start_frame": 92,
+          "end_frame": 123,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "ground_contact",
+        "severity": 0,
+        "parameter": 0.06,
+        "analytic_quantity": 0.06
+      }
+    },
+    {
+      "id": "ground_contact_01",
+      "input": "ground_contact_01.npy",
+      "fps": 30,
+      "seed": 41001,
+      "floor_height_m": 0.0,
+      "sha256": "4108987a80c57bc2b55835ce90664bcc8955bf4f3e6dfcd6c0f9f3c20b199c05",
+      "evaluated_tests": [
+        "ground_contact"
+      ],
+      "events": [
+        {
+          "test_name": "ground_contact",
+          "actor_id": 0,
+          "joint_ids": [
+            7,
+            8,
+            10,
+            11
+          ],
+          "start_frame": 90,
+          "end_frame": 138,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "ground_contact",
+        "severity": 0,
+        "parameter": 0.06,
+        "analytic_quantity": 0.06
+      }
+    },
+    {
+      "id": "ground_contact_02",
+      "input": "ground_contact_02.npy",
+      "fps": 30,
+      "seed": 41002,
+      "floor_height_m": 0.0,
+      "sha256": "0766744b6e2090dc38ccb4debb49c295973ebb416fbfbc9066801f4bf76664db",
+      "evaluated_tests": [
+        "ground_contact"
+      ],
+      "events": [
+        {
+          "test_name": "ground_contact",
+          "actor_id": 0,
+          "joint_ids": [
+            7,
+            8,
+            10,
+            11
+          ],
+          "start_frame": 137,
+          "end_frame": 174,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "ground_contact",
+        "severity": 0,
+        "parameter": 0.06,
+        "analytic_quantity": 0.06
+      }
+    },
+    {
+      "id": "ground_contact_03",
+      "input": "ground_contact_03.npy",
+      "fps": 30,
+      "seed": 41003,
+      "floor_height_m": 0.0,
+      "sha256": "61cf6ca41cc154756f37f8a329ad921d79787a5a1fbb2339cd67422c0147e456",
+      "evaluated_tests": [
+        "ground_contact"
+      ],
+      "events": [
+        {
+          "test_name": "ground_contact",
+          "actor_id": 0,
+          "joint_ids": [
+            7,
+            8,
+            10,
+            11
+          ],
+          "start_frame": 151,
+          "end_frame": 184,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "ground_contact",
+        "severity": 0,
+        "parameter": 0.06,
+        "analytic_quantity": 0.06
+      }
+    },
+    {
+      "id": "ground_contact_04",
+      "input": "ground_contact_04.npy",
+      "fps": 30,
+      "seed": 41004,
+      "floor_height_m": 0.0,
+      "sha256": "25687e154a6a7ece4bc12990cf9e00c6b8e6738ad7101569e789cd51dfc7194f",
+      "evaluated_tests": [
+        "ground_contact"
+      ],
+      "events": [
+        {
+          "test_name": "ground_contact",
+          "actor_id": 0,
+          "joint_ids": [
+            7,
+            8,
+            10,
+            11
+          ],
+          "start_frame": 127,
+          "end_frame": 170,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "ground_contact",
+        "severity": 0,
+        "parameter": 0.06,
+        "analytic_quantity": 0.06
+      }
+    },
+    {
+      "id": "ground_contact_05",
+      "input": "ground_contact_05.npy",
+      "fps": 30,
+      "seed": 41005,
+      "floor_height_m": 0.0,
+      "sha256": "eb60f11572ea5cbff9ed8bbfd25d2cfae97ceb057d7355a94b24b46607f1475b",
+      "evaluated_tests": [
+        "ground_contact"
+      ],
+      "events": [
+        {
+          "test_name": "ground_contact",
+          "actor_id": 0,
+          "joint_ids": [
+            7,
+            8,
+            10,
+            11
+          ],
+          "start_frame": 153,
+          "end_frame": 195,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "ground_contact",
+        "severity": 1,
+        "parameter": 0.09,
+        "analytic_quantity": 0.09
+      }
+    },
+    {
+      "id": "ground_contact_06",
+      "input": "ground_contact_06.npy",
+      "fps": 30,
+      "seed": 41006,
+      "floor_height_m": 0.0,
+      "sha256": "d8de706e44d99a2f7466cb8b170759726df54dcbc513ec8be85e06682db70e50",
+      "evaluated_tests": [
+        "ground_contact"
+      ],
+      "events": [
+        {
+          "test_name": "ground_contact",
+          "actor_id": 0,
+          "joint_ids": [
+            7,
+            8,
+            10,
+            11
+          ],
+          "start_frame": 115,
+          "end_frame": 152,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "ground_contact",
+        "severity": 1,
+        "parameter": 0.09,
+        "analytic_quantity": 0.09
+      }
+    },
+    {
+      "id": "ground_contact_07",
+      "input": "ground_contact_07.npy",
+      "fps": 30,
+      "seed": 41007,
+      "floor_height_m": 0.0,
+      "sha256": "a7ffbb324c1c882c25d8f48bb31c29e54766e542256e6fa2d91799f605a4373e",
+      "evaluated_tests": [
+        "ground_contact"
+      ],
+      "events": [
+        {
+          "test_name": "ground_contact",
+          "actor_id": 0,
+          "joint_ids": [
+            7,
+            8,
+            10,
+            11
+          ],
+          "start_frame": 138,
+          "end_frame": 177,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "ground_contact",
+        "severity": 1,
+        "parameter": 0.09,
+        "analytic_quantity": 0.09
+      }
+    },
+    {
+      "id": "ground_contact_08",
+      "input": "ground_contact_08.npy",
+      "fps": 30,
+      "seed": 41008,
+      "floor_height_m": 0.0,
+      "sha256": "a60e62a0710dd19860f349815b10b6bbddbc3347340acdd728efb970f0c81052",
+      "evaluated_tests": [
+        "ground_contact"
+      ],
+      "events": [
+        {
+          "test_name": "ground_contact",
+          "actor_id": 0,
+          "joint_ids": [
+            7,
+            8,
+            10,
+            11
+          ],
+          "start_frame": 95,
+          "end_frame": 120,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "ground_contact",
+        "severity": 1,
+        "parameter": 0.09,
+        "analytic_quantity": 0.09
+      }
+    },
+    {
+      "id": "ground_contact_09",
+      "input": "ground_contact_09.npy",
+      "fps": 30,
+      "seed": 41009,
+      "floor_height_m": 0.0,
+      "sha256": "2d4700a6260f66caa1b0554f09ac7d638c062e14674fd00ba92b9ee4649d302d",
+      "evaluated_tests": [
+        "ground_contact"
+      ],
+      "events": [
+        {
+          "test_name": "ground_contact",
+          "actor_id": 0,
+          "joint_ids": [
+            7,
+            8,
+            10,
+            11
+          ],
+          "start_frame": 132,
+          "end_frame": 176,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "ground_contact",
+        "severity": 1,
+        "parameter": 0.09,
+        "analytic_quantity": 0.09
+      }
+    },
+    {
+      "id": "ground_contact_10",
+      "input": "ground_contact_10.npy",
+      "fps": 30,
+      "seed": 41010,
+      "floor_height_m": 0.0,
+      "sha256": "535780f946fe8a6ae51dc95c62ab01f97390c862da1b06bd808875ebb06ca939",
+      "evaluated_tests": [
+        "ground_contact"
+      ],
+      "events": [
+        {
+          "test_name": "ground_contact",
+          "actor_id": 0,
+          "joint_ids": [
+            7,
+            8,
+            10,
+            11
+          ],
+          "start_frame": 117,
+          "end_frame": 165,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "ground_contact",
+        "severity": 2,
+        "parameter": 0.12,
+        "analytic_quantity": 0.12
+      }
+    },
+    {
+      "id": "ground_contact_11",
+      "input": "ground_contact_11.npy",
+      "fps": 30,
+      "seed": 41011,
+      "floor_height_m": 0.0,
+      "sha256": "9a20ab030f88586390cbd34255b9ce0058b8f028c7a5a5e0ab8f8818d16ae1d1",
+      "evaluated_tests": [
+        "ground_contact"
+      ],
+      "events": [
+        {
+          "test_name": "ground_contact",
+          "actor_id": 0,
+          "joint_ids": [
+            7,
+            8,
+            10,
+            11
+          ],
+          "start_frame": 134,
+          "end_frame": 178,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "ground_contact",
+        "severity": 2,
+        "parameter": 0.12,
+        "analytic_quantity": 0.12
+      }
+    },
+    {
+      "id": "ground_contact_12",
+      "input": "ground_contact_12.npy",
+      "fps": 30,
+      "seed": 41012,
+      "floor_height_m": 0.0,
+      "sha256": "efdf33ee425d458be3861ade43fe7cb68e66393fb9a88e7c44782b2af58486f3",
+      "evaluated_tests": [
+        "ground_contact"
+      ],
+      "events": [
+        {
+          "test_name": "ground_contact",
+          "actor_id": 0,
+          "joint_ids": [
+            7,
+            8,
+            10,
+            11
+          ],
+          "start_frame": 135,
+          "end_frame": 168,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "ground_contact",
+        "severity": 2,
+        "parameter": 0.12,
+        "analytic_quantity": 0.12
+      }
+    },
+    {
+      "id": "ground_contact_13",
+      "input": "ground_contact_13.npy",
+      "fps": 30,
+      "seed": 41013,
+      "floor_height_m": 0.0,
+      "sha256": "416f536e9375edb5102961fbbca2384ee64a9bbcb5a07773a7ea8570e1fe2228",
+      "evaluated_tests": [
+        "ground_contact"
+      ],
+      "events": [
+        {
+          "test_name": "ground_contact",
+          "actor_id": 0,
+          "joint_ids": [
+            7,
+            8,
+            10,
+            11
+          ],
+          "start_frame": 99,
+          "end_frame": 131,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "ground_contact",
+        "severity": 2,
+        "parameter": 0.12,
+        "analytic_quantity": 0.12
+      }
+    },
+    {
+      "id": "ground_contact_14",
+      "input": "ground_contact_14.npy",
+      "fps": 30,
+      "seed": 41014,
+      "floor_height_m": 0.0,
+      "sha256": "6a5ad6a4177ed71ac858b99e435c4ba93e45ddf13e558ba36a3c4dc262fb9750",
+      "evaluated_tests": [
+        "ground_contact"
+      ],
+      "events": [
+        {
+          "test_name": "ground_contact",
+          "actor_id": 0,
+          "joint_ids": [
+            7,
+            8,
+            10,
+            11
+          ],
+          "start_frame": 128,
+          "end_frame": 175,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "ground_contact",
+        "severity": 2,
+        "parameter": 0.12,
+        "analytic_quantity": 0.12
+      }
+    },
+    {
+      "id": "collision_00",
+      "input": "collision_00.npy",
+      "fps": 30,
+      "seed": 41000,
+      "floor_height_m": 0.0,
+      "sha256": "cb3d51e219c89438428c8225f945f1e81871b01f2f7d280af9a2bae60b6df00b",
+      "evaluated_tests": [
+        "collision"
+      ],
+      "events": [
+        {
+          "test_name": "collision",
+          "actor_id": 0,
+          "joint_ids": [
+            20,
+            15
+          ],
+          "start_frame": 92,
+          "end_frame": 123,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "collision",
+        "severity": 0,
+        "parameter": 0.08,
+        "analytic_quantity": 0.08
+      }
+    },
+    {
+      "id": "collision_01",
+      "input": "collision_01.npy",
+      "fps": 30,
+      "seed": 41001,
+      "floor_height_m": 0.0,
+      "sha256": "9f1c7b0754dbd2dbe32a56c87a12831e68051f67f2f3366f2791eab1d1f47339",
+      "evaluated_tests": [
+        "collision"
+      ],
+      "events": [
+        {
+          "test_name": "collision",
+          "actor_id": 0,
+          "joint_ids": [
+            20,
+            15
+          ],
+          "start_frame": 90,
+          "end_frame": 138,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "collision",
+        "severity": 0,
+        "parameter": 0.08,
+        "analytic_quantity": 0.08
+      }
+    },
+    {
+      "id": "collision_02",
+      "input": "collision_02.npy",
+      "fps": 30,
+      "seed": 41002,
+      "floor_height_m": 0.0,
+      "sha256": "72cf0bbc27c3a950a77563ea625426076336e0ca8fd718a8b9a765cdd28389d6",
+      "evaluated_tests": [
+        "collision"
+      ],
+      "events": [
+        {
+          "test_name": "collision",
+          "actor_id": 0,
+          "joint_ids": [
+            20,
+            15
+          ],
+          "start_frame": 137,
+          "end_frame": 174,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "collision",
+        "severity": 0,
+        "parameter": 0.08,
+        "analytic_quantity": 0.08
+      }
+    },
+    {
+      "id": "collision_03",
+      "input": "collision_03.npy",
+      "fps": 30,
+      "seed": 41003,
+      "floor_height_m": 0.0,
+      "sha256": "87bdd87326453dbb4ffff943fe52f6db374753ac3b4611aa23f85ece5564c7ac",
+      "evaluated_tests": [
+        "collision"
+      ],
+      "events": [
+        {
+          "test_name": "collision",
+          "actor_id": 0,
+          "joint_ids": [
+            20,
+            15
+          ],
+          "start_frame": 151,
+          "end_frame": 184,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "collision",
+        "severity": 0,
+        "parameter": 0.08,
+        "analytic_quantity": 0.08
+      }
+    },
+    {
+      "id": "collision_04",
+      "input": "collision_04.npy",
+      "fps": 30,
+      "seed": 41004,
+      "floor_height_m": 0.0,
+      "sha256": "8de9cd7e04e319ca865db3ec0581a869cb1b61877232c9a7a6cc8c952a7c6a70",
+      "evaluated_tests": [
+        "collision"
+      ],
+      "events": [
+        {
+          "test_name": "collision",
+          "actor_id": 0,
+          "joint_ids": [
+            20,
+            15
+          ],
+          "start_frame": 127,
+          "end_frame": 170,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "collision",
+        "severity": 0,
+        "parameter": 0.08,
+        "analytic_quantity": 0.08
+      }
+    },
+    {
+      "id": "collision_05",
+      "input": "collision_05.npy",
+      "fps": 30,
+      "seed": 41005,
+      "floor_height_m": 0.0,
+      "sha256": "d7ba89cda61b65b2c0eac8dd883a22b4271e4fe8964dc7c8d1e35f5bb24b5654",
+      "evaluated_tests": [
+        "collision"
+      ],
+      "events": [
+        {
+          "test_name": "collision",
+          "actor_id": 0,
+          "joint_ids": [
+            20,
+            15
+          ],
+          "start_frame": 153,
+          "end_frame": 195,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "collision",
+        "severity": 1,
+        "parameter": 0.05,
+        "analytic_quantity": 0.05
+      }
+    },
+    {
+      "id": "collision_06",
+      "input": "collision_06.npy",
+      "fps": 30,
+      "seed": 41006,
+      "floor_height_m": 0.0,
+      "sha256": "7ef0595b99110269e775ca374f39c4045cacf56cc857de983b94ddda53e9edaa",
+      "evaluated_tests": [
+        "collision"
+      ],
+      "events": [
+        {
+          "test_name": "collision",
+          "actor_id": 0,
+          "joint_ids": [
+            20,
+            15
+          ],
+          "start_frame": 115,
+          "end_frame": 152,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "collision",
+        "severity": 1,
+        "parameter": 0.05,
+        "analytic_quantity": 0.05
+      }
+    },
+    {
+      "id": "collision_07",
+      "input": "collision_07.npy",
+      "fps": 30,
+      "seed": 41007,
+      "floor_height_m": 0.0,
+      "sha256": "6fe00ba6c06c5f815151b9193490a26302d2861b2cf13b3754ce84f53550e249",
+      "evaluated_tests": [
+        "collision"
+      ],
+      "events": [
+        {
+          "test_name": "collision",
+          "actor_id": 0,
+          "joint_ids": [
+            20,
+            15
+          ],
+          "start_frame": 138,
+          "end_frame": 177,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "collision",
+        "severity": 1,
+        "parameter": 0.05,
+        "analytic_quantity": 0.05
+      }
+    },
+    {
+      "id": "collision_08",
+      "input": "collision_08.npy",
+      "fps": 30,
+      "seed": 41008,
+      "floor_height_m": 0.0,
+      "sha256": "3300be061ada77bf000ed4c9abf71b28abcd03821eca4d35a0ccfa78433ec23a",
+      "evaluated_tests": [
+        "collision"
+      ],
+      "events": [
+        {
+          "test_name": "collision",
+          "actor_id": 0,
+          "joint_ids": [
+            20,
+            15
+          ],
+          "start_frame": 95,
+          "end_frame": 120,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "collision",
+        "severity": 1,
+        "parameter": 0.05,
+        "analytic_quantity": 0.05
+      }
+    },
+    {
+      "id": "collision_09",
+      "input": "collision_09.npy",
+      "fps": 30,
+      "seed": 41009,
+      "floor_height_m": 0.0,
+      "sha256": "117c8c1b7144e5b76845b3c6b261a9e0ddffc32d99a67e9558fa10758b5dcb4e",
+      "evaluated_tests": [
+        "collision"
+      ],
+      "events": [
+        {
+          "test_name": "collision",
+          "actor_id": 0,
+          "joint_ids": [
+            20,
+            15
+          ],
+          "start_frame": 132,
+          "end_frame": 176,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "collision",
+        "severity": 1,
+        "parameter": 0.05,
+        "analytic_quantity": 0.05
+      }
+    },
+    {
+      "id": "collision_10",
+      "input": "collision_10.npy",
+      "fps": 30,
+      "seed": 41010,
+      "floor_height_m": 0.0,
+      "sha256": "e134e87d0b78ff7adbdf8052de704f88a3b658f40799e990cd0653afe485189a",
+      "evaluated_tests": [
+        "collision"
+      ],
+      "events": [
+        {
+          "test_name": "collision",
+          "actor_id": 0,
+          "joint_ids": [
+            20,
+            15
+          ],
+          "start_frame": 117,
+          "end_frame": 165,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "collision",
+        "severity": 2,
+        "parameter": 0.02,
+        "analytic_quantity": 0.02
+      }
+    },
+    {
+      "id": "collision_11",
+      "input": "collision_11.npy",
+      "fps": 30,
+      "seed": 41011,
+      "floor_height_m": 0.0,
+      "sha256": "dc4b4767aab98f8e02eae1899a89c70bd6fedbccf53e5335b335702f1cda4039",
+      "evaluated_tests": [
+        "collision"
+      ],
+      "events": [
+        {
+          "test_name": "collision",
+          "actor_id": 0,
+          "joint_ids": [
+            20,
+            15
+          ],
+          "start_frame": 134,
+          "end_frame": 178,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "collision",
+        "severity": 2,
+        "parameter": 0.02,
+        "analytic_quantity": 0.02
+      }
+    },
+    {
+      "id": "collision_12",
+      "input": "collision_12.npy",
+      "fps": 30,
+      "seed": 41012,
+      "floor_height_m": 0.0,
+      "sha256": "3ed041707e17416b74fe5b8ef45961b4987afe4fff4ac0c382a66f04874b8fc7",
+      "evaluated_tests": [
+        "collision"
+      ],
+      "events": [
+        {
+          "test_name": "collision",
+          "actor_id": 0,
+          "joint_ids": [
+            20,
+            15
+          ],
+          "start_frame": 135,
+          "end_frame": 168,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "collision",
+        "severity": 2,
+        "parameter": 0.02,
+        "analytic_quantity": 0.02
+      }
+    },
+    {
+      "id": "collision_13",
+      "input": "collision_13.npy",
+      "fps": 30,
+      "seed": 41013,
+      "floor_height_m": 0.0,
+      "sha256": "90cd92e47f65a705bed33983a7317fcbb71df1bb1bb1555f0a1ae4e7ed3abb5f",
+      "evaluated_tests": [
+        "collision"
+      ],
+      "events": [
+        {
+          "test_name": "collision",
+          "actor_id": 0,
+          "joint_ids": [
+            20,
+            15
+          ],
+          "start_frame": 99,
+          "end_frame": 131,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "collision",
+        "severity": 2,
+        "parameter": 0.02,
+        "analytic_quantity": 0.02
+      }
+    },
+    {
+      "id": "collision_14",
+      "input": "collision_14.npy",
+      "fps": 30,
+      "seed": 41014,
+      "floor_height_m": 0.0,
+      "sha256": "72bd80bb4c5118bbc49d534920e53e72af57d5d2e3624dd1fd2239634571ea6d",
+      "evaluated_tests": [
+        "collision"
+      ],
+      "events": [
+        {
+          "test_name": "collision",
+          "actor_id": 0,
+          "joint_ids": [
+            20,
+            15
+          ],
+          "start_frame": 128,
+          "end_frame": 175,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "collision",
+        "severity": 2,
+        "parameter": 0.02,
+        "analytic_quantity": 0.02
+      }
+    },
+    {
+      "id": "motion_jerk_00",
+      "input": "motion_jerk_00.npy",
+      "fps": 30,
+      "seed": 41000,
+      "floor_height_m": 0.0,
+      "sha256": "969131580bb52378f2c8d6470fab871c228f993fade01465471f050af5eba004",
+      "evaluated_tests": [
+        "motion_jerk"
+      ],
+      "events": [
+        {
+          "test_name": "motion_jerk",
+          "actor_id": 0,
+          "joint_ids": [
+            20
+          ],
+          "start_frame": 92,
+          "end_frame": 126,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "motion_jerk",
+        "severity": 0,
+        "parameter": 0.01,
+        "analytic_quantity": 2160.0
+      }
+    },
+    {
+      "id": "motion_jerk_01",
+      "input": "motion_jerk_01.npy",
+      "fps": 30,
+      "seed": 41001,
+      "floor_height_m": 0.0,
+      "sha256": "b3cdc48c2a92ee7f83e69d507bc2ad85834dac808e1b24237355f85e27bb74c7",
+      "evaluated_tests": [
+        "motion_jerk"
+      ],
+      "events": [
+        {
+          "test_name": "motion_jerk",
+          "actor_id": 0,
+          "joint_ids": [
+            20
+          ],
+          "start_frame": 90,
+          "end_frame": 141,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "motion_jerk",
+        "severity": 0,
+        "parameter": 0.01,
+        "analytic_quantity": 2160.0
+      }
+    },
+    {
+      "id": "motion_jerk_02",
+      "input": "motion_jerk_02.npy",
+      "fps": 30,
+      "seed": 41002,
+      "floor_height_m": 0.0,
+      "sha256": "af1e534bb9cd3b10844592399ff27b2c76f9825e37e249dc14b35248316d42bc",
+      "evaluated_tests": [
+        "motion_jerk"
+      ],
+      "events": [
+        {
+          "test_name": "motion_jerk",
+          "actor_id": 0,
+          "joint_ids": [
+            20
+          ],
+          "start_frame": 137,
+          "end_frame": 177,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "motion_jerk",
+        "severity": 0,
+        "parameter": 0.01,
+        "analytic_quantity": 2160.0
+      }
+    },
+    {
+      "id": "motion_jerk_03",
+      "input": "motion_jerk_03.npy",
+      "fps": 30,
+      "seed": 41003,
+      "floor_height_m": 0.0,
+      "sha256": "213251248b92a86a91bc4869b0311e7e8c5aaa4671c38061a5a791b79c8db422",
+      "evaluated_tests": [
+        "motion_jerk"
+      ],
+      "events": [
+        {
+          "test_name": "motion_jerk",
+          "actor_id": 0,
+          "joint_ids": [
+            20
+          ],
+          "start_frame": 151,
+          "end_frame": 187,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "motion_jerk",
+        "severity": 0,
+        "parameter": 0.01,
+        "analytic_quantity": 2160.0
+      }
+    },
+    {
+      "id": "motion_jerk_04",
+      "input": "motion_jerk_04.npy",
+      "fps": 30,
+      "seed": 41004,
+      "floor_height_m": 0.0,
+      "sha256": "285faef453583ccd4e0f93474a7fe0ef27929b251d0a202e2739c2e286530c0e",
+      "evaluated_tests": [
+        "motion_jerk"
+      ],
+      "events": [
+        {
+          "test_name": "motion_jerk",
+          "actor_id": 0,
+          "joint_ids": [
+            20
+          ],
+          "start_frame": 127,
+          "end_frame": 173,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "motion_jerk",
+        "severity": 0,
+        "parameter": 0.01,
+        "analytic_quantity": 2160.0
+      }
+    },
+    {
+      "id": "motion_jerk_05",
+      "input": "motion_jerk_05.npy",
+      "fps": 30,
+      "seed": 41005,
+      "floor_height_m": 0.0,
+      "sha256": "cffde316c8b2ac74dc56da713ebd1e0f15650834618ead03dd54232e5f2cc9e7",
+      "evaluated_tests": [
+        "motion_jerk"
+      ],
+      "events": [
+        {
+          "test_name": "motion_jerk",
+          "actor_id": 0,
+          "joint_ids": [
+            20
+          ],
+          "start_frame": 153,
+          "end_frame": 198,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "motion_jerk",
+        "severity": 1,
+        "parameter": 0.015,
+        "analytic_quantity": 3240.0
+      }
+    },
+    {
+      "id": "motion_jerk_06",
+      "input": "motion_jerk_06.npy",
+      "fps": 30,
+      "seed": 41006,
+      "floor_height_m": 0.0,
+      "sha256": "967e31cb5e0073af7ffceea82c6cd2ffa7684a5f3d371db46e06d7b04b19b7f8",
+      "evaluated_tests": [
+        "motion_jerk"
+      ],
+      "events": [
+        {
+          "test_name": "motion_jerk",
+          "actor_id": 0,
+          "joint_ids": [
+            20
+          ],
+          "start_frame": 115,
+          "end_frame": 155,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "motion_jerk",
+        "severity": 1,
+        "parameter": 0.015,
+        "analytic_quantity": 3240.0
+      }
+    },
+    {
+      "id": "motion_jerk_07",
+      "input": "motion_jerk_07.npy",
+      "fps": 30,
+      "seed": 41007,
+      "floor_height_m": 0.0,
+      "sha256": "88d14576ede6956bef065306b58d31d7a0a1358eecd14392ae3984d46a9c23c7",
+      "evaluated_tests": [
+        "motion_jerk"
+      ],
+      "events": [
+        {
+          "test_name": "motion_jerk",
+          "actor_id": 0,
+          "joint_ids": [
+            20
+          ],
+          "start_frame": 138,
+          "end_frame": 180,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "motion_jerk",
+        "severity": 1,
+        "parameter": 0.015,
+        "analytic_quantity": 3240.0
+      }
+    },
+    {
+      "id": "motion_jerk_08",
+      "input": "motion_jerk_08.npy",
+      "fps": 30,
+      "seed": 41008,
+      "floor_height_m": 0.0,
+      "sha256": "d7dabf944fdc292b7f496f015eac38d56dd468d4b58aac5e808c28a7f83371d1",
+      "evaluated_tests": [
+        "motion_jerk"
+      ],
+      "events": [
+        {
+          "test_name": "motion_jerk",
+          "actor_id": 0,
+          "joint_ids": [
+            20
+          ],
+          "start_frame": 95,
+          "end_frame": 123,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "motion_jerk",
+        "severity": 1,
+        "parameter": 0.015,
+        "analytic_quantity": 3240.0
+      }
+    },
+    {
+      "id": "motion_jerk_09",
+      "input": "motion_jerk_09.npy",
+      "fps": 30,
+      "seed": 41009,
+      "floor_height_m": 0.0,
+      "sha256": "f4f0144dbcc41ec932a4300e898f25de4bff94ea0b20aa8d8bbaf0309e369d49",
+      "evaluated_tests": [
+        "motion_jerk"
+      ],
+      "events": [
+        {
+          "test_name": "motion_jerk",
+          "actor_id": 0,
+          "joint_ids": [
+            20
+          ],
+          "start_frame": 132,
+          "end_frame": 179,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "motion_jerk",
+        "severity": 1,
+        "parameter": 0.015,
+        "analytic_quantity": 3240.0
+      }
+    },
+    {
+      "id": "motion_jerk_10",
+      "input": "motion_jerk_10.npy",
+      "fps": 30,
+      "seed": 41010,
+      "floor_height_m": 0.0,
+      "sha256": "8565264a50ae51b858f02e684734863fe88a12eb2c4657254718039e69ed381f",
+      "evaluated_tests": [
+        "motion_jerk"
+      ],
+      "events": [
+        {
+          "test_name": "motion_jerk",
+          "actor_id": 0,
+          "joint_ids": [
+            20
+          ],
+          "start_frame": 117,
+          "end_frame": 168,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "motion_jerk",
+        "severity": 2,
+        "parameter": 0.02,
+        "analytic_quantity": 4320.0
+      }
+    },
+    {
+      "id": "motion_jerk_11",
+      "input": "motion_jerk_11.npy",
+      "fps": 30,
+      "seed": 41011,
+      "floor_height_m": 0.0,
+      "sha256": "310cf829b6e361d111804232db27e6ef8a5342d116857bb2378ab5689983f788",
+      "evaluated_tests": [
+        "motion_jerk"
+      ],
+      "events": [
+        {
+          "test_name": "motion_jerk",
+          "actor_id": 0,
+          "joint_ids": [
+            20
+          ],
+          "start_frame": 134,
+          "end_frame": 181,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "motion_jerk",
+        "severity": 2,
+        "parameter": 0.02,
+        "analytic_quantity": 4320.0
+      }
+    },
+    {
+      "id": "motion_jerk_12",
+      "input": "motion_jerk_12.npy",
+      "fps": 30,
+      "seed": 41012,
+      "floor_height_m": 0.0,
+      "sha256": "dabb8f8055a150e3ef5c221aa2a07206f3bf5e0c897d8253beecc60097c0bf81",
+      "evaluated_tests": [
+        "motion_jerk"
+      ],
+      "events": [
+        {
+          "test_name": "motion_jerk",
+          "actor_id": 0,
+          "joint_ids": [
+            20
+          ],
+          "start_frame": 135,
+          "end_frame": 171,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "motion_jerk",
+        "severity": 2,
+        "parameter": 0.02,
+        "analytic_quantity": 4320.0
+      }
+    },
+    {
+      "id": "motion_jerk_13",
+      "input": "motion_jerk_13.npy",
+      "fps": 30,
+      "seed": 41013,
+      "floor_height_m": 0.0,
+      "sha256": "b43f1567178c52e2115cfc4ff57187d7d55a44f71115266ec4aac02c69affb77",
+      "evaluated_tests": [
+        "motion_jerk"
+      ],
+      "events": [
+        {
+          "test_name": "motion_jerk",
+          "actor_id": 0,
+          "joint_ids": [
+            20
+          ],
+          "start_frame": 99,
+          "end_frame": 134,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "motion_jerk",
+        "severity": 2,
+        "parameter": 0.02,
+        "analytic_quantity": 4320.0
+      }
+    },
+    {
+      "id": "motion_jerk_14",
+      "input": "motion_jerk_14.npy",
+      "fps": 30,
+      "seed": 41014,
+      "floor_height_m": 0.0,
+      "sha256": "3ccb32b74737a683451f6847b31d2b180c46fac7de1e4bce828bf5b1fca72bae",
+      "evaluated_tests": [
+        "motion_jerk"
+      ],
+      "events": [
+        {
+          "test_name": "motion_jerk",
+          "actor_id": 0,
+          "joint_ids": [
+            20
+          ],
+          "start_frame": 128,
+          "end_frame": 178,
+          "uncertain": false
+        }
+      ],
+      "injection": {
+        "type": "motion_jerk",
+        "severity": 2,
+        "parameter": 0.02,
+        "analytic_quantity": 4320.0
+      }
+    },
+    {
+      "id": "clean_00",
+      "input": "clean_00.npy",
+      "fps": 30,
+      "seed": 41000,
+      "floor_height_m": 0.0,
+      "sha256": "44c265324b3b50000287bd621a866abf64c09bbd87591aa807e1df546fb1c8f9",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 0,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_01",
+      "input": "clean_01.npy",
+      "fps": 30,
+      "seed": 41001,
+      "floor_height_m": 0.0,
+      "sha256": "e87afed65e4f6342e2c6bfe54124f8db6294879f0e081f4af41501b725f6d6c4",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 0,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_02",
+      "input": "clean_02.npy",
+      "fps": 30,
+      "seed": 41002,
+      "floor_height_m": 0.0,
+      "sha256": "888d0c05d79c5ad78208f588a3648d040a6f0798ea16fc8548b3f2da5d233d86",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 0,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_03",
+      "input": "clean_03.npy",
+      "fps": 30,
+      "seed": 41003,
+      "floor_height_m": 0.0,
+      "sha256": "5f3b5dcbedb15b0ef7526be1b39d5c8d5400b0cd04c55737db01f35163e06181",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 0,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_04",
+      "input": "clean_04.npy",
+      "fps": 30,
+      "seed": 41004,
+      "floor_height_m": 0.0,
+      "sha256": "b58a5e14356373c0249076485c4b024b295305275d8d0db4f53b51f32b97a576",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 0,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_05",
+      "input": "clean_05.npy",
+      "fps": 30,
+      "seed": 41005,
+      "floor_height_m": 0.0,
+      "sha256": "43078595fa4a9566905d1ca69413ddab066514efb7e5e6c2e8bbd497389dad6b",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 1,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_06",
+      "input": "clean_06.npy",
+      "fps": 30,
+      "seed": 41006,
+      "floor_height_m": 0.0,
+      "sha256": "922b6507d90789a26945ee10cb9e5d1f78463249dbfe6bb3010f658564a34e38",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 1,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_07",
+      "input": "clean_07.npy",
+      "fps": 30,
+      "seed": 41007,
+      "floor_height_m": 0.0,
+      "sha256": "0e0c44b926788d76bad661d77aca03433559ac63f0c21a41fc9fa4d673f2b6a0",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 1,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_08",
+      "input": "clean_08.npy",
+      "fps": 30,
+      "seed": 41008,
+      "floor_height_m": 0.0,
+      "sha256": "a91a1b6199c47c824e107902661691a40ff6a08558ffc180a84c639dd413fd8d",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 1,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_09",
+      "input": "clean_09.npy",
+      "fps": 30,
+      "seed": 41009,
+      "floor_height_m": 0.0,
+      "sha256": "3e9331f7451b0fd607dd2cb8811cfb1602e94bf1611b89c69b54647209af0db9",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 1,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_10",
+      "input": "clean_10.npy",
+      "fps": 30,
+      "seed": 41010,
+      "floor_height_m": 0.0,
+      "sha256": "5ce4c9016a79d3e5d520154e360069ed8aea4f07ac975807690e6cced15271bb",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 2,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_11",
+      "input": "clean_11.npy",
+      "fps": 30,
+      "seed": 41011,
+      "floor_height_m": 0.0,
+      "sha256": "a2e7eaf4b6686d9c4b42f60afa1ba37f19a5cce323b9c71264ffc9743b1b8f79",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 2,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_12",
+      "input": "clean_12.npy",
+      "fps": 30,
+      "seed": 41012,
+      "floor_height_m": 0.0,
+      "sha256": "e9f5711fc57d89faa74a526f841f8b1f49e004ecc2c55ac862b761e1ed42241d",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 2,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_13",
+      "input": "clean_13.npy",
+      "fps": 30,
+      "seed": 41013,
+      "floor_height_m": 0.0,
+      "sha256": "622d4948fa2fe0698a9e692d752bb36cd74a44e7356771141fa59e94c2092c76",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 2,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_14",
+      "input": "clean_14.npy",
+      "fps": 30,
+      "seed": 41014,
+      "floor_height_m": 0.0,
+      "sha256": "e3faffd1725fafda6845a08c1422f5def4da58b668f40be51f16ef55fdc6c068",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 2,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_15",
+      "input": "clean_15.npy",
+      "fps": 30,
+      "seed": 41015,
+      "floor_height_m": 0.0,
+      "sha256": "08fe513afcae75900ca566f27401288df242c774bef70b98e9ab99677188eb97",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 3,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_16",
+      "input": "clean_16.npy",
+      "fps": 30,
+      "seed": 41016,
+      "floor_height_m": 0.0,
+      "sha256": "8fd08288c8a3010d8ae7a617cfbd752a221bae9d79ee81d4087140b3ff18178b",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 3,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_17",
+      "input": "clean_17.npy",
+      "fps": 30,
+      "seed": 41017,
+      "floor_height_m": 0.0,
+      "sha256": "30cf0de0728990e9c56ce4fda3b1f73f21988014c8b2504a7c0a362858549506",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 3,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_18",
+      "input": "clean_18.npy",
+      "fps": 30,
+      "seed": 41018,
+      "floor_height_m": 0.0,
+      "sha256": "8ff3bf65bc54f465bae7b6f1e0a69ae9c498ae3aef5a6148895d031559277528",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 3,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_19",
+      "input": "clean_19.npy",
+      "fps": 30,
+      "seed": 41019,
+      "floor_height_m": 0.0,
+      "sha256": "4272367fef6cd7fd4ad601e06644ff03d6ef4a65839edf1c5a5887cbe7d639a2",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 3,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_20",
+      "input": "clean_20.npy",
+      "fps": 30,
+      "seed": 41020,
+      "floor_height_m": 0.0,
+      "sha256": "8ef4b0a09be9405041679f1f330c378864636a718fdf081b158e13e0a789e38d",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 4,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_21",
+      "input": "clean_21.npy",
+      "fps": 30,
+      "seed": 41021,
+      "floor_height_m": 0.0,
+      "sha256": "c8648d5285a649fd8200cc58c320f93412e2579417a608e02f497fd92dbb201c",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 4,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_22",
+      "input": "clean_22.npy",
+      "fps": 30,
+      "seed": 41022,
+      "floor_height_m": 0.0,
+      "sha256": "baae0438c55442e0f5b193c18ce5a19e935c710061f4beea263a2b68ca43c14d",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 4,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_23",
+      "input": "clean_23.npy",
+      "fps": 30,
+      "seed": 41023,
+      "floor_height_m": 0.0,
+      "sha256": "226bf215803690059276db11c229bc0e774d19bdee659a52b55755695e4fb416",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 4,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_24",
+      "input": "clean_24.npy",
+      "fps": 30,
+      "seed": 41024,
+      "floor_height_m": 0.0,
+      "sha256": "910c2f37d0c48e2f04050bd5e359ad13086dd56e4259c5974d16eb91bbffa85a",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 4,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_25",
+      "input": "clean_25.npy",
+      "fps": 30,
+      "seed": 41025,
+      "floor_height_m": 0.0,
+      "sha256": "cc15968a6bdad793efc91671fdfac145514b6d52309cd6a90f1f2bf761d258f9",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 5,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_26",
+      "input": "clean_26.npy",
+      "fps": 30,
+      "seed": 41026,
+      "floor_height_m": 0.0,
+      "sha256": "2efeb6258aa6cfcad1d490d1d864ed658cf504649ac3b5fa891679be8d0fed0d",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 5,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_27",
+      "input": "clean_27.npy",
+      "fps": 30,
+      "seed": 41027,
+      "floor_height_m": 0.0,
+      "sha256": "5c72e6b4d52591287804f4f8faf2b781b8e42378194a66f87a176fe5786c0664",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 5,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_28",
+      "input": "clean_28.npy",
+      "fps": 30,
+      "seed": 41028,
+      "floor_height_m": 0.0,
+      "sha256": "94efd79a5c3d761963271c9933c082bd9ea908ee1cf0f2446afa8f2c8f506dcf",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 5,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    },
+    {
+      "id": "clean_29",
+      "input": "clean_29.npy",
+      "fps": 30,
+      "seed": 41029,
+      "floor_height_m": 0.0,
+      "sha256": "0a75336c3b22dae39389a5d86372cfea2e0993f1435c5b74c75bebbadcdaae3c",
+      "evaluated_tests": [
+        "temporal_continuity",
+        "skeleton_integrity",
+        "foot_sliding",
+        "ground_contact",
+        "collision",
+        "motion_jerk"
+      ],
+      "events": [],
+      "injection": {
+        "type": "clean",
+        "severity": 5,
+        "parameter": 0.0,
+        "analytic_quantity": 0.0
+      }
+    }
+  ]
+}

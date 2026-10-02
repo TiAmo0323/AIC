@@ -1,0 +1,23 @@
+{
+  "task_id": "42bb3722-c9d4-4b13-a152-e043dff16662",
+  "source_task_id": "91d1b363-c453-4526-8bb2-8f933f25809b",
+  "source_class": "historical_development",
+  "count_as_new_sample": false,
+  "purpose": "UI operations and demonstration; no held-out scores used",
+  "inputs": [
+    {
+      "actor": 1,
+      "source": "[repo]\\InterGen_api\\task_runs\\91d1b363-c453-4526-8bb2-8f933f25809b\\output\\raw\\91d1b363-c453-4526-8bb2-8f933f25809b_person1_joints22.npy",
+      "copied": "[repo]\\InterGen_api\\task_runs\\42bb3722-c9d4-4b13-a152-e043dff16662\\output\\raw\\42bb3722-c9d4-4b13-a152-e043dff16662_person1_joints22.npy",
+      "sha256": "2c19faa3773ee049e7a30a80b58f6925a6d76bfb8708d9627117ab45f0bc75ed"
+    },
+    {
+      "actor": 2,
+      "source": "[repo]\\InterGen_api\\task_runs\\91d1b363-c453-4526-8bb2-8f933f25809b\\output\\raw\\91d1b363-c453-4526-8bb2-8f933f25809b_person2_joints22.npy",
+      "copied": "[repo]\\InterGen_api\\task_runs\\42bb3722-c9d4-4b13-a152-e043dff16662\\output\\raw\\42bb3722-c9d4-4b13-a152-e043dff16662_person2_joints22.npy",
+      "sha256": "a9eadb9e7d01f3f8f37f28875080182eda5d5b17019bf795d9ba80cbd75389e3"
+    }
+  ],
+  "video": "[repo]\\InterGen_api\\task_runs\\42bb3722-c9d4-4b13-a152-e043dff16662\\output\\raw_preview.mp4",
+  "video_sha256": "83bb0ac0c74a1dbecddeddcfae8b86bfa915efffa07eb93e7918495fd8560fe4"
+}

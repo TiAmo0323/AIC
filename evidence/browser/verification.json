@@ -1,0 +1,215 @@
+{
+  "status": "verified",
+  "scope": "Developer browser QA on copied historical development input; not human validation or new blind samples",
+  "task_id": "42bb3722-c9d4-4b13-a152-e043dff16662",
+  "browser_observations": [
+    {
+      "check": "raw_issue_details_and_stage_video",
+      "result": "PASS",
+      "observed": "Frame 0-1, actor 1, joints 18/20, value 0.1370, threshold 0.12; raw URL, 6 seconds"
+    },
+    {
+      "check": "repair_accept_reject_and_residual_gate",
+      "result": "PASS",
+      "observed": "foot_lock and bone projection accepted; inter-actor separation rejected for total movement; overall gate FAIL"
+    },
+    {
+      "check": "linked_video_seek_rate_and_play",
+      "result": "PASS",
+      "observed": "Both videos at 1 second, rate 0.5; both play after leader starts"
+    },
+    {
+      "check": "bvh_has_no_unrelated_video_seek",
+      "result": "PASS",
+      "observed": "repaired_bvh: no main video, scrub disabled"
+    },
+    {
+      "check": "character_issues_use_character_video",
+      "result": "PASS",
+      "observed": "repaired_character URL, 6 seconds; issue frame 21, actor 1, joint 21, speed 0.2771 vs 0.16"
+    },
+    {
+      "check": "annotation_load_export_resume",
+      "result": "PASS",
+      "observed": "30 clips loaded; synthetic QA-only record on development clip ig02s0 exported and restored; no tool predictions shown"
+    }
+  ],
+  "console": {
+    "workbench_errors": 0,
+    "workbench_warnings": [
+      "QA pauses immediately after seek autoplay, causing AbortError"
+    ],
+    "annotation_initial_errors": [
+      "favicon.ico 404; data favicon added subsequently"
+    ]
+  },
+  "human_annotation": "pending; QA_ONLY_NOT_HUMAN is excluded from annotation truth",
+  "export_reports": {
+    "repaired": {
+      "score": 90.4,
+      "gate": {
+        "status": "FAIL",
+        "reasons": [
+          "foot_sliding has high-severity issues",
+          "collision has high-severity issues"
+        ]
+      },
+      "metadata": {
+        "schema_version": 2,
+        "source": "intergen",
+        "fps": 30,
+        "frame_count": 180,
+        "actor_count": 2,
+        "config_version": 4,
+        "config_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+        "input_sha256": {
+          "[repo]\\InterGen_api\\task_runs\\42bb3722-c9d4-4b13-a152-e043dff16662\\motionlint\\exports\\2aceeda0cad549869392589f57ff85de\\repaired_actor1.npy": "586d6aba3d5cc07f0ffbaf75c081d02caeaff97189b06e80e8ed7c63f3607560",
+          "[repo]\\InterGen_api\\task_runs\\42bb3722-c9d4-4b13-a152-e043dff16662\\motionlint\\exports\\2aceeda0cad549869392589f57ff85de\\repaired_actor2.npy": "4b6f364c87cf91d62511b70adfd091ee5a075cc27dcc1c168c97aa8118c8bd08"
+        },
+        "evaluated_array_sha256": {
+          "positions": "ddf1462cbe519f3d0e357b71b9ee8db72ad1c173dbf041aed3fd9bff8e4ad45d",
+          "root_translation": "f4ec51642eaabc30645e34e47a46ef7d6ebc1809afaa1207764c8a7b03b18519"
+        },
+        "stage": "input",
+        "evaluation_coverage": {
+          "temporal_continuity": "evaluated",
+          "skeleton_integrity": "evaluated",
+          "foot_sliding": "evaluated",
+          "ground_contact": "evaluated",
+          "collision": "evaluated",
+          "motion_jerk": "evaluated"
+        },
+        "geometry_source": "native_joint_positions",
+        "inspection_stage": "repaired",
+        "input_stage": "repaired",
+        "input_fingerprints": [
+          {
+            "name": "repaired_actor1.npy",
+            "sha256": "586d6aba3d5cc07f0ffbaf75c081d02caeaff97189b06e80e8ed7c63f3607560"
+          },
+          {
+            "name": "repaired_actor2.npy",
+            "sha256": "4b6f364c87cf91d62511b70adfd091ee5a075cc27dcc1c168c97aa8118c8bd08"
+          }
+        ]
+      }
+    },
+    "repaired_bvh": {
+      "score": 90.26,
+      "gate": {
+        "status": "FAIL",
+        "reasons": [
+          "foot_sliding has high-severity issues",
+          "collision has high-severity issues"
+        ]
+      },
+      "metadata": {
+        "schema_version": 2,
+        "source": "bvh",
+        "fps": 30.0,
+        "frame_count": 180,
+        "actor_count": 2,
+        "config_version": 4,
+        "config_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+        "input_sha256": {
+          "[repo]\\InterGen_api\\task_runs\\42bb3722-c9d4-4b13-a152-e043dff16662\\motionlint\\exports\\2aceeda0cad549869392589f57ff85de\\repaired_actor1.bvh": "9b963175207470ec59b3068086bbe46d16f40c8637ae3db7d307a60cc5f95409",
+          "[repo]\\InterGen_api\\task_runs\\42bb3722-c9d4-4b13-a152-e043dff16662\\motionlint\\exports\\2aceeda0cad549869392589f57ff85de\\repaired_actor2.bvh": "d52173f1a37252087bea529dfc2279cb8a3bd2ad4843cc5517dd994464936e12"
+        },
+        "evaluated_array_sha256": {
+          "positions": "6bb6de092cfe444102563dd7089ea1a27b92b304949ef0682cf30f2af8aec03e",
+          "rotation_matrices": "c455160191aa8e2a580443312e17dd7d1e241b787087657947692e04860bdd2d",
+          "root_translation": "95660f7ce5fa0207b133ba4ff2d6e5da4f8a5d0d6a36655ff863afad3d40f70e"
+        },
+        "stage": "input",
+        "evaluation_coverage": {
+          "temporal_continuity": "evaluated",
+          "skeleton_integrity": "evaluated",
+          "foot_sliding": "evaluated",
+          "ground_contact": "evaluated",
+          "collision": "evaluated",
+          "motion_jerk": "evaluated"
+        },
+        "geometry_source": "bvh_fk",
+        "inspection_stage": "repaired_bvh",
+        "input_stage": "repaired",
+        "input_fingerprints": [
+          {
+            "name": "repaired_actor1.npy",
+            "sha256": "586d6aba3d5cc07f0ffbaf75c081d02caeaff97189b06e80e8ed7c63f3607560"
+          },
+          {
+            "name": "repaired_actor2.npy",
+            "sha256": "4b6f364c87cf91d62511b70adfd091ee5a075cc27dcc1c168c97aa8118c8bd08"
+          }
+        ]
+      }
+    },
+    "repaired_character": {
+      "score": 89.99,
+      "gate": {
+        "status": "FAIL",
+        "reasons": [
+          "foot_sliding has high-severity issues",
+          "ground_contact has high-severity issues",
+          "collision has high-severity issues"
+        ]
+      },
+      "metadata": {
+        "schema_version": 2,
+        "source": "character",
+        "fps": 30.0,
+        "frame_count": 180,
+        "actor_count": 2,
+        "config_version": 4,
+        "config_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+        "input_sha256": {
+          "[repo]\\InterGen_api\\task_runs\\42bb3722-c9d4-4b13-a152-e043dff16662\\motionlint\\exports\\feet-5626b1c79bda4d65a7976a1e34d32764\\character.npz": "f6e054b878234671bbe4c65b67de1e67e77f3c9ce5f8f9dd4cd1662dffbf9ca1"
+        },
+        "evaluated_array_sha256": {
+          "positions": "8ae73b8f3d616dc9e6acdd79294209afab73cd0b79f3b7fdd3a98dcdf954408f",
+          "rotation_matrices": "09a27c377a0cf584fdab87ae279cc73b77ea92f6c97e2272b742baa92be0fffb",
+          "root_translation": "1c23e6f192fc0f5de9d7cababbfd565e40b58eb564e1af665b9774c3447eb492"
+        },
+        "stage": "input",
+        "evaluation_coverage": {
+          "temporal_continuity": "evaluated",
+          "skeleton_integrity": "evaluated",
+          "foot_sliding": "evaluated",
+          "ground_contact": "evaluated",
+          "collision": "evaluated",
+          "motion_jerk": "evaluated"
+        },
+        "geometry_source": "evaluated_blender_character_bone_heads"
+      }
+    }
+  },
+  "videos": [
+    {
+      "path": "[repo]\\InterGen_api\\task_runs\\42bb3722-c9d4-4b13-a152-e043dff16662\\motionlint\\original.mp4",
+      "sha256": "83bb0ac0c74a1dbecddeddcfae8b86bfa915efffa07eb93e7918495fd8560fe4",
+      "bytes": 151136,
+      "decoded_frames": 180,
+      "fps": 30.0,
+      "duration_s": 6.0,
+      "full_decode_returncode": 0
+    },
+    {
+      "path": "[repo]\\InterGen_api\\task_runs\\42bb3722-c9d4-4b13-a152-e043dff16662\\motionlint\\repaired.mp4",
+      "sha256": "e006922662da60ed986bd79fcc6598cad98f2afb4eca8ef8a1840389d0c310ef",
+      "bytes": 153099,
+      "decoded_frames": 180,
+      "fps": 30.0,
+      "duration_s": 6.0,
+      "full_decode_returncode": 0
+    },
+    {
+      "path": "[repo]\\InterGen_api\\task_runs\\42bb3722-c9d4-4b13-a152-e043dff16662\\motionlint\\exports\\feet-5626b1c79bda4d65a7976a1e34d32764\\repaired_kenney.mp4",
+      "sha256": "89896a7c19cdd04d502f3db01eac0ace57f9b00d3e694ef8549caf63290d2a95",
+      "bytes": 157618,
+      "decoded_frames": 180,
+      "fps": 30.0,
+      "duration_s": 6.0,
+      "full_decode_returncode": 0
+    }
+  ]
+}

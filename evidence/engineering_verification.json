@@ -1,0 +1,60 @@
+{
+  "status": "verified",
+  "python_test_count": 81,
+  "checks": [
+    {
+      "name": "python_motionlint_tests",
+      "command": [
+        "[runtime]\\envs\\motionlint\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "[repo]\\tests\\test_motionlint_api.py",
+        "[repo]\\tests\\test_motionlint_character_feet.py",
+        "[repo]\\tests\\test_motionlint_collision_details.py",
+        "[repo]\\tests\\test_motionlint_core.py",
+        "[repo]\\tests\\test_motionlint_existing_checks.py",
+        "[repo]\\tests\\test_motionlint_export.py",
+        "[repo]\\tests\\test_motionlint_feet.py",
+        "[repo]\\tests\\test_motionlint_joints_to_bvh.py",
+        "[repo]\\tests\\test_motionlint_kinematics.py",
+        "[repo]\\tests\\test_motionlint_pipeline.py",
+        "[repo]\\tests\\test_motionlint_portable.py",
+        "[repo]\\tests\\test_motionlint_repairs.py",
+        "[repo]\\tests\\test_motionlint_smplx_geometry.py",
+        "[repo]\\tests\\test_motionlint_stages.py",
+        "[repo]\\tests\\test_motionlint_studio.py",
+        "-q",
+        "--tb=short",
+        "--basetemp",
+        "[repo]\\reports\\pytest-engineering-recorded"
+      ],
+      "returncode": 0,
+      "stdout": "........................................................................ [ 88%]\n.........                                                                [100%]\n81 passed in 4.76s\n",
+      "stderr": ""
+    },
+    {
+      "name": "timeline_actor_separation",
+      "command": [
+        "node",
+        "tests/test_motionlint_view.mjs"
+      ],
+      "returncode": 0,
+      "stdout": "Timeline merging, filtering, exact seek frame and input immutability: PASS\n",
+      "stderr": ""
+    },
+    {
+      "name": "vue_production_build",
+      "command": [
+        "npm.cmd",
+        "run",
+        "build"
+      ],
+      "returncode": 0,
+      "stdout": "\n> vue-gemini-like-ui@0.0.1 build\n> vite build\n\nvite v6.4.1 building for production...\ntransforming...\n✓ 74 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.89 kB │ gzip:  0.56 kB\ndist/assets/index-Bckm44Bp.css   25.08 kB │ gzip:  5.75 kB\ndist/assets/index-BTwSrhCI.js   168.18 kB │ gzip: 63.23 kB\n✓ built in 1.03s\n",
+      "stderr": ""
+    }
+  ],
+  "linux": "not_verified; local Docker unavailable and user requested skip",
+  "human_validation": "pending",
+  "remote_actions": "configured_not_run"
+}

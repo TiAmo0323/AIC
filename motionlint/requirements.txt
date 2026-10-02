@@ -1,0 +1,5 @@
+# MotionLint CPU-only geometry and BVH input. Install in its own Python environment.
+upc-pymotion==0.3.4
+PyYAML>=6.0,<7
+fastapi>=0.110,<1
+uvicorn>=0.30,<1

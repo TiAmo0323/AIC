@@ -1,0 +1,728 @@
+{
+  "status": "verified",
+  "count": 120,
+  "detectors_imported": false,
+  "scope": "Geometric injection quantities, not human validation or exhaustive collateral labels",
+  "rows": [
+    {
+      "id": "temporal_continuity_00",
+      "analytic_quantity": 0.24,
+      "independently_measured_quantity": 0.24,
+      "verified": true
+    },
+    {
+      "id": "temporal_continuity_01",
+      "analytic_quantity": 0.24,
+      "independently_measured_quantity": 0.24,
+      "verified": true
+    },
+    {
+      "id": "temporal_continuity_02",
+      "analytic_quantity": 0.24,
+      "independently_measured_quantity": 0.24,
+      "verified": true
+    },
+    {
+      "id": "temporal_continuity_03",
+      "analytic_quantity": 0.24,
+      "independently_measured_quantity": 0.24,
+      "verified": true
+    },
+    {
+      "id": "temporal_continuity_04",
+      "analytic_quantity": 0.24,
+      "independently_measured_quantity": 0.24,
+      "verified": true
+    },
+    {
+      "id": "temporal_continuity_05",
+      "analytic_quantity": 0.36,
+      "independently_measured_quantity": 0.36,
+      "verified": true
+    },
+    {
+      "id": "temporal_continuity_06",
+      "analytic_quantity": 0.36,
+      "independently_measured_quantity": 0.36,
+      "verified": true
+    },
+    {
+      "id": "temporal_continuity_07",
+      "analytic_quantity": 0.36,
+      "independently_measured_quantity": 0.36,
+      "verified": true
+    },
+    {
+      "id": "temporal_continuity_08",
+      "analytic_quantity": 0.36,
+      "independently_measured_quantity": 0.36,
+      "verified": true
+    },
+    {
+      "id": "temporal_continuity_09",
+      "analytic_quantity": 0.36,
+      "independently_measured_quantity": 0.36,
+      "verified": true
+    },
+    {
+      "id": "temporal_continuity_10",
+      "analytic_quantity": 0.48,
+      "independently_measured_quantity": 0.48,
+      "verified": true
+    },
+    {
+      "id": "temporal_continuity_11",
+      "analytic_quantity": 0.48,
+      "independently_measured_quantity": 0.48,
+      "verified": true
+    },
+    {
+      "id": "temporal_continuity_12",
+      "analytic_quantity": 0.48,
+      "independently_measured_quantity": 0.48,
+      "verified": true
+    },
+    {
+      "id": "temporal_continuity_13",
+      "analytic_quantity": 0.48,
+      "independently_measured_quantity": 0.48,
+      "verified": true
+    },
+    {
+      "id": "temporal_continuity_14",
+      "analytic_quantity": 0.48,
+      "independently_measured_quantity": 0.48,
+      "verified": true
+    },
+    {
+      "id": "skeleton_integrity_00",
+      "analytic_quantity": 0.8152949542541672,
+      "independently_measured_quantity": 0.8152949542541672,
+      "verified": true
+    },
+    {
+      "id": "skeleton_integrity_01",
+      "analytic_quantity": 0.8340536331056592,
+      "independently_measured_quantity": 0.8340536331056592,
+      "verified": true
+    },
+    {
+      "id": "skeleton_integrity_02",
+      "analytic_quantity": 0.7938858050305418,
+      "independently_measured_quantity": 0.7938858050305418,
+      "verified": true
+    },
+    {
+      "id": "skeleton_integrity_03",
+      "analytic_quantity": 0.8802470659699175,
+      "independently_measured_quantity": 0.8802470659699175,
+      "verified": true
+    },
+    {
+      "id": "skeleton_integrity_04",
+      "analytic_quantity": 0.7854369777833481,
+      "independently_measured_quantity": 0.7854369777833481,
+      "verified": true
+    },
+    {
+      "id": "skeleton_integrity_05",
+      "analytic_quantity": 1.3992520189025004,
+      "independently_measured_quantity": 1.3992520189025004,
+      "verified": true
+    },
+    {
+      "id": "skeleton_integrity_06",
+      "analytic_quantity": 1.2179442448883637,
+      "independently_measured_quantity": 1.2179442448883637,
+      "verified": true
+    },
+    {
+      "id": "skeleton_integrity_07",
+      "analytic_quantity": 1.5164109049569268,
+      "independently_measured_quantity": 1.5164109049569268,
+      "verified": true
+    },
+    {
+      "id": "skeleton_integrity_08",
+      "analytic_quantity": 1.2439279145599749,
+      "independently_measured_quantity": 1.2439279145599749,
+      "verified": true
+    },
+    {
+      "id": "skeleton_integrity_09",
+      "analytic_quantity": 1.3376714511438683,
+      "independently_measured_quantity": 1.3376714511438683,
+      "verified": true
+    },
+    {
+      "id": "skeleton_integrity_10",
+      "analytic_quantity": 2.1080341503174513,
+      "independently_measured_quantity": 2.1080341503174513,
+      "verified": true
+    },
+    {
+      "id": "skeleton_integrity_11",
+      "analytic_quantity": 1.9432850391158654,
+      "independently_measured_quantity": 1.9432850391158654,
+      "verified": true
+    },
+    {
+      "id": "skeleton_integrity_12",
+      "analytic_quantity": 1.7286461041728538,
+      "independently_measured_quantity": 1.7286461041728538,
+      "verified": true
+    },
+    {
+      "id": "skeleton_integrity_13",
+      "analytic_quantity": 2.2430408111248075,
+      "independently_measured_quantity": 2.2430408111248075,
+      "verified": true
+    },
+    {
+      "id": "skeleton_integrity_14",
+      "analytic_quantity": 2.0652160293736235,
+      "independently_measured_quantity": 2.0652160293736235,
+      "verified": true
+    },
+    {
+      "id": "foot_sliding_00",
+      "analytic_quantity": 0.2,
+      "independently_measured_quantity": 0.2000000000000013,
+      "verified": true
+    },
+    {
+      "id": "foot_sliding_01",
+      "analytic_quantity": 0.2,
+      "independently_measured_quantity": 0.2000000000000013,
+      "verified": true
+    },
+    {
+      "id": "foot_sliding_02",
+      "analytic_quantity": 0.2,
+      "independently_measured_quantity": 0.2000000000000013,
+      "verified": true
+    },
+    {
+      "id": "foot_sliding_03",
+      "analytic_quantity": 0.2,
+      "independently_measured_quantity": 0.2000000000000013,
+      "verified": true
+    },
+    {
+      "id": "foot_sliding_04",
+      "analytic_quantity": 0.2,
+      "independently_measured_quantity": 0.2000000000000013,
+      "verified": true
+    },
+    {
+      "id": "foot_sliding_05",
+      "analytic_quantity": 0.28,
+      "independently_measured_quantity": 0.28000000000000247,
+      "verified": true
+    },
+    {
+      "id": "foot_sliding_06",
+      "analytic_quantity": 0.28,
+      "independently_measured_quantity": 0.2800000000000008,
+      "verified": true
+    },
+    {
+      "id": "foot_sliding_07",
+      "analytic_quantity": 0.28,
+      "independently_measured_quantity": 0.2800000000000008,
+      "verified": true
+    },
+    {
+      "id": "foot_sliding_08",
+      "analytic_quantity": 0.28,
+      "independently_measured_quantity": 0.2800000000000008,
+      "verified": true
+    },
+    {
+      "id": "foot_sliding_09",
+      "analytic_quantity": 0.28,
+      "independently_measured_quantity": 0.28000000000000247,
+      "verified": true
+    },
+    {
+      "id": "foot_sliding_10",
+      "analytic_quantity": 0.36,
+      "independently_measured_quantity": 0.360000000000007,
+      "verified": true
+    },
+    {
+      "id": "foot_sliding_11",
+      "analytic_quantity": 0.36,
+      "independently_measured_quantity": 0.36000000000000365,
+      "verified": true
+    },
+    {
+      "id": "foot_sliding_12",
+      "analytic_quantity": 0.36,
+      "independently_measured_quantity": 0.36000000000000365,
+      "verified": true
+    },
+    {
+      "id": "foot_sliding_13",
+      "analytic_quantity": 0.36,
+      "independently_measured_quantity": 0.360000000000002,
+      "verified": true
+    },
+    {
+      "id": "foot_sliding_14",
+      "analytic_quantity": 0.36,
+      "independently_measured_quantity": 0.36000000000000365,
+      "verified": true
+    },
+    {
+      "id": "ground_contact_00",
+      "analytic_quantity": 0.06,
+      "independently_measured_quantity": 0.06,
+      "verified": true
+    },
+    {
+      "id": "ground_contact_01",
+      "analytic_quantity": 0.06,
+      "independently_measured_quantity": 0.06,
+      "verified": true
+    },
+    {
+      "id": "ground_contact_02",
+      "analytic_quantity": 0.06,
+      "independently_measured_quantity": 0.06,
+      "verified": true
+    },
+    {
+      "id": "ground_contact_03",
+      "analytic_quantity": 0.06,
+      "independently_measured_quantity": 0.06,
+      "verified": true
+    },
+    {
+      "id": "ground_contact_04",
+      "analytic_quantity": 0.06,
+      "independently_measured_quantity": 0.06,
+      "verified": true
+    },
+    {
+      "id": "ground_contact_05",
+      "analytic_quantity": 0.09,
+      "independently_measured_quantity": 0.09,
+      "verified": true
+    },
+    {
+      "id": "ground_contact_06",
+      "analytic_quantity": 0.09,
+      "independently_measured_quantity": 0.09,
+      "verified": true
+    },
+    {
+      "id": "ground_contact_07",
+      "analytic_quantity": 0.09,
+      "independently_measured_quantity": 0.09,
+      "verified": true
+    },
+    {
+      "id": "ground_contact_08",
+      "analytic_quantity": 0.09,
+      "independently_measured_quantity": 0.09,
+      "verified": true
+    },
+    {
+      "id": "ground_contact_09",
+      "analytic_quantity": 0.09,
+      "independently_measured_quantity": 0.09,
+      "verified": true
+    },
+    {
+      "id": "ground_contact_10",
+      "analytic_quantity": 0.12,
+      "independently_measured_quantity": 0.12,
+      "verified": true
+    },
+    {
+      "id": "ground_contact_11",
+      "analytic_quantity": 0.12,
+      "independently_measured_quantity": 0.12,
+      "verified": true
+    },
+    {
+      "id": "ground_contact_12",
+      "analytic_quantity": 0.12,
+      "independently_measured_quantity": 0.12,
+      "verified": true
+    },
+    {
+      "id": "ground_contact_13",
+      "analytic_quantity": 0.12,
+      "independently_measured_quantity": 0.12,
+      "verified": true
+    },
+    {
+      "id": "ground_contact_14",
+      "analytic_quantity": 0.12,
+      "independently_measured_quantity": 0.12,
+      "verified": true
+    },
+    {
+      "id": "collision_00",
+      "analytic_quantity": 0.08,
+      "independently_measured_quantity": 0.08,
+      "verified": true
+    },
+    {
+      "id": "collision_01",
+      "analytic_quantity": 0.08,
+      "independently_measured_quantity": 0.08,
+      "verified": true
+    },
+    {
+      "id": "collision_02",
+      "analytic_quantity": 0.08,
+      "independently_measured_quantity": 0.08,
+      "verified": true
+    },
+    {
+      "id": "collision_03",
+      "analytic_quantity": 0.08,
+      "independently_measured_quantity": 0.08,
+      "verified": true
+    },
+    {
+      "id": "collision_04",
+      "analytic_quantity": 0.08,
+      "independently_measured_quantity": 0.08,
+      "verified": true
+    },
+    {
+      "id": "collision_05",
+      "analytic_quantity": 0.05,
+      "independently_measured_quantity": 0.05,
+      "verified": true
+    },
+    {
+      "id": "collision_06",
+      "analytic_quantity": 0.05,
+      "independently_measured_quantity": 0.05,
+      "verified": true
+    },
+    {
+      "id": "collision_07",
+      "analytic_quantity": 0.05,
+      "independently_measured_quantity": 0.05,
+      "verified": true
+    },
+    {
+      "id": "collision_08",
+      "analytic_quantity": 0.05,
+      "independently_measured_quantity": 0.05,
+      "verified": true
+    },
+    {
+      "id": "collision_09",
+      "analytic_quantity": 0.05,
+      "independently_measured_quantity": 0.05,
+      "verified": true
+    },
+    {
+      "id": "collision_10",
+      "analytic_quantity": 0.02,
+      "independently_measured_quantity": 0.02,
+      "verified": true
+    },
+    {
+      "id": "collision_11",
+      "analytic_quantity": 0.02,
+      "independently_measured_quantity": 0.02,
+      "verified": true
+    },
+    {
+      "id": "collision_12",
+      "analytic_quantity": 0.02,
+      "independently_measured_quantity": 0.02,
+      "verified": true
+    },
+    {
+      "id": "collision_13",
+      "analytic_quantity": 0.02,
+      "independently_measured_quantity": 0.02,
+      "verified": true
+    },
+    {
+      "id": "collision_14",
+      "analytic_quantity": 0.02,
+      "independently_measured_quantity": 0.02,
+      "verified": true
+    },
+    {
+      "id": "motion_jerk_00",
+      "analytic_quantity": 2160.0,
+      "independently_measured_quantity": 2160.0,
+      "verified": true
+    },
+    {
+      "id": "motion_jerk_01",
+      "analytic_quantity": 2160.0,
+      "independently_measured_quantity": 2160.0,
+      "verified": true
+    },
+    {
+      "id": "motion_jerk_02",
+      "analytic_quantity": 2160.0,
+      "independently_measured_quantity": 2160.0,
+      "verified": true
+    },
+    {
+      "id": "motion_jerk_03",
+      "analytic_quantity": 2160.0,
+      "independently_measured_quantity": 2160.0,
+      "verified": true
+    },
+    {
+      "id": "motion_jerk_04",
+      "analytic_quantity": 2160.0,
+      "independently_measured_quantity": 2160.0,
+      "verified": true
+    },
+    {
+      "id": "motion_jerk_05",
+      "analytic_quantity": 3240.0,
+      "independently_measured_quantity": 3240.0,
+      "verified": true
+    },
+    {
+      "id": "motion_jerk_06",
+      "analytic_quantity": 3240.0,
+      "independently_measured_quantity": 3240.0,
+      "verified": true
+    },
+    {
+      "id": "motion_jerk_07",
+      "analytic_quantity": 3240.0,
+      "independently_measured_quantity": 3240.0,
+      "verified": true
+    },
+    {
+      "id": "motion_jerk_08",
+      "analytic_quantity": 3240.0,
+      "independently_measured_quantity": 3240.0,
+      "verified": true
+    },
+    {
+      "id": "motion_jerk_09",
+      "analytic_quantity": 3240.0,
+      "independently_measured_quantity": 3240.0,
+      "verified": true
+    },
+    {
+      "id": "motion_jerk_10",
+      "analytic_quantity": 4320.0,
+      "independently_measured_quantity": 4320.0,
+      "verified": true
+    },
+    {
+      "id": "motion_jerk_11",
+      "analytic_quantity": 4320.0,
+      "independently_measured_quantity": 4320.0,
+      "verified": true
+    },
+    {
+      "id": "motion_jerk_12",
+      "analytic_quantity": 4320.0,
+      "independently_measured_quantity": 4320.0,
+      "verified": true
+    },
+    {
+      "id": "motion_jerk_13",
+      "analytic_quantity": 4320.0,
+      "independently_measured_quantity": 4320.0,
+      "verified": true
+    },
+    {
+      "id": "motion_jerk_14",
+      "analytic_quantity": 4320.0,
+      "independently_measured_quantity": 4320.0,
+      "verified": true
+    },
+    {
+      "id": "clean_00",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_01",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_02",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_03",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_04",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_05",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_06",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_07",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_08",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_09",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_10",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_11",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_12",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_13",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_14",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_15",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_16",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_17",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_18",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_19",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_20",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_21",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_22",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_23",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_24",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_25",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_26",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_27",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_28",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    },
+    {
+      "id": "clean_29",
+      "analytic_quantity": 0.0,
+      "independently_measured_quantity": 0.0,
+      "verified": true
+    }
+  ]
+}

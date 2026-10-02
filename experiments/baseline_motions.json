@@ -1,0 +1,41 @@
+{
+  "fps": 30,
+  "motions": [
+    {
+      "name": "lodge_20260929_raw",
+      "input": "../LODGE_api/task_runs/3eb8a74d-2729-40e5-9300-f1f0239c03db/input/aic260929.raw.npy"
+    },
+    {
+      "name": "lodge_20260929_processed",
+      "input": "../LODGE_api/task_runs/3eb8a74d-2729-40e5-9300-f1f0239c03db/input/aic260929.npy"
+    },
+    {
+      "name": "intergen_20260929_pair",
+      "input": "../InterGen_api/task_runs/91d1b363-c453-4526-8bb2-8f933f25809b/output/raw/91d1b363-c453-4526-8bb2-8f933f25809b_person1_joints22.npy",
+      "actor2": "../InterGen_api/task_runs/91d1b363-c453-4526-8bb2-8f933f25809b/output/raw/91d1b363-c453-4526-8bb2-8f933f25809b_person2_joints22.npy"
+    },
+    {
+      "name": "lodge_063_raw",
+      "input": "../LODGE_api/task_runs/a394daeb-6ca1-44e3-a5e8-970a73aea88c/input/063.raw.npy"
+    },
+    {
+      "name": "lodge_063_processed",
+      "input": "../LODGE_api/task_runs/a394daeb-6ca1-44e3-a5e8-970a73aea88c/input/063.npy"
+    },
+    {
+      "name": "intergen_handshake_a",
+      "input": "../InterGen_api/task_runs/9323c3fd-d1a9-4a94-877d-c47bbca5dd4b/output/raw/9323c3fd-d1a9-4a94-877d-c47bbca5dd4b_person1_joints22.npy",
+      "actor2": "../InterGen_api/task_runs/9323c3fd-d1a9-4a94-877d-c47bbca5dd4b/output/raw/9323c3fd-d1a9-4a94-877d-c47bbca5dd4b_person2_joints22.npy"
+    },
+    {
+      "name": "intergen_handshake_b",
+      "input": "../InterGen_api/task_runs/c606bb80-87f1-42f4-b003-1ad4f4a9f645/output/raw/c606bb80-87f1-42f4-b003-1ad4f4a9f645_person1_joints22.npy",
+      "actor2": "../InterGen_api/task_runs/c606bb80-87f1-42f4-b003-1ad4f4a9f645/output/raw/c606bb80-87f1-42f4-b003-1ad4f4a9f645_person2_joints22.npy"
+    },
+    {
+      "name": "intergen_wave",
+      "input": "../InterGen_api/task_runs/ceba9ca5-6d9f-41a2-8039-e460f32dd243/output/raw/ceba9ca5-6d9f-41a2-8039-e460f32dd243_person1_joints22.npy",
+      "actor2": "../InterGen_api/task_runs/ceba9ca5-6d9f-41a2-8039-e460f32dd243/output/raw/ceba9ca5-6d9f-41a2-8039-e460f32dd243_person2_joints22.npy"
+    }
+  ]
+}

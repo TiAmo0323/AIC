@@ -1,0 +1,45 @@
+--- a/concat_res.py
++++ b/concat_res.py
+@@ -14,22 +14,14 @@
+ from dld.data.render_joints.smplfk import ax_from_6v, ax_to_6v
+ 
+ def get_songlist(modir):
+-    songlist = []
+-    for file in os.listdir(modir):
+-        if file[-3:] not in [ 'npy', 'pkl']:
+-            continue
+-        if len(file.split('_')) < 7:
+-            song = file.split('_')[2].split("g")[0]
+-            if song not in songlist:
+-                songlist.append(song)
+-        else:
+-            names = file.split('_')[2:7]
+-            names.append(file.split('_')[7].split('g')[0])
+-            song = '_'.join(names)
+-            if song not in songlist:
+-                songlist.append(song)
+-
+-    return songlist
++    # The final gNNNg marker is structural; g inside a song identifier is data.
++    import re
++    songs = []
++    for name in sorted(os.listdir(modir)):
++        match = re.fullmatch(r"dod_\d+_(.+)g\d{3}g_l\d{3}(?:_r\d+)?\.(?:npy|pkl)", name)
++        if match and match.group(1) not in songs:
++            songs.append(match.group(1))
++    return songs
+ 
+ 
+ 
+@@ -76,8 +68,9 @@
+             li = idx %4 
+             print(os.path.join(modir, 'dod' + '*'+ song + 'g' + str(gi).zfill(3) + 'g_l' + str(li).zfill(3) + '.npy'))
+             local_fineme = sorted(glob.glob(os.path.join(modir, 'dod' + '*'+ song + 'g' + str(gi).zfill(3) + 'g_l' + str(li).zfill(3)+ '.npy')))
+-            if len(local_fineme) == 1:
+-                local_fineme = local_fineme[0]
++            if len(local_fineme) != 1:
++                raise ValueError(f"Expected one segment for {song}, global {gi}, local {li}; found {len(local_fineme)}")
++            local_fineme = local_fineme[0]
+             print("local_fineme", local_fineme)
+ 
+             if local_fineme[-3:] == 'pkl':

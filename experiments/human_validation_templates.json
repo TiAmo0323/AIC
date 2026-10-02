@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "status": "pending_human_work",
+  "user_task_fields": ["participant_code", "sample_id", "method", "order", "elapsed_seconds", "missed_events", "false_alarms", "completion_status", "notes"],
+  "installation_fields": ["participant_code", "operating_system", "python_version", "wheel_sha256", "commands", "exit_codes", "errors", "developer_assistance", "completion_status"],
+  "adjudication_fields": ["sample_id", "event", "annotator_a_observation", "annotator_b_observation", "decision", "reason"],
+  "records": []
+}

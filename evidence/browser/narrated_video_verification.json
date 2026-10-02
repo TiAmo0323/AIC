@@ -1,0 +1,93 @@
+{
+  "path": "[repo]\\output\\video\\motionlint_v4_narrated_draft.mp4",
+  "sha256": "596eeeb2bba171882976647096a1d32652590626726d5410b5de9d72fd1b0b00",
+  "bytes": 5513927,
+  "decoded_frames": 5668,
+  "fps": 25.0,
+  "duration_s": 226.72,
+  "full_decode_returncode": 0,
+  "status": "narrated_engineering_draft_not_final_submission",
+  "audio_decode_returncode": 0,
+  "narration": "Windows Microsoft Huihui Desktop synthesized voice; AI-assisted draft text",
+  "cli_scope": "Playback of actual recorded command outputs, not live terminal interaction",
+  "edit_note": "Original operations draft plus first 45 seconds of CLI output capture; no extension",
+  "input_recordings": [
+    {
+      "path": "[repo]\\output\\video\\motionlint_v4_operations.mp4",
+      "sha256": "254a02326020768f98b1d833e484776e1732ae1482966a550a77163c0b495528"
+    },
+    {
+      "path": "[repo]\\output\\video\\motionlint_v4_cli_take4.webm",
+      "sha256": "3f78808b36fbda1f8692185bef90295c1f057a0e5f6da07bed164168c16fe21e"
+    }
+  ],
+  "captions_and_narration": [
+    {
+      "start": 0,
+      "end": 22,
+      "caption": "MotionLint：AI 动作质检、有限修复与复测\n工程草稿；人工盲测与外部反馈待完成",
+      "text": "这是 MotionLint，在现有平台上开发的动作质量工具。这段工程演示使用历史开发动作的副本，不计入新的独立盲测。我们已经完成工程检查，真实准确率和外部使用反馈仍待验证。",
+      "output": "[repo]\\tmp\\motionlint-narration\\voice-0.wav",
+      "voice_duration_s": 16.002630385487528
+    },
+    {
+      "start": 25,
+      "end": 50,
+      "caption": "六项检测；规则 v4\n分数和质量门只适用于当前阶段",
+      "text": "加载动作后，工具检查连续性、骨架、脚滑、地面接触、骨架近距风险和抖动。每份结果保存输入哈希、规则版本和处理阶段。总分不是唯一依据，严重问题仍会阻止整体通过。",
+      "output": "[repo]\\tmp\\motionlint-narration\\voice-1.wav",
+      "voice_duration_s": 16.772426303854875
+    },
+    {
+      "start": 52,
+      "end": 74,
+      "caption": "问题定位：区间、人物、关节、数值、阈值\n原始告警定位原始视频",
+      "text": "点击时间轴上的问题，可以查看帧区间、人物、关节、实际数值和阈值，并跳到对应阶段的视频。骨架近距只是风险提示，不等于网格穿透。",
+      "output": "[repo]\\tmp\\motionlint-narration\\voice-2.wav",
+      "voice_duration_s": 13.114149659863946
+    },
+    {
+      "start": 76,
+      "end": 109,
+      "caption": "接受有限修复；拒绝超过位移上限的候选\n原输入保留，修复后仍为 FAIL",
+      "text": "执行修复后，每个候选都重新检查。这条动作的脚滑和骨长修复被接受，人物分离因超过总位移上限而被拒绝。分数从八十五提高到九十点四，但整体质量门仍然失败，残余问题需要继续检查。",
+      "output": "[repo]\\tmp\\motionlint-narration\\voice-3.wav",
+      "voice_duration_s": 17.668979591836734
+    },
+    {
+      "start": 110,
+      "end": 149,
+      "caption": "修复前后联动播放\n展示改善，也保留残余问题",
+      "text": "前后视频可以联动定位、倍速和播放。界面同时保留修复理由和残余问题。有限修复不保证所有指标都变好，也不保证动作语义自然；语义和外观还需要独立人工判断。",
+      "output": "[repo]\\tmp\\motionlint-narration\\voice-4.wav",
+      "voice_duration_s": 15.522403628117914
+    },
+    {
+      "start": 150,
+      "end": 181.8,
+      "caption": "实际 Kenney 导出与角色阶段复检\nBVH 阶段不跳转其他阶段视频",
+      "text": "这里播放本次新导出的 Kenney 角色。数组、导出的骨架和角色分别复检，告警只定位对应阶段的视频。骨架阶段没有自己的视频时，页面会关闭视频跳转。这条本机案例不能替代六条独立盲测的完整阶段实验。",
+      "output": "[repo]\\tmp\\motionlint-narration\\voice-5.wav",
+      "voice_duration_s": 18.691609977324262
+    },
+    {
+      "start": 181.8,
+      "end": 201,
+      "caption": "真实命令输出回放；不是实时终端\nCPU 独立工具，无生成权重依赖",
+      "text": "下面展示已经实际执行的命令输出记录，这是输出回放，不是实时终端。核心工具在仓库外的独立环境运行，不依赖生成服务或模型权重。干净样例通过返回零，缺陷样例质量失败返回一。",
+      "output": "[repo]\\tmp\\motionlint-narration\\voice-6.wav",
+      "voice_duration_s": 17.299773242630387
+    },
+    {
+      "start": 201,
+      "end": 226.8,
+      "caption": "0：通过　1：质量失败或回归　2：输入错误\n正式验收仍需人工标注、外部安装和团队审核",
+      "text": "有限修复后仍有问题也会返回一，回归比较识别退步同样返回一。缺失输入文件返回二。安装脚本保存环境、命令、输入哈希和实际结果，方便同学独立复现。真实人工标注、外部反馈和最终审核仍未完成。",
+      "output": "[repo]\\tmp\\motionlint-narration\\voice-7.wav",
+      "voice_duration_s": 19.84471655328798
+    }
+  ],
+  "visual_review": "Selected UI, repair, character and CLI frames inspected; final captions are in a separate bottom band without covering the page. Team audio/content review remains pending.",
+  "human_validation": "pending",
+  "competition_duration_and_size_check": true
+}

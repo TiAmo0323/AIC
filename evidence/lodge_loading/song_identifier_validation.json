@@ -1,0 +1,9 @@
+{
+  "target": "D:\\\u7ade\u8d5b\u8bb0\u5f55\\AIC\u5f00\u6e90\u8d5b\u9053\\HumanAction-runtime\\LODGE-main\\concat_res.py",
+  "before_sha256": "43fd52e6dd9871419ef31481ed149666df026e77eae7bcd79f55f4f37c9f3098",
+  "after_sha256": "ee837240945dbc14d789a1255357caf75fadfe964ffb73413425cc552b63d5a1",
+  "parser_cases_passed": true,
+  "status": "local_patch_verified",
+  "community_submission": "not_submitted",
+  "generation_validation": "pending_real_retry"
+}

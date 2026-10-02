@@ -1,0 +1,27 @@
+{
+  "path": "[repo]\\output\\video\\motionlint_v4_operations.mp4",
+  "sha256": "254a02326020768f98b1d833e484776e1732ae1482966a550a77163c0b495528",
+  "bytes": 1371577,
+  "decoded_frames": 4545,
+  "fps": 25.0,
+  "duration_s": 181.8,
+  "full_decode_returncode": 0,
+  "status": "engineering_operations_draft_not_final_submission",
+  "competition_duration_and_size_check": true,
+  "pending": [
+    "Final narration and CLI section",
+    "Independent human results",
+    "Team review"
+  ],
+  "edit_note": "Full first operation take plus first 32 seconds of the character take; no time extension",
+  "recordings": [
+    {
+      "path": "[repo]\\output\\video\\motionlint_v4_operations_take2.webm",
+      "sha256": "adcca74d063b50e57d80b32555e6c1b61a4ecf6dfff062406f2712b3de4fcbf3"
+    },
+    {
+      "path": "[repo]\\output\\video\\motionlint_v4_character_take3.webm",
+      "sha256": "bb88bc24f8c4fc49086303a683bd1145aa0ba1921a7947f25e8e16a392eaac06"
+    }
+  ]
+}

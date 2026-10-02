@@ -1,0 +1,20 @@
+{
+  "status": "draft_generated_and_visually_verified",
+  "pages": 8,
+  "bytes": 246315,
+  "page_limit_ok": true,
+  "size_limit_ok": true,
+  "generated_utc": "2026-10-02T12:52:31.316288+00:00",
+  "human_validation": "pending",
+  "data_sources": [
+    "controlled/summary.json",
+    "study/comparisons/development/aggregate.json",
+    "study/generation.json",
+    "study/video_verification.json",
+    "engineering_verification.json",
+    "portable/verification.json",
+    "portable311/verification.json"
+  ],
+  "visual_review": "All eight Poppler raster pages inspected; no clipping, overlaps or missing glyphs",
+  "pdf_sha256": "cf6123017565c629365d477d73a74f7d2a769aaf635eac621bf34829dc672960"
+}

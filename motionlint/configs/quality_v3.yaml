@@ -1,0 +1,59 @@
+version: 3
+tests:
+  temporal_continuity:
+    weight: 0.20
+    root_step_m: 0.18
+    root_acceleration_m_s2: 90.0
+    angular_step_deg: 65.0
+    chunk_frames: 256
+  skeleton_integrity:
+    weight: 0.15
+    bone_length_variation_ratio: 0.12
+    joint_collapse_m: 0.015
+  foot_sliding:
+    weight: 0.20
+    contact_height_m: 0.06
+    horizontal_speed_m_s: 0.16
+    vertical_speed_m_s: 0.15
+    min_contact_frames: 3
+  ground_contact:
+    weight: 0.15
+    penetration_m: 0.035
+    floating_m: 0.10
+    contact_height_m: 0.06
+  collision:
+    weight: 0.20
+    extended_inter_actor_checks: true
+    wrist_head_clearance_m: 0.12
+    forearm_head_clearance_m: 0.09
+    head_head_clearance_m: 0.18
+    torso_torso_clearance_m: 0.20
+  motion_jerk:
+    weight: 0.10
+    joint_jerk_m_s3: 450.0
+    angular_acceleration_deg_s2: 18000.0
+gate:
+  overall_min_score: 80.0
+  max_critical_issues: 0
+  requirements:
+    collision: 80.0
+    temporal_continuity: 85.0
+    skeleton_integrity: 90.0
+repairs:
+  seam_repair:
+    chunk_frames: 256
+    window_frames: 8
+  foot_lock:
+    max_correction_m: 0.15
+    blend_frames: 4
+  bone_length_projection:
+    max_correction_m: 0.10
+  inter_actor_separation:
+    max_actor_shift_m: 0.15
+    blend_frames: 6
+  collision_repair:
+    max_wrist_shift_m: 0.05
+    blend_frames: 6
+regression:
+  max_test_score_drop: 5.0
+  max_overall_score_drop: 5.0

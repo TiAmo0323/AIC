@@ -1,0 +1,2034 @@
+{
+  "status": "measured",
+  "sample_count": 120,
+  "scope": "Controlled target-test evaluation; collateral checks on injected clips are unlabelled, not negatives",
+  "human_validation": false,
+  "config_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+  "tests": {
+    "temporal_continuity": {
+      "tp": 15,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "bootstrap_95_percent": {
+        "precision": [
+          1.0,
+          1.0
+        ],
+        "recall": [
+          1.0,
+          1.0
+        ],
+        "f1": [
+          1.0,
+          1.0
+        ]
+      }
+    },
+    "skeleton_integrity": {
+      "tp": 15,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "bootstrap_95_percent": {
+        "precision": [
+          1.0,
+          1.0
+        ],
+        "recall": [
+          1.0,
+          1.0
+        ],
+        "f1": [
+          1.0,
+          1.0
+        ]
+      }
+    },
+    "foot_sliding": {
+      "tp": 15,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "bootstrap_95_percent": {
+        "precision": [
+          1.0,
+          1.0
+        ],
+        "recall": [
+          1.0,
+          1.0
+        ],
+        "f1": [
+          1.0,
+          1.0
+        ]
+      }
+    },
+    "ground_contact": {
+      "tp": 15,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "bootstrap_95_percent": {
+        "precision": [
+          1.0,
+          1.0
+        ],
+        "recall": [
+          1.0,
+          1.0
+        ],
+        "f1": [
+          1.0,
+          1.0
+        ]
+      }
+    },
+    "collision": {
+      "tp": 15,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "bootstrap_95_percent": {
+        "precision": [
+          1.0,
+          1.0
+        ],
+        "recall": [
+          1.0,
+          1.0
+        ],
+        "f1": [
+          1.0,
+          1.0
+        ]
+      }
+    },
+    "motion_jerk": {
+      "tp": 15,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "bootstrap_95_percent": {
+        "precision": [
+          1.0,
+          1.0
+        ],
+        "recall": [
+          1.0,
+          1.0
+        ],
+        "f1": [
+          1.0,
+          1.0
+        ]
+      }
+    }
+  },
+  "rows": [
+    {
+      "sample_id": "temporal_continuity_00",
+      "test": "temporal_continuity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "temporal_continuity_01",
+      "test": "temporal_continuity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "temporal_continuity_02",
+      "test": "temporal_continuity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "temporal_continuity_03",
+      "test": "temporal_continuity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "temporal_continuity_04",
+      "test": "temporal_continuity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "temporal_continuity_05",
+      "test": "temporal_continuity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "temporal_continuity_06",
+      "test": "temporal_continuity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "temporal_continuity_07",
+      "test": "temporal_continuity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "temporal_continuity_08",
+      "test": "temporal_continuity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "temporal_continuity_09",
+      "test": "temporal_continuity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "temporal_continuity_10",
+      "test": "temporal_continuity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "temporal_continuity_11",
+      "test": "temporal_continuity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "temporal_continuity_12",
+      "test": "temporal_continuity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "temporal_continuity_13",
+      "test": "temporal_continuity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "temporal_continuity_14",
+      "test": "temporal_continuity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "skeleton_integrity_00",
+      "test": "skeleton_integrity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "skeleton_integrity_01",
+      "test": "skeleton_integrity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "skeleton_integrity_02",
+      "test": "skeleton_integrity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "skeleton_integrity_03",
+      "test": "skeleton_integrity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "skeleton_integrity_04",
+      "test": "skeleton_integrity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "skeleton_integrity_05",
+      "test": "skeleton_integrity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "skeleton_integrity_06",
+      "test": "skeleton_integrity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "skeleton_integrity_07",
+      "test": "skeleton_integrity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "skeleton_integrity_08",
+      "test": "skeleton_integrity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "skeleton_integrity_09",
+      "test": "skeleton_integrity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "skeleton_integrity_10",
+      "test": "skeleton_integrity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "skeleton_integrity_11",
+      "test": "skeleton_integrity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "skeleton_integrity_12",
+      "test": "skeleton_integrity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "skeleton_integrity_13",
+      "test": "skeleton_integrity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "skeleton_integrity_14",
+      "test": "skeleton_integrity",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "foot_sliding_00",
+      "test": "foot_sliding",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "foot_sliding_01",
+      "test": "foot_sliding",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "foot_sliding_02",
+      "test": "foot_sliding",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "foot_sliding_03",
+      "test": "foot_sliding",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "foot_sliding_04",
+      "test": "foot_sliding",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "foot_sliding_05",
+      "test": "foot_sliding",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "foot_sliding_06",
+      "test": "foot_sliding",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "foot_sliding_07",
+      "test": "foot_sliding",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "foot_sliding_08",
+      "test": "foot_sliding",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "foot_sliding_09",
+      "test": "foot_sliding",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "foot_sliding_10",
+      "test": "foot_sliding",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "foot_sliding_11",
+      "test": "foot_sliding",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "foot_sliding_12",
+      "test": "foot_sliding",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "foot_sliding_13",
+      "test": "foot_sliding",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "foot_sliding_14",
+      "test": "foot_sliding",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "ground_contact_00",
+      "test": "ground_contact",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "ground_contact_01",
+      "test": "ground_contact",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "ground_contact_02",
+      "test": "ground_contact",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "ground_contact_03",
+      "test": "ground_contact",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "ground_contact_04",
+      "test": "ground_contact",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "ground_contact_05",
+      "test": "ground_contact",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "ground_contact_06",
+      "test": "ground_contact",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "ground_contact_07",
+      "test": "ground_contact",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "ground_contact_08",
+      "test": "ground_contact",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "ground_contact_09",
+      "test": "ground_contact",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "ground_contact_10",
+      "test": "ground_contact",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "ground_contact_11",
+      "test": "ground_contact",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "ground_contact_12",
+      "test": "ground_contact",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "ground_contact_13",
+      "test": "ground_contact",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "ground_contact_14",
+      "test": "ground_contact",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "collision_00",
+      "test": "collision",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "collision_01",
+      "test": "collision",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "collision_02",
+      "test": "collision",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "collision_03",
+      "test": "collision",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "collision_04",
+      "test": "collision",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "collision_05",
+      "test": "collision",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "collision_06",
+      "test": "collision",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "collision_07",
+      "test": "collision",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "collision_08",
+      "test": "collision",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "collision_09",
+      "test": "collision",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "collision_10",
+      "test": "collision",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "collision_11",
+      "test": "collision",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "collision_12",
+      "test": "collision",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "collision_13",
+      "test": "collision",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "collision_14",
+      "test": "collision",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "motion_jerk_00",
+      "test": "motion_jerk",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "motion_jerk_01",
+      "test": "motion_jerk",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "motion_jerk_02",
+      "test": "motion_jerk",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "motion_jerk_03",
+      "test": "motion_jerk",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "motion_jerk_04",
+      "test": "motion_jerk",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "motion_jerk_05",
+      "test": "motion_jerk",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "motion_jerk_06",
+      "test": "motion_jerk",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "motion_jerk_07",
+      "test": "motion_jerk",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "motion_jerk_08",
+      "test": "motion_jerk",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "motion_jerk_09",
+      "test": "motion_jerk",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "motion_jerk_10",
+      "test": "motion_jerk",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "motion_jerk_11",
+      "test": "motion_jerk",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "motion_jerk_12",
+      "test": "motion_jerk",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "motion_jerk_13",
+      "test": "motion_jerk",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "motion_jerk_14",
+      "test": "motion_jerk",
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_00",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_00",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_00",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_00",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_00",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_00",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_01",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_01",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_01",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_01",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_01",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_01",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_02",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_02",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_02",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_02",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_02",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_02",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_03",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_03",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_03",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_03",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_03",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_03",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_04",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_04",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_04",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_04",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_04",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_04",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_05",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_05",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_05",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_05",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_05",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_05",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_06",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_06",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_06",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_06",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_06",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_06",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_07",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_07",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_07",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_07",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_07",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_07",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_08",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_08",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_08",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_08",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_08",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_08",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_09",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_09",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_09",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_09",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_09",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_09",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_10",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_10",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_10",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_10",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_10",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_10",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_11",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_11",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_11",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_11",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_11",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_11",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_12",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_12",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_12",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_12",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_12",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_12",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_13",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_13",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_13",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_13",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_13",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_13",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_14",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_14",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_14",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_14",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_14",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_14",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_15",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_15",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_15",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_15",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_15",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_15",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_16",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_16",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_16",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_16",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_16",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_16",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_17",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_17",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_17",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_17",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_17",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_17",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_18",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_18",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_18",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_18",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_18",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_18",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_19",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_19",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_19",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_19",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_19",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_19",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_20",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_20",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_20",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_20",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_20",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_20",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_21",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_21",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_21",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_21",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_21",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_21",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_22",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_22",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_22",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_22",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_22",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_22",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_23",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_23",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_23",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_23",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_23",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_23",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_24",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_24",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_24",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_24",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_24",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_24",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_25",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_25",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_25",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_25",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_25",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_25",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_26",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_26",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_26",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_26",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_26",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_26",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_27",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_27",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_27",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_27",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_27",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_27",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_28",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_28",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_28",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_28",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_28",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_28",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_29",
+      "test": "temporal_continuity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_29",
+      "test": "skeleton_integrity",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_29",
+      "test": "foot_sliding",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_29",
+      "test": "ground_contact",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_29",
+      "test": "collision",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "sample_id": "clean_29",
+      "test": "motion_jerk",
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    }
+  ],
+  "macro_f1": 1.0
+}

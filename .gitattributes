@@ -1,0 +1,2 @@
+# Preserve literal upstream patch whitespace as part of the archived evidence.
+evidence/**/*.patch -whitespace

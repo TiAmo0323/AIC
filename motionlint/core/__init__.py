@@ -1,0 +1,1 @@
+"""Shared MotionLint data contracts."""

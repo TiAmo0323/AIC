@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "name": "motion-r1-phase0",
+  "description": "Fixed ID, OOD, and compositional prompts for Motion Planner + InterGen comparisons.",
+  "default_seeds": [20260727, 20260728, 20260729],
+  "default_num_samples": 5,
+  "cases": [
+    {
+      "id": "id-handshake",
+      "bucket": "id-baseline",
+      "text": "两个人面对面走近，短暂握手，然后松手并后退。",
+      "expected": ["approach", "handshake", "release", "step back"]
+    },
+    {
+      "id": "id-tai-chi-control",
+      "bucket": "id-positive-control",
+      "text": "两个人面对面练习太极推手，缓慢转移重心并保持手臂接触。",
+      "expected": ["face each other", "slow weight shift", "push-hands contact"]
+    },
+    {
+      "id": "ood-badminton-serve",
+      "bucket": "ood-primary",
+      "text": "两个人正在打羽毛球，人物A侧身发球并随挥，人物B在对面保持准备姿势并向来球方向迈步。",
+      "flat_prompt": "Two people play badminton. Person A serves sideways and follows through. Person B waits opposite, then steps toward the shuttlecock.",
+      "expected": ["A sideways serve", "A overhead or forward swing", "B ready stance", "no physical contact"],
+      "manual_plan": {
+        "action": "two-person badminton serve",
+        "duration_seconds": 6.5,
+        "actor_a": [
+          {"phase": "prepare", "time": [0.0, 0.25], "motion": "stand sideways with serving arm raised", "body_parts": ["torso", "arms"]},
+          {"phase": "serve", "time": [0.25, 0.7], "motion": "step forward and swing one arm overhead", "body_parts": ["legs", "torso", "arm"]},
+          {"phase": "recover", "time": [0.7, 1.0], "motion": "lower the arm and recover balance", "body_parts": ["arm", "legs"]}
+        ],
+        "actor_b": [
+          {"phase": "ready", "time": [0.0, 0.65], "motion": "face A in a ready stance", "body_parts": ["legs", "arms"]},
+          {"phase": "react", "time": [0.65, 1.0], "motion": "take one small step toward the shot", "body_parts": ["legs", "torso"]}
+        ],
+        "interaction": {"facing": true, "physical_contact": false, "relative_distance": "far", "relation": "serve and receive across a court"}
+      }
+    },
+    {
+      "id": "ood-badminton-rally",
+      "bucket": "ood-primary",
+      "text": "两个人隔着一段距离进行羽毛球对打，交替跨步和挥拍，始终面向对方但没有身体接触。",
+      "expected": ["alternating steps", "alternating arm swings", "far distance", "no physical contact"]
+    },
+    {
+      "id": "complex-react-retreat-approach",
+      "bucket": "compositional",
+      "text": "听到响声后，两个人先转身并警觉地后退，抬起双手防御，随后再缓慢靠近对方。",
+      "expected": ["turn", "retreat", "defensive hands", "re-approach"]
+    }
+  ]
+}

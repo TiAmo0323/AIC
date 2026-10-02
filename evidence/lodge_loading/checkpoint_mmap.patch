@@ -1,0 +1,26 @@
+--- a/infer_lodge.py
++++ b/infer_lodge.py
+@@ -175,9 +175,10 @@
+     model_coarse = get_module(cfg_coarse, dataset)
+     logger.info("Loading checkpoints from {}".format(cfg.checkpoint1))
+     state_dict = torch.load(cfg.checkpoint1,
+-                            map_location="cpu")["state_dict"]
++                            map_location="cpu", mmap=True)["state_dict"]
+ 
+     model_coarse.load_state_dict(state_dict, strict=True)
++    del state_dict
+     logger.info("model {} loaded".format(cfg_coarse.model.model_type))
+     model_coarse.to(device)
+     model_coarse.eval()
+@@ -186,9 +187,10 @@
+     model_fine = get_module(cfg, dataset)
+     logger.info("Loading checkpoints from {}".format(cfg.checkpoint2))
+     state_dict = torch.load(cfg.checkpoint2,
+-                            map_location="cpu")["state_dict"]
++                            map_location="cpu", mmap=True)["state_dict"]
+ 
+     model_fine.load_state_dict(state_dict, strict=True)
++    del state_dict
+     logger.info("model {} loaded".format(cfg.model.model_type))
+     model_fine.to(device)
+     model_fine.eval()

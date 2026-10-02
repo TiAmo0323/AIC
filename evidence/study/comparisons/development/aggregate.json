@@ -1,0 +1,246 @@
+{
+  "scope": "Development only; not real-motion detection accuracy or blind-test proof",
+  "source_summary_sha256": "4c70b8f36384fcc153a62712217a94cf7f1f77edc4b45d174121eb44b2ec004c",
+  "methods": {
+    "baseline_v3_algorithm": {
+      "sample_count": 11,
+      "strict_pass_count": 0,
+      "regression_count": 3,
+      "median_original_support_distance_reduction": 0.344835511323639,
+      "max_joint_shift_m": 0.17046931385993958,
+      "candidate_attempt_count": 0,
+      "accepted_candidate_count": 0,
+      "rejected_candidate_count": 0,
+      "failed_candidate_count": 0
+    },
+    "complete_v4": {
+      "sample_count": 11,
+      "strict_pass_count": 0,
+      "regression_count": 0,
+      "median_original_support_distance_reduction": 0.26656538343387276,
+      "max_joint_shift_m": 0.15421028435230255,
+      "candidate_attempt_count": 148,
+      "accepted_candidate_count": 74,
+      "rejected_candidate_count": 74,
+      "failed_candidate_count": 0
+    },
+    "ordinary_smoothing": {
+      "sample_count": 11,
+      "strict_pass_count": 0,
+      "regression_count": 1,
+      "median_original_support_distance_reduction": 0.007592939529452647,
+      "max_joint_shift_m": 0.09500518078448698,
+      "candidate_attempt_count": 0,
+      "accepted_candidate_count": 0,
+      "rejected_candidate_count": 0,
+      "failed_candidate_count": 0
+    },
+    "unrepaired": {
+      "sample_count": 11,
+      "strict_pass_count": 0,
+      "regression_count": 0,
+      "median_original_support_distance_reduction": 0.0,
+      "max_joint_shift_m": 0.0,
+      "candidate_attempt_count": 0,
+      "accepted_candidate_count": 0,
+      "rejected_candidate_count": 0,
+      "failed_candidate_count": 0
+    },
+    "without_contact": {
+      "sample_count": 11,
+      "strict_pass_count": 0,
+      "regression_count": 0,
+      "median_original_support_distance_reduction": 0.15855225987826932,
+      "max_joint_shift_m": 0.15000002106594168,
+      "candidate_attempt_count": 148,
+      "accepted_candidate_count": 59,
+      "rejected_candidate_count": 89,
+      "failed_candidate_count": 0
+    },
+    "without_regression": {
+      "sample_count": 11,
+      "strict_pass_count": 0,
+      "regression_count": 3,
+      "median_original_support_distance_reduction": 0.344835511323639,
+      "max_joint_shift_m": 0.16753049194812775,
+      "candidate_attempt_count": 148,
+      "accepted_candidate_count": 99,
+      "rejected_candidate_count": 49,
+      "failed_candidate_count": 0
+    }
+  },
+  "failures": [],
+  "seed_selection": [
+    {
+      "group": "wave",
+      "prompt": "Two people stand apart and wave their right hands to greet each other.",
+      "first_seed_sample": "ig02s0",
+      "quality_selected_sample": "ig02s0",
+      "selection_rule": "strict_gate, fewer critical issues, higher quality score; first seed breaks ties",
+      "same_rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+      "all_candidates": [
+        {
+          "sample_id": "ig02s0",
+          "method": "unrepaired",
+          "source": "intergen",
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "before_score": 90.44,
+          "after_score": 90.44,
+          "gate": "FAIL",
+          "regression": "PASS",
+          "original_support_joint_intervals": 657,
+          "support_distance_before_m": 5.4090189933776855,
+          "support_distance_after_m": 5.4090189933776855,
+          "support_distance_reduction": 0.0,
+          "max_joint_shift_m": 0.0
+        },
+        {
+          "sample_id": "ig02s1",
+          "method": "unrepaired",
+          "source": "intergen",
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "before_score": 90.21,
+          "after_score": 90.21,
+          "gate": "FAIL",
+          "regression": "PASS",
+          "original_support_joint_intervals": 680,
+          "support_distance_before_m": 5.396420478820801,
+          "support_distance_after_m": 5.396420478820801,
+          "support_distance_reduction": 0.0,
+          "max_joint_shift_m": 0.0
+        },
+        {
+          "sample_id": "ig02s2",
+          "method": "unrepaired",
+          "source": "intergen",
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "before_score": 87.46,
+          "after_score": 87.46,
+          "gate": "FAIL",
+          "regression": "PASS",
+          "original_support_joint_intervals": 639,
+          "support_distance_before_m": 6.218270301818848,
+          "support_distance_after_m": 6.218270301818848,
+          "support_distance_reduction": 0.0,
+          "max_joint_shift_m": 0.0
+        }
+      ],
+      "human_semantic_comparison": "pending independent judgement"
+    },
+    {
+      "group": "walk",
+      "prompt": "Two people walk side by side at a normal pace.",
+      "first_seed_sample": "ig03s0",
+      "quality_selected_sample": "ig03s1",
+      "selection_rule": "strict_gate, fewer critical issues, higher quality score; first seed breaks ties",
+      "same_rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+      "all_candidates": [
+        {
+          "sample_id": "ig03s0",
+          "method": "unrepaired",
+          "source": "intergen",
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "before_score": 87.45,
+          "after_score": 87.45,
+          "gate": "FAIL",
+          "regression": "PASS",
+          "original_support_joint_intervals": 611,
+          "support_distance_before_m": 7.030683517456055,
+          "support_distance_after_m": 7.030683517456055,
+          "support_distance_reduction": 0.0,
+          "max_joint_shift_m": 0.0
+        },
+        {
+          "sample_id": "ig03s1",
+          "method": "unrepaired",
+          "source": "intergen",
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "before_score": 88.84,
+          "after_score": 88.84,
+          "gate": "FAIL",
+          "regression": "PASS",
+          "original_support_joint_intervals": 562,
+          "support_distance_before_m": 4.115067481994629,
+          "support_distance_after_m": 4.115067481994629,
+          "support_distance_reduction": 0.0,
+          "max_joint_shift_m": 0.0
+        },
+        {
+          "sample_id": "ig03s2",
+          "method": "unrepaired",
+          "source": "intergen",
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "before_score": 88.46,
+          "after_score": 88.46,
+          "gate": "FAIL",
+          "regression": "PASS",
+          "original_support_joint_intervals": 582,
+          "support_distance_before_m": 4.113844394683838,
+          "support_distance_after_m": 4.113844394683838,
+          "support_distance_reduction": 0.0,
+          "max_joint_shift_m": 0.0
+        }
+      ],
+      "human_semantic_comparison": "pending independent judgement"
+    },
+    {
+      "group": "bow",
+      "prompt": "Two people face each other, bow politely, then straighten up.",
+      "first_seed_sample": "ig05s0",
+      "quality_selected_sample": "ig05s1",
+      "selection_rule": "strict_gate, fewer critical issues, higher quality score; first seed breaks ties",
+      "same_rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+      "all_candidates": [
+        {
+          "sample_id": "ig05s0",
+          "method": "unrepaired",
+          "source": "intergen",
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "before_score": 92.01,
+          "after_score": 92.01,
+          "gate": "FAIL",
+          "regression": "PASS",
+          "original_support_joint_intervals": 700,
+          "support_distance_before_m": 5.173910617828369,
+          "support_distance_after_m": 5.173910617828369,
+          "support_distance_reduction": 0.0,
+          "max_joint_shift_m": 0.0
+        },
+        {
+          "sample_id": "ig05s1",
+          "method": "unrepaired",
+          "source": "intergen",
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "before_score": 95.09,
+          "after_score": 95.09,
+          "gate": "FAIL",
+          "regression": "PASS",
+          "original_support_joint_intervals": 715,
+          "support_distance_before_m": 2.9990556240081787,
+          "support_distance_after_m": 2.9990556240081787,
+          "support_distance_reduction": 0.0,
+          "max_joint_shift_m": 0.0
+        },
+        {
+          "sample_id": "ig05s2",
+          "method": "unrepaired",
+          "source": "intergen",
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "before_score": 92.35,
+          "after_score": 92.35,
+          "gate": "FAIL",
+          "regression": "PASS",
+          "original_support_joint_intervals": 676,
+          "support_distance_before_m": 4.687288284301758,
+          "support_distance_after_m": 4.687288284301758,
+          "support_distance_reduction": 0.0,
+          "max_joint_shift_m": 0.0
+        }
+      ],
+      "human_semantic_comparison": "pending independent judgement"
+    }
+  ],
+  "post_export_ablation": "pending six held-out actual exports and human evaluation",
+  "human_semantics": "pending",
+  "physical_reduction_population": "all development inputs with nonzero original support distance; not restricted to human-confirmed supported defects"
+}

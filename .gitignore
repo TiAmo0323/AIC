@@ -1,0 +1,77 @@
+# 忽略本地缓存、环境、生成产物和不应提交的任务结果。
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+*.egg-info/
+*.whl
+*.webm
+.coverage
+htmlcov/
+.venv/
+venv/
+env/
+
+# Frontend dependencies and build output
+node_modules/
+dist/
+.vite/
+coverage/
+.playwright-cli/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.local
+
+# IDE and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# API task outputs and runtime files
+task_runs/
+reports/
+logs/
+*.log
+*.pid
+
+# Local project-growth archive (contains task evidence and internal reports)
+docs/project-growth/
+
+# Generated motion, media, Blender, and character files
+*.npy
+*.npz
+*.bvh
+*.blend
+*.blend1
+*.mp4
+!submission/demo-engineering-draft.mp4
+*.avi
+*.mov
+*.wav
+*.mp3
+*.fbx
+
+# Model checkpoints and large binary assets
+*.ckpt
+*.pth
+*.pt
+*.onnx
+*.safetensors
+
+# Local archives and temporary files
+*.zip
+*.rar
+*.7z
+*.tmp
+*.temp
+tmp/
+temp/

@@ -1,0 +1,7 @@
+{
+  "before_sha256": "c739c3730f6fb5b0a698cf96fd185a45ed886ff0258ce74f240f7376128c597e",
+  "after_sha256": "1eac6557bd9419720465abb76643e99e61ecac3e0819c72c4883d186bb6241f1",
+  "scope": "Checkpoint I/O only; strict state loading remains enabled",
+  "reason": "Observed Windows process crashes 0xC0000005 during full checkpoint deserialization; causality not yet proven",
+  "community_status": "not_submitted"
+}

@@ -1,0 +1,351 @@
+{
+  "schema_version": 1,
+  "status": "split_frozen_before_inspection",
+  "motions": [
+    {
+      "id": "ig00s0",
+      "source": "intergen",
+      "group": "handshake",
+      "split": "holdout",
+      "seed": 261002100,
+      "prompt": "Two people face each other, shake their right hands, then release and stand still.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig00s1",
+      "source": "intergen",
+      "group": "handshake",
+      "split": "holdout",
+      "seed": 261002101,
+      "prompt": "Two people face each other, shake their right hands, then release and stand still.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig00s2",
+      "source": "intergen",
+      "group": "handshake",
+      "split": "holdout",
+      "seed": 261002102,
+      "prompt": "Two people face each other, shake their right hands, then release and stand still.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig01s0",
+      "source": "intergen",
+      "group": "highfive",
+      "split": "holdout",
+      "seed": 261002103,
+      "prompt": "Two people face each other and give each other a high five.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig01s1",
+      "source": "intergen",
+      "group": "highfive",
+      "split": "holdout",
+      "seed": 261002104,
+      "prompt": "Two people face each other and give each other a high five.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig01s2",
+      "source": "intergen",
+      "group": "highfive",
+      "split": "holdout",
+      "seed": 261002105,
+      "prompt": "Two people face each other and give each other a high five.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig02s0",
+      "source": "intergen",
+      "group": "wave",
+      "split": "development",
+      "seed": 261002106,
+      "prompt": "Two people stand apart and wave their right hands to greet each other.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig02s1",
+      "source": "intergen",
+      "group": "wave",
+      "split": "development",
+      "seed": 261002107,
+      "prompt": "Two people stand apart and wave their right hands to greet each other.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig02s2",
+      "source": "intergen",
+      "group": "wave",
+      "split": "development",
+      "seed": 261002108,
+      "prompt": "Two people stand apart and wave their right hands to greet each other.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig03s0",
+      "source": "intergen",
+      "group": "walk",
+      "split": "development",
+      "seed": 261002109,
+      "prompt": "Two people walk side by side at a normal pace.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig03s1",
+      "source": "intergen",
+      "group": "walk",
+      "split": "development",
+      "seed": 261002110,
+      "prompt": "Two people walk side by side at a normal pace.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig03s2",
+      "source": "intergen",
+      "group": "walk",
+      "split": "development",
+      "seed": 261002111,
+      "prompt": "Two people walk side by side at a normal pace.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig04s0",
+      "source": "intergen",
+      "group": "dance",
+      "split": "holdout",
+      "seed": 261002112,
+      "prompt": "Two people dance together with small steps and synchronized arm movements.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig04s1",
+      "source": "intergen",
+      "group": "dance",
+      "split": "holdout",
+      "seed": 261002113,
+      "prompt": "Two people dance together with small steps and synchronized arm movements.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig04s2",
+      "source": "intergen",
+      "group": "dance",
+      "split": "holdout",
+      "seed": 261002114,
+      "prompt": "Two people dance together with small steps and synchronized arm movements.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig05s0",
+      "source": "intergen",
+      "group": "bow",
+      "split": "development",
+      "seed": 261002115,
+      "prompt": "Two people face each other, bow politely, then straighten up.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig05s1",
+      "source": "intergen",
+      "group": "bow",
+      "split": "development",
+      "seed": 261002116,
+      "prompt": "Two people face each other, bow politely, then straighten up.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig05s2",
+      "source": "intergen",
+      "group": "bow",
+      "split": "development",
+      "seed": 261002117,
+      "prompt": "Two people face each other, bow politely, then straighten up.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig06s0",
+      "source": "intergen",
+      "group": "point",
+      "split": "holdout",
+      "seed": 261002118,
+      "prompt": "One person points to the left while the other person turns to look in that direction.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig06s1",
+      "source": "intergen",
+      "group": "point",
+      "split": "holdout",
+      "seed": 261002119,
+      "prompt": "One person points to the left while the other person turns to look in that direction.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig06s2",
+      "source": "intergen",
+      "group": "point",
+      "split": "holdout",
+      "seed": 261002120,
+      "prompt": "One person points to the left while the other person turns to look in that direction.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig07s0",
+      "source": "intergen",
+      "group": "sidestep",
+      "split": "holdout",
+      "seed": 261002121,
+      "prompt": "Two people stand side by side and take a small step to their right, then return.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig07s1",
+      "source": "intergen",
+      "group": "sidestep",
+      "split": "holdout",
+      "seed": 261002122,
+      "prompt": "Two people stand side by side and take a small step to their right, then return.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "ig07s2",
+      "source": "intergen",
+      "group": "sidestep",
+      "split": "holdout",
+      "seed": 261002123,
+      "prompt": "Two people stand side by side and take a small step to their right, then return.",
+      "frames": 180,
+      "fps": 30
+    },
+    {
+      "id": "lg00",
+      "source": "lodge",
+      "split": "development",
+      "title": "Carefree",
+      "isrc": "USUAN1400037",
+      "fps": 30,
+      "clip_seconds": 36,
+      "author": "Kevin MacLeod",
+      "license": "CC-BY-4.0",
+      "source_url": "https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1400037",
+      "license_url": "https://incompetech.com/music/royalty-free/licenses/",
+      "changes": "First 36 seconds, converted to mono 22050 Hz WAV for model input",
+      "attribution": "\"Carefree\" Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0, https://creativecommons.org/licenses/by/4.0/ . Cropped/converted for MotionLint evaluation."
+    },
+    {
+      "id": "lg01",
+      "source": "lodge",
+      "split": "development",
+      "title": "Life of Riley",
+      "isrc": "USUAN1400054",
+      "fps": 30,
+      "clip_seconds": 36,
+      "author": "Kevin MacLeod",
+      "license": "CC-BY-4.0",
+      "source_url": "https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1400054",
+      "license_url": "https://incompetech.com/music/royalty-free/licenses/",
+      "changes": "First 36 seconds, converted to mono 22050 Hz WAV for model input",
+      "attribution": "\"Life of Riley\" Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0, https://creativecommons.org/licenses/by/4.0/ . Cropped/converted for MotionLint evaluation."
+    },
+    {
+      "id": "lg02",
+      "source": "lodge",
+      "split": "holdout",
+      "title": "Cipher",
+      "isrc": "USUAN1100844",
+      "fps": 30,
+      "clip_seconds": 36,
+      "author": "Kevin MacLeod",
+      "license": "CC-BY-4.0",
+      "source_url": "https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1100844",
+      "license_url": "https://incompetech.com/music/royalty-free/licenses/",
+      "changes": "First 36 seconds, converted to mono 22050 Hz WAV for model input",
+      "attribution": "\"Cipher\" Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0, https://creativecommons.org/licenses/by/4.0/ . Cropped/converted for MotionLint evaluation."
+    },
+    {
+      "id": "lg03",
+      "source": "lodge",
+      "split": "holdout",
+      "title": "Monkeys Spinning Monkeys",
+      "isrc": "USUAN1400011",
+      "fps": 30,
+      "clip_seconds": 36,
+      "author": "Kevin MacLeod",
+      "license": "CC-BY-4.0",
+      "source_url": "https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1400011",
+      "license_url": "https://incompetech.com/music/royalty-free/licenses/",
+      "changes": "First 36 seconds, converted to mono 22050 Hz WAV for model input",
+      "attribution": "\"Monkeys Spinning Monkeys\" Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0, https://creativecommons.org/licenses/by/4.0/ . Cropped/converted for MotionLint evaluation."
+    },
+    {
+      "id": "lg04",
+      "source": "lodge",
+      "split": "holdout",
+      "title": "Sneaky Snitch",
+      "isrc": "USUAN1100772",
+      "fps": 30,
+      "clip_seconds": 36,
+      "author": "Kevin MacLeod",
+      "license": "CC-BY-4.0",
+      "source_url": "https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1100772",
+      "license_url": "https://incompetech.com/music/royalty-free/licenses/",
+      "changes": "First 36 seconds, converted to mono 22050 Hz WAV for model input",
+      "attribution": "\"Sneaky Snitch\" Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0, https://creativecommons.org/licenses/by/4.0/ . Cropped/converted for MotionLint evaluation."
+    },
+    {
+      "id": "lg05",
+      "source": "lodge",
+      "split": "holdout",
+      "title": "Wallpaper",
+      "isrc": "USUAN1100843",
+      "fps": 30,
+      "clip_seconds": 36,
+      "author": "Kevin MacLeod",
+      "license": "CC-BY-4.0",
+      "source_url": "https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1100843",
+      "license_url": "https://incompetech.com/music/royalty-free/licenses/",
+      "changes": "First 36 seconds, converted to mono 22050 Hz WAV for model input",
+      "attribution": "\"Wallpaper\" Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0, https://creativecommons.org/licenses/by/4.0/ . Cropped/converted for MotionLint evaluation."
+    }
+  ],
+  "development_count": 11,
+  "holdout_count": 19,
+  "export_holdout_ids": [
+    "ig00s0",
+    "ig01s0",
+    "ig04s0",
+    "ig06s0",
+    "lg02",
+    "lg03"
+  ],
+  "limitations": [
+    "Small sample; all six music recordings from one composer",
+    "LODGE seed not controlled by current API; record upstream settings and do not claim seed reproducibility"
+  ],
+  "scoring": "One-to-one event matching at IoU >=0.5 after per-test/actor interval union; no score inspection until adjudicated labels and frozen code"
+}

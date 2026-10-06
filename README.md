@@ -1,4 +1,4 @@
-# MotionLint · AI 动作质量工具
+# MotionLink · AI 动作质量工具
 
 在现有 HumanAction-Platform 上继续开发，面向 AI 生成动作提供 **自动质检、问题定位、有限修复、回归比较和导出阶段复检**。InterGen 和 LODGE 是可选生成后端；CPU 核心可以独立使用。
 

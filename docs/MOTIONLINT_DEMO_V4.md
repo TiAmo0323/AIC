@@ -8,7 +8,7 @@
 2. 点击时间轴告警，展示人物、关节、区间、数值和阈值，并定位原始视频。
 3. 执行 Repair All，展示接受的脚滑/骨长修复、超过总位移上限而拒绝的人物分离，以及不支持的局部碰撞。
 4. 显示“候选改善”和“整体达标”。本条分数由 85.0 提高到 90.4，但整体 FAIL，残余脚滑、近距风险和抖动仍需处理。
-5. 前后视频联动定位、倍速和播放；导出新的 Kenney 动作，并切到角色阶段检查。
+5. 前后骨架视频联动定位、倍速和播放；切换原始动作与修复动作，核对各阶段的质量报告。
 6. BVH 阶段不跳到其他阶段的视频；角色告警定位实际角色视频。
 
 证据：`reports/first_prize/browser/verification.json`、`narrated_video_verification.json`、`demo_provenance.json`，以及 `reports/first_prize/cli_demo/installation.json`。带讲解视频：`output/video/motionlint_v4_narrated_draft.mp4`；原操作录像保留在 `output/video/motionlint_v4_operations.mp4`。这条本机集成案例不能代替固定六条独立盲测阶段审计。

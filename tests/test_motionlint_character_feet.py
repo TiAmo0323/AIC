@@ -1,12 +1,9 @@
 """Guard bounded support corrections and Blender exception propagation."""
 import json
 from pathlib import Path
-from types import SimpleNamespace
 import numpy as np
-import pytest
 from LODGE_api.lodge2bvh import BVH_NAMES, BVH_OFFSETS, BVH_PARENTS
 from motionlint.character_feet import plan_character_feet
-import motionlint.export_intergen as exporter
 
 
 def character_fixture(tmp_path, swing=False):
@@ -45,24 +42,3 @@ def test_swing_midpoint_does_not_get_a_contact_lock(tmp_path):
     plan = plan_character_feet(character_fixture(tmp_path, swing=True))
     assert not np.asarray(plan["active"])[28:32].any()
     np.testing.assert_allclose(np.asarray(plan["corrections_xz_m"])[28:32], 0)
-
-
-def test_blender_python_failures_are_propagated(tmp_path, monkeypatch):
-    calls = []
-    def failed(command, **kwargs):
-        calls.append(command)
-        return SimpleNamespace(returncode=1)
-    monkeypatch.setattr(exporter.subprocess, "run", failed)
-    with pytest.raises(RuntimeError, match="render failed"):
-        exporter._run(["blender.exe", "-b", "--python", "broken.py"], tmp_path, "render", {}, 5)
-    assert calls[0][1:3] == ["--python-exit-code", "1"]
-
-
-def test_truncated_character_video_is_rejected_before_publication(tmp_path, monkeypatch):
-    from scripts import optimize_character_feet as optimizer
-    video = tmp_path / "partial.mp4"
-    video.write_bytes(b"partial render")
-    monkeypatch.setattr(optimizer.subprocess, "run", lambda *args, **kwargs:
-                        SimpleNamespace(stdout="frame=90\nprogress=end\n"))
-    with pytest.raises(RuntimeError, match="Incomplete character video"):
-        optimizer.verify_rendered_video(video, 180)

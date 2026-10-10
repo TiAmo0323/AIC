@@ -46,7 +46,8 @@ assert.match(dialogSource, /MULTI_SKIN_SELECTION/)
 assert.match(dialogSource, /v-for="option in textOptions"/)
 assert.match(dialogSource, /标准人体可以用于文本任务/)
 assert.match(dialogSource, /!textSelectionValid/)
-assert.match(dialogSource, /window\.alert\('标准人体暂不能与其他角色混合渲染/)
+assert.match(dialogSource, /调整为同一渲染类型/)
+assert.match(dialogSource, /:disabled="option.available === false"/)
 assert.match(catalogSource, /支持的角色类型/)
 assert.match(catalogSource, /animation: catalog-scroll/)
 assert.match(catalogSource, /\.skin-catalog-marquee:hover \.skin-catalog-track/)
@@ -61,7 +62,7 @@ console.log(JSON.stringify({
   smpl_pair_skin_ids: smplPair.skin_ids,
   smpl_pair_retarget_enabled: smplPair.retarget_enabled,
   mixed_smpl_fbx_blocked: true,
-  mixed_smpl_fbx_alert_present: true,
+  mixed_smpl_fbx_inline_notice_present: true,
   audio_dialog_keeps_single_multi_logic: true,
   smpl_included_in_text_person_options: true,
   character_catalog_auto_scroll: true,

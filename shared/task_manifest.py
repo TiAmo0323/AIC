@@ -87,6 +87,8 @@ def restore_task_manifests(
             continue
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
+            if not isinstance(data, dict) or str(data.get("task_id")) != folder.name:
+                continue
             status = str(data.get("status") or "").lower()
             if status in {"queued", "running", "processing"}:
                 data["status"] = "failed"

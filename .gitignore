@@ -28,6 +28,7 @@ coverage/
 .env.*
 !.env.example
 *.local
+config/runtime.local.bat
 
 # IDE and operating-system files
 .idea/
@@ -39,6 +40,7 @@ Desktop.ini
 # API task outputs and runtime files
 task_runs/
 reports/
+demo/
 logs/
 *.log
 *.pid

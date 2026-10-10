@@ -7,6 +7,7 @@ import csv
 import json
 import math
 import sys
+from uuid import uuid4
 from pathlib import Path
 
 import numpy as np
@@ -20,28 +21,40 @@ from motionlint.pipeline.regression import compare
 from motionlint.pipeline.repair_pipeline import repair
 
 
-def load_motion(path: str | Path, actor2: str | Path | None = None, fps: float = 30, *, unit_scale: float = 1., up_axis: int = 1, joint_mapping: dict | None = None):
+def load_motion(path: str | Path, actor2: str | Path | None = None, fps: float = 30, *, unit_scale: float = 1., up_axis: int = 1, joint_mapping: dict | None = None, max_frames=None, max_joints=None):
     if not math.isfinite(unit_scale) or unit_scale <= 0:
         raise ValueError("unit_scale must be positive and finite")
     path = Path(path)
     if path.suffix.lower() == ".bvh":
         if actor2 is not None:
-            return load_bvh_pair([path, actor2], unit_scale=unit_scale, up_axis=up_axis, joint_mapping=joint_mapping)
-        return load_bvh(path, unit_scale=unit_scale, up_axis=up_axis, joint_mapping=joint_mapping)
+            return load_bvh_pair([path, actor2], unit_scale=unit_scale, up_axis=up_axis, joint_mapping=joint_mapping, max_frames=max_frames, max_joints=max_joints)
+        return load_bvh(path, unit_scale=unit_scale, up_axis=up_axis, joint_mapping=joint_mapping, max_frames=max_frames, max_joints=max_joints)
     if path.suffix.lower() != ".npy":
         raise ValueError("Expected .npy or .bvh input")
     if unit_scale != 1. or up_axis != 1 or joint_mapping:
         raise ValueError("NPY uses the fixed metre/Y-up skeleton convention; BVH options require .bvh")
     data = np.load(path, allow_pickle=False, mmap_mode="r")
-    if not np.isfinite(data).all():
-        raise ValueError("Motion input contains NaN or Inf")
-    if data.ndim == 2 and data.shape[1] in {135, 139, 315, 319}:
+    try:
+        if max_frames is not None and data.ndim and data.shape[0] > max_frames:
+            raise ValueError(f"动作最多支持 {max_frames} 帧。")
+        if not np.issubdtype(data.dtype, np.number) or np.iscomplexobj(data):
+            raise ValueError("Motion input must contain real numeric values")
+        if not np.isfinite(data).all():
+            raise ValueError("Motion input contains NaN or Inf")
+        shape = data.shape
+    finally:
+        # Error tracebacks retain local variables. Close the probe mapping before
+        # parsing so rejected Windows uploads can be removed immediately.
+        mapping = getattr(data, "_mmap", None)
+        if mapping is not None:
+            mapping.close()
+    if len(shape) == 2 and shape[1] in {135, 139, 315, 319}:
         if actor2 is not None:
             raise ValueError("LODGE motion cannot be paired with --actor2")
         return load_lodge_npy(path, fps=fps)
-    if data.ndim == 3 and data.shape[1:] == (22, 3):
+    if len(shape) == 3 and shape[1:] == (22, 3):
         return load_intergen_joints([path, actor2] if actor2 is not None else path, fps=fps)
-    raise ValueError(f"Unsupported NPY motion shape: {data.shape}")
+    raise ValueError(f"Unsupported NPY motion shape: {shape}")
 
 
 def _json_safe(value):
@@ -60,7 +73,12 @@ def _json_safe(value):
 
 def _write_json(path: Path, payload: dict | list) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(_json_safe(payload), ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
+    temporary = path.with_name(f".{path.name}.{uuid4().hex}.tmp")
+    try:
+        temporary.write_text(json.dumps(_json_safe(payload), ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
+        temporary.replace(path)
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def _write_report(folder: Path, report) -> None:
@@ -138,9 +156,14 @@ def _main(argv: list[str] | None = None) -> int:
         _write_report(folder / "baseline", baseline)
         _write_report(folder / "candidate", candidate)
         _write_json(folder / "comparison.json", comparison)
-        print(f"{comparison['status']}  overall change: {comparison['overall_change']:+.2f}")
+        overall = comparison["overall_change"]
+        display_change = "n/a" if overall is None else f"{overall:+.2f}"
+        print(f"{comparison['status']}  overall change: {display_change}")
         for row in comparison["tests"]:
-            print(f"{row['test']:24} {row['baseline']:6.2f} -> {row['candidate']:6.2f}  {row['change']:+6.2f}  {row['status']}")
+            delta = "n/a" if row["change"] is None else f"{row['change']:+6.2f}"
+            print(f"{row['test']:24} {row['baseline']:6.2f} -> {row['candidate']:6.2f}  {delta}  {row['status']}")
+        for reason in comparison["reasons"]:
+            print(f"  - {reason}")
         return 1 if comparison["status"] != "PASS" else 0
 
     motion = load_motion(args.input, args.actor2, args.fps, **options)

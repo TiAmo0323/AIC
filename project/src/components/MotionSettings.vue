@@ -1,21 +1,22 @@
 <template>
-  <section class="settings" aria-label="MotionLint 设置">
-    <header><h3>MotionLint 设置</h3><button type="button" @click="$emit('close')">关闭</button></header>
+  <section class="settings" aria-label="动作质检设置">
+    <header><h3>动作质检设置（MotionLint）</h3><button type="button" @click="$emit('close')">关闭</button></header>
     <label>播放速度 <select aria-label="播放速度" :value="playback.speed" @change="update('speed', Number($event.target.value))"><option :value=".5">0.5×</option><option :value="1">1×</option><option :value="1.5">1.5×</option><option :value="2">2×</option></select></label>
     <label><input type="checkbox" :checked="playback.loop" @change="update('loop', $event.target.checked)" /> 循环播放</label>
     <label><input type="checkbox" :checked="playback.seekAutoplay" @change="update('seekAutoplay', $event.target.checked)" /> 定位问题后播放</label>
     <p>播放偏好保存在本机。下面显示当前检查使用的质量规则，播放设置不改变评分。</p>
     <template v-if="policy">
-      <strong>规则版本 {{ policy.version }} · {{ frozen ? '本次导出的固定规则' : '当前默认规则' }}</strong>
-      <table><thead><tr><th>检测项</th><th>权重</th><th>阈值与参数</th></tr></thead><tbody><tr v-for="(settings, name) in policy.tests" :key="name"><td>{{ labels[name] || name }}</td><td>{{ (settings.weight * 100).toFixed(0) }}%</td><td><span v-for="(value, key) in parameters(settings)" :key="key">{{ key }}：{{ value }}<br /></span></td></tr></tbody></table>
+      <strong>规则版本 {{ policy.version }} · 当前默认规则</strong>
+      <table><thead><tr><th>检测项</th><th>权重</th><th>阈值与参数</th></tr></thead><tbody><tr v-for="(settings, name) in policy.tests" :key="name"><td>{{ labels[name] || name }}</td><td>{{ (settings.weight * 100).toFixed(0) }}%</td><td><span v-for="(value, key) in parameters(settings)" :key="key" :title="key">{{ parameterLabel(key) }}：{{ parameterValue(value) }}<br /></span></td></tr></tbody></table>
       <p>质量门：总分至少 {{ policy.gate.overall_min_score }}；严重问题最多 {{ policy.gate.max_critical_issues }}。修复位移与回归容差同样由配置限定。</p>
-      <button type="button" @click="download">下载当前规则 JSON</button>
+      <button type="button" @click="download">下载当前规则（JSON）</button>
     </template>
     <p v-else>{{ error || '正在加载质量规则…' }}</p>
   </section>
 </template>
 <script setup>
-const props = defineProps({playback: Object, policy: Object, frozen: Boolean, labels: Object, error: String})
+import { parameterLabel, parameterValue } from '../utils/zhDisplay.js'
+const props = defineProps({playback: Object, policy: Object, labels: Object, error: String})
 const emit = defineEmits(['update:playback', 'close'])
 const update = (key, value) => emit('update:playback', {...props.playback, [key]: value})
 const parameters = settings => Object.fromEntries(Object.entries(settings).filter(([key]) => key !== 'weight'))

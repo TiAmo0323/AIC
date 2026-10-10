@@ -59,6 +59,19 @@ def test_cross_policy_comparison_rejected(tmp_path):
         compare(first,second)
 
 
+def test_cli_incomplete_comparison_has_no_fabricated_score_change(tmp_path, capsys):
+    path = tmp_path / "too_short.npy"
+    np.save(path, standing(1))
+    output = tmp_path / "comparison"
+    assert main(["compare", str(path), str(path), "--output-dir", str(output)]) == 1
+    result = json.loads((output / "comparison.json").read_text(encoding="utf-8"))
+    assert result["status"] == "COMPARISON INCOMPLETE"
+    assert result["overall_change"] is None
+    assert any(row["status"] == "INCOMPARABLE" and row["change"] is None for row in result["tests"])
+    text = capsys.readouterr().out
+    assert "overall change: n/a" in text and "unavailable in baseline" in text
+
+
 def test_repair_preserves_input_and_records_all_trials(tmp_path):
     build(tmp_path)
     path=tmp_path/"foot_sliding_00.npy"

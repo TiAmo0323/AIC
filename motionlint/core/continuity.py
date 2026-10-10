@@ -250,6 +250,8 @@ def smooth_chunk_seams(
         "chunk_frames": int(chunk_frames),
         "window_frames": int(window_frames),
         "boundaries": details,
+        "rotation_joint_ids": rotation_ids,
+        "translation_repaired": bool(repair_translation and details),
         "contact_channels_preserved": bool(
             contact_count == 0 or np.array_equal(result[:, :contact_count], contacts_before)
         ),

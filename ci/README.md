@@ -1,7 +1,9 @@
-# MotionLint Actions 模板
+# MotionLint 自动检查
 
-`motionlint.yml` 已配置 Windows / Linux × Python 3.10 / 3.11 的独立 CPU 验证。
+正式工作流位于 [`.github/workflows/motionlint.yml`](../.github/workflows/motionlint.yml)，`ci/motionlint.yml` 保留同内容模板。
 
-本次 GitHub 登录令牌没有 `workflow` 写入权限，服务器拒绝直接创建 `.github/workflows/motionlint.yml`。因此配置以普通模板文件上传，**目前没有自动触发 Actions，也没有 Linux 实测结果**。
+CPU 作业覆盖 Windows/Linux 与 Python 3.10/3.11，安装 `.[web,test]`，执行完整默认测试套件、质量门和受控回归。前端作业执行 `npm ci`、全部 Node 检查与生产构建。
 
-仓库维护者使用拥有相应权限的 GitHub 登录，在仓库中将 `ci/motionlint.yml` 复制为 `.github/workflows/motionlint.yml` 并提交，即可启用。也可以用拥有 `workflow` 权限的凭据通过 Git 推送该路径。现有模板不请求仓库写权限，只安装核心工具、执行测试并上传报告。
+默认测试不加载外部生成模型；依赖真实 InterGen/CLIP 的集成测试标记为 `integration` 并明确跳过。已配置这些依赖时使用 `python -m pytest tests --run-integration -q` 启用。
+
+本轮只准备本地工作流文件，没有推送仓库或触发远程 Actions，因此不代表 Linux/远程 CI 已通过。将该工作流纳入仓库提交后，会按 push、pull_request 或手动触发条件运行。

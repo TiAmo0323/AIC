@@ -14,7 +14,25 @@ from dataclasses import dataclass
 from functools import lru_cache
 from typing import Dict, List, Optional, Tuple
 
-from pydantic import BaseModel, Field, root_validator, validator
+from pydantic import BaseModel, Field
+
+PYDANTIC_V2 = hasattr(BaseModel, "model_validate")
+if PYDANTIC_V2:
+    from pydantic import field_validator, model_validator
+else:
+    from pydantic import validator as field_validator, root_validator
+
+
+class PlannerModel(BaseModel):
+    """Use the same schema in the existing Pydantic 1 and CPU Pydantic 2 envs."""
+    if not PYDANTIC_V2:
+        @classmethod
+        def model_validate(cls, payload):
+            return cls.parse_obj(payload)
+
+        def model_dump(self, **kwargs):
+            kwargs.pop("mode", None)
+            return self.dict(**kwargs)
 
 
 class MotionPlannerError(RuntimeError):
@@ -26,27 +44,27 @@ def _clean_text(value: str) -> str:
     return text.strip(" \t\r\n\"'“”‘’")
 
 
-class MotionPhase(BaseModel):
+class MotionPhase(PlannerModel):
     phase: str = Field(..., min_length=1, max_length=48)
     time: Tuple[float, float]
     motion: str = Field(..., min_length=3, max_length=240)
-    body_parts: List[str] = Field(default_factory=list, max_items=8)
+    body_parts: List[str] = Field(default_factory=list, **{"max_length" if PYDANTIC_V2 else "max_items": 8})
 
-    @validator("phase", "motion")
+    @field_validator("phase", "motion")
     def clean_required_text(cls, value: str) -> str:
         cleaned = _clean_text(value)
         if not cleaned:
             raise ValueError("motion phase text cannot be empty")
         return cleaned
 
-    @validator("body_parts", each_item=True)
-    def clean_body_part(cls, value: str) -> str:
-        cleaned = _clean_text(value)
-        if not cleaned:
+    @field_validator("body_parts")
+    def clean_body_parts(cls, values: List[str]) -> List[str]:
+        cleaned = [_clean_text(value) for value in values]
+        if any(not value for value in cleaned):
             raise ValueError("body part cannot be empty")
         return cleaned
 
-    @validator("time")
+    @field_validator("time")
     def validate_time_range(cls, value: Tuple[float, float]) -> Tuple[float, float]:
         start, end = float(value[0]), float(value[1])
         if not 0.0 <= start < end <= 1.0:
@@ -54,13 +72,13 @@ class MotionPhase(BaseModel):
         return round(start, 6), round(end, 6)
 
 
-class InteractionPlan(BaseModel):
+class InteractionPlan(PlannerModel):
     facing: Optional[bool] = None
     physical_contact: Optional[bool] = None
     relative_distance: str = Field(default="medium", max_length=24)
     relation: str = Field(default="", max_length=160)
 
-    @validator("relative_distance")
+    @field_validator("relative_distance")
     def validate_distance(cls, value: str) -> str:
         cleaned = _clean_text(value).lower() or "medium"
         allowed = {"close", "medium", "far", "changing"}
@@ -68,33 +86,43 @@ class InteractionPlan(BaseModel):
             raise ValueError(f"relative_distance must be one of {sorted(allowed)}")
         return cleaned
 
-    @validator("relation")
+    @field_validator("relation")
     def clean_relation(cls, value: str) -> str:
         return _clean_text(value)
 
 
-class MotionPlan(BaseModel):
+def _validate_phase_order(phases, actor_key):
+    starts = [phase.time[0] for phase in phases]
+    if starts != sorted(starts):
+        raise ValueError(f"{actor_key} phases must be ordered by start time")
+
+
+class MotionPlan(PlannerModel):
     action: str = Field(..., min_length=2, max_length=120)
     duration_seconds: float = Field(default=6.0, ge=1.0, le=12.0)
-    actor_a: List[MotionPhase] = Field(..., min_items=1, max_items=5)
-    actor_b: List[MotionPhase] = Field(..., min_items=1, max_items=5)
+    actor_a: List[MotionPhase] = Field(..., **({"min_length": 1, "max_length": 5} if PYDANTIC_V2 else {"min_items": 1, "max_items": 5}))
+    actor_b: List[MotionPhase] = Field(..., **({"min_length": 1, "max_length": 5} if PYDANTIC_V2 else {"min_items": 1, "max_items": 5}))
     interaction: InteractionPlan = Field(default_factory=InteractionPlan)
 
-    @validator("action")
+    @field_validator("action")
     def clean_action(cls, value: str) -> str:
         cleaned = _clean_text(value)
         if not cleaned:
             raise ValueError("action cannot be empty")
         return cleaned
 
-    @root_validator
-    def validate_phase_order(cls, values: Dict[str, object]) -> Dict[str, object]:
-        for actor_key in ("actor_a", "actor_b"):
-            phases = list(values.get(actor_key) or [])
-            starts = [phase.time[0] for phase in phases]
-            if starts != sorted(starts):
-                raise ValueError(f"{actor_key} phases must be ordered by start time")
-        return values
+    if PYDANTIC_V2:
+        @model_validator(mode="after")
+        def validate_phase_order(self):
+            for actor_key in ("actor_a", "actor_b"):
+                _validate_phase_order(getattr(self, actor_key), actor_key)
+            return self
+    else:
+        @root_validator(skip_on_failure=True)
+        def validate_phase_order(cls, values):
+            for actor_key in ("actor_a", "actor_b"):
+                _validate_phase_order(values[actor_key], actor_key)
+            return values
 
 
 @dataclass(frozen=True)
@@ -175,7 +203,7 @@ def parse_motion_plan(content: str) -> MotionPlan:
     except json.JSONDecodeError as exc:
         raise MotionPlannerError(f"Motion planner returned invalid JSON: {exc}") from exc
     try:
-        return MotionPlan.parse_obj(payload)
+        return MotionPlan.model_validate(payload)
     except Exception as exc:
         raise MotionPlannerError(f"Motion planner JSON failed schema validation: {exc}") from exc
 

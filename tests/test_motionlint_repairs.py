@@ -28,6 +28,32 @@ def test_seam_repair_reduces_detected_jump() -> None:
     assert detail["boundaries"][0]["boundary_frame"] == 256
 
 
+def test_translation_only_seam_preserves_rotations_and_other_frames() -> None:
+    raw = runpy.run_path("tests/test_lodge_motion_continuity.py")["synthetic_motion"]()
+    original = raw.copy()
+    _, repaired, detail = repair_seams(normalize_lodge_array(raw), raw=raw,
+        boundary_frames=[256], rotation_joint_ids=[], repair_translation=True)
+    np.testing.assert_array_equal(raw, original)
+    np.testing.assert_array_equal(repaired[:, :4], raw[:, :4])
+    np.testing.assert_array_equal(repaired[:, 7:], raw[:, 7:])
+    np.testing.assert_array_equal(repaired[:248], raw[:248])
+    np.testing.assert_array_equal(repaired[264:], raw[264:])
+    assert not np.array_equal(repaired[248:264, 4:7], raw[248:264, 4:7])
+    assert detail["rotation_joint_ids"] == [] and detail["translation_repaired"]
+
+
+def test_rotation_only_seam_preserves_unselected_joints_and_translation() -> None:
+    raw = runpy.run_path("tests/test_lodge_motion_continuity.py")["synthetic_motion"]()
+    _, repaired, detail = repair_seams(normalize_lodge_array(raw), raw=raw,
+        boundary_frames=[256], rotation_joint_ids=[0], repair_translation=False)
+    np.testing.assert_array_equal(repaired[:, :7], raw[:, :7])
+    np.testing.assert_array_equal(repaired[:, 13:], raw[:, 13:])
+    np.testing.assert_array_equal(repaired[:248], raw[:248])
+    np.testing.assert_array_equal(repaired[264:], raw[264:])
+    assert not np.array_equal(repaired[248:264, 7:13], raw[248:264, 7:13])
+    assert detail["rotation_joint_ids"] == [0] and not detail["translation_repaired"]
+
+
 def test_foot_lock_reduces_single_contact_sliding() -> None:
     raw = np.zeros((18, 139), dtype=np.float32)
     raw[:, 0] = 1

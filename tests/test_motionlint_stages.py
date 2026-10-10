@@ -67,3 +67,29 @@ def test_repaired_video_needs_completed_render(monkeypatch, tmp_path):
     (folder / "render_status.json").write_text('{"status":"queued"}', encoding="utf-8")
     monkeypatch.setitem(api.TASK_ROOTS, "lodge", tmp_path)
     assert _stage_video_path(TaskRef(source="lodge", task_id=task_id), "repaired") is None
+
+
+def test_character_stage_runs_export_command_for_valid_scene(monkeypatch, tmp_path):
+    import hashlib
+    from types import SimpleNamespace
+    import motionlint.api as api
+    task_id = "11111111-1111-4111-8111-111111111111"
+    folder = tmp_path / task_id / "retarget"
+    folder.mkdir(parents=True)
+    scene = folder / "scene.blend"
+    scene.write_bytes(b"saved scene")
+    (folder / "retarget_manifest.json").write_text(json.dumps({"debug_blend": str(scene)}), encoding="utf-8")
+    monkeypatch.setitem(api.TASK_ROOTS, "intergen", tmp_path)
+    calls = []
+
+    def run(command, **kwargs):
+        calls.append(command)
+        output = Path(command[command.index("--output") + 1])
+        output.parent.mkdir(parents=True)
+        output.write_bytes(b"exported skeleton")
+
+    monkeypatch.setattr(api.subprocess, "run", run)
+    motion = SimpleNamespace(metadata={"blend_path": str(scene), "blend_sha256": hashlib.sha256(scene.read_bytes()).hexdigest()})
+    monkeypatch.setattr(api, "load_character", lambda path: motion)
+    assert api._stage_motion(StageRequest(source="intergen", task_id=task_id, stage="character")) is motion
+    assert calls[0][calls[0].index("-b") + 1] == str(scene.resolve())

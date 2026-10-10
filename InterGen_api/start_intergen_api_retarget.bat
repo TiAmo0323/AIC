@@ -135,6 +135,8 @@ if not exist "%INTERGEN_PYTHON%" (
 	set "INTERGEN_PYTHON=python"
 )
 
+if exist "%PROJECT_ROOT%\config\runtime.local.bat" call "%PROJECT_ROOT%\config\runtime.local.bat"
+
 echo INTERGEN_SOURCE_ROOT=%INTERGEN_SOURCE_ROOT%
 echo INTERGEN_CONFIG_DIR=%INTERGEN_CONFIG_DIR%
 echo INTERGEN_RENDER_PROFILE=%INTERGEN_RENDER_PROFILE%

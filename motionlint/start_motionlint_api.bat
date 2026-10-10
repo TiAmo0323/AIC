@@ -3,6 +3,8 @@ setlocal
 set "PROJECT_ROOT=%~dp0.."
 for %%I in ("%PROJECT_ROOT%") do set "PROJECT_ROOT=%%~fI"
 set "MOTIONLINT_PYTHON=%PROJECT_ROOT%\..\HumanAction-runtime\envs\motionlint\Scripts\python.exe"
+if exist "%PROJECT_ROOT%\.venv\Scripts\python.exe" set "MOTIONLINT_PYTHON=%PROJECT_ROOT%\.venv\Scripts\python.exe"
+if exist "%PROJECT_ROOT%\config\runtime.local.bat" call "%PROJECT_ROOT%\config\runtime.local.bat"
 if not exist "%MOTIONLINT_PYTHON%" (
   echo MotionLint environment not found: %MOTIONLINT_PYTHON%
   exit /b 1

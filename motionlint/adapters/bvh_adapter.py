@@ -8,9 +8,10 @@ from dataclasses import replace
 import numpy as np
 
 from motionlint.core.motion_sequence import MotionSequence
+from motionlint.adapters.bvh_reader import read_bvh
 
 
-def load_bvh(path: str | Path, *, source: str = "bvh", unit_scale: float = 1., up_axis: int = 1, joint_mapping: dict | None = None) -> MotionSequence:
+def load_bvh(path: str | Path, *, source: str = "bvh", unit_scale: float = 1., up_axis: int = 1, joint_mapping: dict | None = None, max_frames=None, max_joints=None) -> MotionSequence:
     """Read one actor's BVH and compute global joint positions using FK."""
     try:
         from pymotion.io.bvh import BVH
@@ -25,7 +26,7 @@ def load_bvh(path: str | Path, *, source: str = "bvh", unit_scale: float = 1., u
     if up_axis not in (0, 1, 2):
         raise ValueError("BVH up_axis must be 0, 1 or 2")
     bvh = BVH()
-    bvh.load(str(path))
+    bvh.data = read_bvh(path, max_frames=max_frames, max_joints=max_joints)
     local_quaternions, local_positions, parents, offsets, _, _ = bvh.get_data()
     if not all(np.isfinite(value).all() for value in (local_quaternions, local_positions, offsets)):
         raise ValueError("BVH contains non-finite rotation, translation or offsets")
@@ -86,8 +87,8 @@ def load_bvh(path: str | Path, *, source: str = "bvh", unit_scale: float = 1., u
     )
 
 
-def load_bvh_pair(paths, *, unit_scale: float = 1., up_axis: int = 1, joint_mapping: dict | None = None) -> MotionSequence:
-    actors = [load_bvh(path, unit_scale=unit_scale, up_axis=up_axis, joint_mapping=joint_mapping) for path in paths]
+def load_bvh_pair(paths, *, unit_scale: float = 1., up_axis: int = 1, joint_mapping: dict | None = None, max_frames=None, max_joints=None) -> MotionSequence:
+    actors = [load_bvh(path, unit_scale=unit_scale, up_axis=up_axis, joint_mapping=joint_mapping, max_frames=max_frames, max_joints=max_joints) for path in paths]
     if not actors:
         raise ValueError("At least one BVH file is required")
     first = actors[0]

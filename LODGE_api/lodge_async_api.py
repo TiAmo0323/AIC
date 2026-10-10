@@ -13,12 +13,12 @@ import uvicorn
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Literal
 
-from fastapi import FastAPI, HTTPException, UploadFile, File, Form
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Query
 from fastapi import Request
 from fastapi.responses import FileResponse, StreamingResponse
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -42,6 +42,10 @@ from shared.skin_catalog import (
 )
 from shared.motion_continuity import smooth_chunk_seams
 from shared.task_manifest import restore_task_manifests, write_task_manifest
+from shared.runtime_checks import checked_catalog, runtime_report
+from shared.task_requests import save_request, load_request
+from shared.task_listing import task_page
+from shared.uploads import stage_upload, validate_npy, AUDIO_UPLOAD_LIMIT, NPY_UPLOAD_LIMIT, AUDIO_SUFFIXES
 
 
 def _default_target_fbx() -> str:
@@ -167,6 +171,20 @@ class InferFromFeatureNpyRequest(BaseModel):
     retarget_strict: bool = Field(default=False, description="Fail the task if retargeting fails")
 
 
+class PreflightRequest(BaseModel):
+    lodge_root: str = ""
+    operation: Literal["generate", "render"] = "generate"
+    python_executable: Optional[str] = None
+    mode: str = "smplx"
+    skin_ids: Optional[List[str]] = None
+    skin_id: Optional[str] = None
+    retarget_enabled: bool = False
+    target_fbx: Optional[str] = None
+    mapping_file: Optional[str] = None
+    blender_executable: Optional[str] = None
+    retarget_script: Optional[str] = None
+
+
 class TaskInfo(BaseModel):
     task_id: str
     status: str
@@ -246,14 +264,17 @@ def _restore_task_artifacts(task: TaskInfo) -> TaskInfo:
             pass
         data["output_retarget_mp4_path"] = str(retarget_videos[0].resolve())
         data["output_retarget_path"] = str(retarget_videos[0].resolve())
-        data["retarget_status"] = "succeeded"
+        if data.get("status") != "failed" and data.get("retarget_status") != "failed":
+            data["retarget_status"] = "succeeded"
         data["skin_id"] = retarget_skin_id
         data["requested_skin_ids"] = [retarget_skin_id]
         data["available_skin_ids"] = list(dict.fromkeys((data.get("available_skin_ids") or []) + [retarget_skin_id]))
     if data.get("output_mp4_path"):
         data["available_skin_ids"] = list(dict.fromkeys((data.get("available_skin_ids") or []) + ["smpl"]))
-    if data.get("output_mp4_path") or data.get("output_retarget_mp4_path"):
-        data["status"] = "succeeded"
+    for key in ("output_mp4_path", "output_retarget_mp4_path", "output_retarget_path"):
+        if data.get(key) and not Path(data[key]).is_file():
+            data[key] = None
+    if data.get("status") == "succeeded" and (data.get("output_mp4_path") or data.get("output_retarget_mp4_path")):
         data["progress"] = 100
     elif data.get("status") == "succeeded":
         data["status"] = "failed"
@@ -359,6 +380,27 @@ def _validate_request_skins(req) -> List[Dict[str, object]]:
 
 def _validate_request_skin(req) -> Dict[str, object]:
     return _validate_request_skins(req)[0]
+
+
+def _resource_report(req, profiles, operation="generate") -> dict:
+    options = req.model_dump() if hasattr(req, "model_dump") else req.dict()
+    return runtime_report(PROJECT_ROOT, "lodge", profiles, options, operation=operation)
+
+
+def _ensure_resources(req, profiles, operation="generate") -> None:
+    report = _resource_report(req, profiles, operation)
+    if not report["ready"]:
+        raise HTTPException(422, detail={"code": "resources_unavailable", "message": "生成资源未就绪", "checks": report["checks"]})
+
+
+def _submit_request(worker, task_id, req):
+    save_request(DEFAULT_TASK_ROOT, task_id, worker.__name__, req)
+    executor.submit(worker, task_id, req)
+
+
+def _submit_render_request(task_id, payload):
+    save_request(DEFAULT_TASK_ROOT, task_id, "render-npy", payload)
+    executor.submit(_run_render_from_uploaded_npy_task, task_id, **payload)
 
 
 def _update_task(task_id: str, **kwargs) -> None:
@@ -1700,14 +1742,88 @@ def health() -> Dict[str, str]:
 @app.get("/v1/lodge/skins")
 def get_supported_skins() -> Dict[str, object]:
     try:
-        return public_skin_catalog(PROJECT_ROOT)
+        return checked_catalog(PROJECT_ROOT, "lodge", public_skin_catalog(PROJECT_ROOT))
     except SkinCatalogError as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.post("/v1/lodge/preflight")
+def preflight(req: PreflightRequest) -> dict:
+    return _resource_report(req, _validate_request_skins(req), req.operation)
+
+
+@app.post("/v1/lodge/tasks/{task_id}/retry", response_model=TaskInfo)
+def retry_task(task_id: str) -> TaskInfo:
+    with _task_lock:
+        existing = _tasks.get(task_id)
+        if existing is None:
+            raise HTTPException(404, "Task not found")
+        if existing.status in {"queued", "running", "processing"}:
+            raise HTTPException(409, "任务仍在运行，不能重复提交。")
+    try:
+        saved = load_request(DEFAULT_TASK_ROOT, task_id)
+        operations = {
+            "_run_render_task": (RenderSongRequest, create_render_song_task),
+            "_run_infer_and_render_task": (InferAndRenderRequest, create_infer_and_render_task),
+            "_run_infer_from_audio_task": (InferFromAudioRequest, create_infer_from_audio_task),
+            "_run_infer_from_feature_npy_task": (InferFromFeatureNpyRequest, _create_feature_task),
+        }
+        if saved["operation"] == "render-npy":
+            return _retry_render_task(saved["request"])
+        model, submit = operations[saved["operation"]]
+        request = model(**saved["request"])
+        for field in ("audio_path", "feature_npy_path"):
+            value = getattr(request, field, None)
+            if value and not Path(value).is_file():
+                raise ValueError("原始输入文件已不可用，请重新上传。")
+    except (ValueError, OSError, KeyError) as exc:
+        raise HTTPException(422, str(exc)) from exc
+    return submit(request)
+
+
+def _create_feature_task(req: InferFromFeatureNpyRequest) -> TaskInfo:
+    profiles = _validate_request_skins(req)
+    _ensure_resources(req, profiles)
+    return _create_retry_record(req, profiles, _run_infer_from_feature_npy_task)
+
+
+def _create_retry_record(req, profiles, worker):
+    now = _utc_now()
+    task_id = str(uuid.uuid4())
+    task = TaskInfo(task_id=task_id, status="queued", progress=0, created_at=now, updated_at=now,
+                    skin_id=str(profiles[0]["id"]), requested_skin_ids=[str(profile["id"]) for profile in profiles],
+                    message="Task queued")
+    with _task_lock:
+        _tasks[task_id] = task
+        _persist_task(task)
+    _submit_request(worker, task_id, req)
+    return task
+
+
+def _retry_render_task(payload):
+    if not Path(payload["uploaded_npy_path"]).is_file():
+        raise ValueError("原始动作文件已不可用，请重新上传。")
+    options = payload["retarget_options"]
+    ids = (["smpl"] if options.get("render_smpl") else []) + ([options["skin_id"]] if options.get("enabled") else [])
+    req = PreflightRequest(**{**payload, **options, "skin_ids": ids})
+    req.blender_executable = options.get("blender_executable")
+    profiles = _validate_request_skins(req)
+    _ensure_resources(req, profiles, "render")
+    now = _utc_now()
+    task_id = str(uuid.uuid4())
+    task = TaskInfo(task_id=task_id, status="queued", progress=0, created_at=now, updated_at=now,
+                    skin_id=ids[0], requested_skin_ids=ids, message="Task queued")
+    with _task_lock:
+        _tasks[task_id] = task
+        _persist_task(task)
+    _submit_render_request(task_id, payload)
+    return task
 
 
 @app.post("/v1/lodge/tasks/render-song", response_model=TaskInfo)
 def create_render_song_task(req: RenderSongRequest) -> TaskInfo:
     skin_profiles = _validate_request_skins(req)
+    _ensure_resources(req, skin_profiles, "render")
     requested_skin_ids = [str(profile["id"]) for profile in skin_profiles]
     task_id = str(uuid.uuid4())
     now = _utc_now()
@@ -1725,13 +1841,14 @@ def create_render_song_task(req: RenderSongRequest) -> TaskInfo:
         _tasks[task_id] = task
         _persist_task(task)
 
-    executor.submit(_run_render_task, task_id, req)
+    _submit_request(_run_render_task, task_id, req)
     return task
 
 
 @app.post("/v1/lodge/tasks/infer-and-render", response_model=TaskInfo)
 def create_infer_and_render_task(req: InferAndRenderRequest) -> TaskInfo:
     skin_profiles = _validate_request_skins(req)
+    _ensure_resources(req, skin_profiles, "generate")
     requested_skin_ids = [str(profile["id"]) for profile in skin_profiles]
     task_id = str(uuid.uuid4())
     now = _utc_now()
@@ -1749,13 +1866,14 @@ def create_infer_and_render_task(req: InferAndRenderRequest) -> TaskInfo:
         _tasks[task_id] = task
         _persist_task(task)
 
-    executor.submit(_run_infer_and_render_task, task_id, req)
+    _submit_request(_run_infer_and_render_task, task_id, req)
     return task
 
 
 @app.post("/v1/lodge/tasks/infer-from-audio", response_model=TaskInfo)
 def create_infer_from_audio_task(req: InferFromAudioRequest) -> TaskInfo:
     skin_profiles = _validate_request_skins(req)
+    _ensure_resources(req, skin_profiles, "generate")
     requested_skin_ids = [str(profile["id"]) for profile in skin_profiles]
     task_id = str(uuid.uuid4())
     now = _utc_now()
@@ -1775,8 +1893,23 @@ def create_infer_from_audio_task(req: InferFromAudioRequest) -> TaskInfo:
         _tasks[task_id] = task
         _persist_task(task)
 
-    executor.submit(_run_infer_from_audio_task, task_id, req)
+    _submit_request(_run_infer_from_audio_task, task_id, req)
     return task
+
+
+def _commit_uploaded_task(task, worker, payload):
+    with _task_lock:
+        _persist_task(task)
+        _tasks[task.task_id] = task
+    try:
+        if worker is None:
+            _submit_render_request(task.task_id, payload)
+        else:
+            _submit_request(worker, task.task_id, payload)
+    except Exception as exc:
+        _update_task(task.task_id, status="failed", message=f"Task submission failed: {exc}")
+    with _task_lock:
+        return _tasks[task.task_id]
 
 
 @app.post("/v1/lodge/tasks/infer-from-audio-upload", response_model=TaskInfo)
@@ -1785,9 +1918,9 @@ async def create_infer_from_audio_upload_task(
     song_id: str = Form(...),
     audio_file: UploadFile = File(...),
     python_executable: Optional[str] = Form(default=None),
-    mode: str = Form(default="smplx"),
+    mode: str = Form(default="smplx", pattern="^(smpl|smplh|smplx)$"),
     device: str = Form(default="0"),
-    fps: int = Form(default=30),
+    fps: int = Form(default=30, ge=1, le=120),
     infer_args: str = Form(default=""),
     skin_ids: Optional[List[str]] = Form(default=None),
     skin_id: Optional[str] = Form(default=None),
@@ -1798,56 +1931,25 @@ async def create_infer_from_audio_upload_task(
     retarget_script: Optional[str] = Form(default=None),
     retarget_strict: bool = Form(default=False),
 ) -> TaskInfo:
-    skin_profiles = _validate_skin_selection(skin_ids, skin_id, retarget_enabled)
+    # Validate before writing a file or creating a queued task.
+    try:
+        validated = InferFromAudioRequest(**{**locals(), "audio_path": "pending", "infer_args": [x.strip() for x in infer_args.split(",") if x.strip()]})
+    except ValidationError as exc:
+        raise HTTPException(422, exc.errors(include_context=False)) from exc
+    skin_profiles = _validate_request_skins(validated)
+    _ensure_resources(validated, skin_profiles, "generate")
     requested_skin_ids = [str(profile["id"]) for profile in skin_profiles]
-    task_id = str(uuid.uuid4())
-    now = _utc_now()
-    task = TaskInfo(
-        task_id=task_id,
-        status="queued",
-        progress=0,
-        created_at=now,
-        updated_at=now,
-        skin_id=requested_skin_ids[0],
-        requested_skin_ids=requested_skin_ids,
-        message="Task queued",
-        audio_mux_status="pending",
-        audio_mux_message="Waiting for rendered video",
-    )
-    with _task_lock:
-        _tasks[task_id] = task
-        _persist_task(task)
-
-    task_root = DEFAULT_TASK_ROOT / task_id
-    input_dir = task_root / "input"
-    input_dir.mkdir(parents=True, exist_ok=True)
-    suffix = Path(audio_file.filename or "upload.wav").suffix or ".wav"
-    saved_path = input_dir / f"uploaded{suffix}"
-    content = await audio_file.read()
-    saved_path.write_bytes(content)
-
-    args = [x.strip() for x in infer_args.split(",") if x.strip()] if infer_args else []
-    req = InferFromAudioRequest(
-        lodge_root=lodge_root,
-        audio_path=str(saved_path),
-        song_id=song_id,
-        python_executable=python_executable or sys.executable,
-        infer_args=args,
-        mode=mode,
-        device=device,
-        fps=fps,
-        skin_ids=requested_skin_ids,
-        skin_id=requested_skin_ids[0],
-        retarget_enabled=retarget_enabled,
-        target_fbx=target_fbx,
-        mapping_file=mapping_file,
-        blender_executable=blender_executable,
-        retarget_script=retarget_script,
-        retarget_strict=retarget_strict,
-    )
-
-    executor.submit(_run_infer_from_audio_task, task_id, req)
-    return task
+    suffix = Path(audio_file.filename or "").suffix.lower()
+    if suffix not in AUDIO_SUFFIXES:
+        raise HTTPException(422, "请选择 WAV、MP3、MP4、M4A、AAC、FLAC 或 OGG 音视频文件。")
+    async with stage_upload(DEFAULT_TASK_ROOT, audio_file, filename=f"uploaded{suffix}", limit=AUDIO_UPLOAD_LIMIT) as (task_id, saved_path):
+        args = [x.strip() for x in infer_args.split(",") if x.strip()] if infer_args else []
+        req = validated.model_copy(update={"audio_path": str(saved_path), "infer_args": args,
+            "skin_ids": requested_skin_ids, "skin_id": requested_skin_ids[0]})
+        now = _utc_now()
+        task = TaskInfo(task_id=task_id, status="queued", progress=0, created_at=now, updated_at=now,
+            skin_id=requested_skin_ids[0], requested_skin_ids=requested_skin_ids, message="Task queued", audio_mux_status="pending", audio_mux_message="Waiting for rendered video")
+        return _commit_uploaded_task(task, _run_infer_from_audio_task, req)
 
 
 @app.post("/v1/lodge/tasks/render-from-npy-upload", response_model=TaskInfo)
@@ -1856,9 +1958,9 @@ async def create_render_from_npy_upload_task(
     song_id: str = Form(...),
     npy_file: UploadFile = File(...),
     python_executable: Optional[str] = Form(default=None),
-    mode: str = Form(default="smplx"),
+    mode: str = Form(default="smplx", pattern="^(smpl|smplh|smplx)$"),
     device: str = Form(default="0"),
-    fps: int = Form(default=30),
+    fps: int = Form(default=30, ge=1, le=120),
     skin_ids: Optional[List[str]] = Form(default=None),
     skin_id: Optional[str] = Form(default=None),
     retarget_enabled: bool = Form(default=False),
@@ -1868,74 +1970,35 @@ async def create_render_from_npy_upload_task(
     retarget_script: Optional[str] = Form(default=None),
     retarget_strict: bool = Form(default=False),
 ) -> TaskInfo:
-    skin_profiles = _validate_skin_selection(skin_ids, skin_id, retarget_enabled)
+    # Validate before writing a file or creating a queued task.
+    try:
+        validated = RenderSongRequest(**{**locals(), "sample_dir": "pending"})
+    except ValidationError as exc:
+        raise HTTPException(422, exc.errors(include_context=False)) from exc
+    skin_profiles = _validate_request_skins(validated)
+    _ensure_resources(validated, skin_profiles, "render")
     requested_skin_ids = [str(profile["id"]) for profile in skin_profiles]
-    retarget_profile = next(
-        (profile for profile in skin_profiles if skin_requires_retarget(profile)),
-        None,
-    )
-    render_smpl = any(
-        str(profile.get("output_kind") or "") == "smpl"
-        for profile in skin_profiles
-    )
-    task_id = str(uuid.uuid4())
-    now = _utc_now()
-    task = TaskInfo(
-        task_id=task_id,
-        status="queued",
-        progress=0,
-        created_at=now,
-        updated_at=now,
-        skin_id=requested_skin_ids[0],
-        requested_skin_ids=requested_skin_ids,
-        message="Task queued",
-    )
-    with _task_lock:
-        _tasks[task_id] = task
-        _persist_task(task)
-
-    task_root = DEFAULT_TASK_ROOT / task_id
-    input_dir = task_root / "input"
-    input_dir.mkdir(parents=True, exist_ok=True)
-    saved_path = input_dir / "uploaded.npy"
-    saved_path.write_bytes(await npy_file.read())
-
-    executor.submit(
-        _run_render_from_uploaded_npy_task,
-        task_id,
-        lodge_root,
-        str(saved_path),
-        song_id,
-        python_executable,
-        mode,
-        device,
-        fps,
-        {
-            "enabled": retarget_profile is not None,
-            "render_smpl": render_smpl,
-            "skin_id": str(retarget_profile["id"]) if retarget_profile else "",
-            "target_fbx": (
-                target_fbx
-                or (
-                    resolve_skin_resource(PROJECT_ROOT, retarget_profile, "target_fbx")
-                    if retarget_profile
-                    else None
-                )
-            ),
-            "mapping_file": (
-                mapping_file
-                or (
-                    resolve_skin_resource(PROJECT_ROOT, retarget_profile, "mapping_file")
-                    if retarget_profile
-                    else None
-                )
-            ),
-            "blender_executable": blender_executable,
-            "retarget_script": retarget_script,
-            "strict": retarget_strict,
-        },
-    )
-    return task
+    if Path(npy_file.filename or "").suffix.lower() != ".npy":
+        raise HTTPException(422, "请选择 NPY 文件。")
+    async with stage_upload(DEFAULT_TASK_ROOT, npy_file, filename="uploaded.npy", limit=NPY_UPLOAD_LIMIT) as (task_id, saved_path):
+        validate_npy(saved_path, motion=True)
+        retarget_profile = next((profile for profile in skin_profiles if skin_requires_retarget(profile)), None)
+        render_smpl = any(profile.get("output_kind") == "smpl" for profile in skin_profiles)
+        now = _utc_now()
+        task = TaskInfo(task_id=task_id, status="queued", progress=0, created_at=now, updated_at=now,
+            skin_id=requested_skin_ids[0], requested_skin_ids=requested_skin_ids, message="Task queued")
+        payload = {
+            "lodge_root": lodge_root, "uploaded_npy_path": str(saved_path), "song_id": song_id,
+            "python_executable": python_executable, "mode": mode, "device": device, "fps": fps,
+            "retarget_options": {
+                "enabled": retarget_profile is not None, "render_smpl": render_smpl,
+                "skin_id": str(retarget_profile["id"]) if retarget_profile else "",
+                "target_fbx": target_fbx or (resolve_skin_resource(PROJECT_ROOT, retarget_profile, "target_fbx") if retarget_profile else None),
+                "mapping_file": mapping_file or (resolve_skin_resource(PROJECT_ROOT, retarget_profile, "mapping_file") if retarget_profile else None),
+                "blender_executable": blender_executable, "retarget_script": retarget_script, "strict": retarget_strict,
+            },
+        }
+        return _commit_uploaded_task(task, None, payload)
 
 
 @app.post("/v1/lodge/tasks/infer-from-feature-npy-upload", response_model=TaskInfo)
@@ -1944,9 +2007,9 @@ async def create_infer_from_feature_npy_upload_task(
     song_id: str = Form(...),
     npy_file: UploadFile = File(...),
     python_executable: Optional[str] = Form(default=None),
-    mode: str = Form(default="smplx"),
+    mode: str = Form(default="smplx", pattern="^(smpl|smplh|smplx)$"),
     device: str = Form(default="0"),
-    fps: int = Form(default=30),
+    fps: int = Form(default=30, ge=1, le=120),
     infer_args: str = Form(default=""),
     skin_ids: Optional[List[str]] = Form(default=None),
     skin_id: Optional[str] = Form(default=None),
@@ -1957,52 +2020,33 @@ async def create_infer_from_feature_npy_upload_task(
     retarget_script: Optional[str] = Form(default=None),
     retarget_strict: bool = Form(default=False),
 ) -> TaskInfo:
-    skin_profiles = _validate_skin_selection(skin_ids, skin_id, retarget_enabled)
+    # Validate before writing a file or creating a queued task.
+    try:
+        validated = InferFromFeatureNpyRequest(**{**locals(), "feature_npy_path": "pending", "infer_args": [x.strip() for x in infer_args.split(",") if x.strip()]})
+    except ValidationError as exc:
+        raise HTTPException(422, exc.errors(include_context=False)) from exc
+    skin_profiles = _validate_request_skins(validated)
+    _ensure_resources(validated, skin_profiles, "generate")
     requested_skin_ids = [str(profile["id"]) for profile in skin_profiles]
-    task_id = str(uuid.uuid4())
-    now = _utc_now()
-    task = TaskInfo(
-        task_id=task_id,
-        status="queued",
-        progress=0,
-        created_at=now,
-        updated_at=now,
-        skin_id=requested_skin_ids[0],
-        requested_skin_ids=requested_skin_ids,
-        message="Task queued",
-    )
+    if Path(npy_file.filename or "").suffix.lower() != ".npy":
+        raise HTTPException(422, "请选择 NPY 文件。")
+    async with stage_upload(DEFAULT_TASK_ROOT, npy_file, filename="uploaded_feature.npy", limit=NPY_UPLOAD_LIMIT) as (task_id, saved_path):
+        validate_npy(saved_path, motion=False)
+        args = [x.strip() for x in infer_args.split(",") if x.strip()] if infer_args else []
+        req = validated.model_copy(update={"feature_npy_path": str(saved_path), "infer_args": args,
+            "skin_ids": requested_skin_ids, "skin_id": requested_skin_ids[0]})
+        now = _utc_now()
+        task = TaskInfo(task_id=task_id, status="queued", progress=0, created_at=now, updated_at=now,
+            skin_id=requested_skin_ids[0], requested_skin_ids=requested_skin_ids, message="Task queued")
+        return _commit_uploaded_task(task, _run_infer_from_feature_npy_task, req)
+
+
+@app.get("/v1/lodge/tasks")
+def list_tasks(status: str = Query("", pattern="^(|active|queued|running|processing|succeeded|failed)$"),
+               search: str = Query("", max_length=240), offset: int = Query(0, ge=0), limit: int = Query(20, ge=1, le=100)) -> dict:
     with _task_lock:
-        _tasks[task_id] = task
-        _persist_task(task)
-
-    task_root = DEFAULT_TASK_ROOT / task_id
-    input_dir = task_root / "input"
-    input_dir.mkdir(parents=True, exist_ok=True)
-    saved_path = input_dir / "uploaded_feature.npy"
-    saved_path.write_bytes(await npy_file.read())
-
-    args = [x.strip() for x in infer_args.split(",") if x.strip()] if infer_args else []
-    req = InferFromFeatureNpyRequest(
-        lodge_root=lodge_root,
-        feature_npy_path=str(saved_path),
-        song_id=song_id,
-        python_executable=python_executable or sys.executable,
-        infer_args=args,
-        mode=mode,
-        device=device,
-        fps=fps,
-        skin_ids=requested_skin_ids,
-        skin_id=requested_skin_ids[0],
-        retarget_enabled=retarget_enabled,
-        target_fbx=target_fbx,
-        mapping_file=mapping_file,
-        blender_executable=blender_executable,
-        retarget_script=retarget_script,
-        retarget_strict=retarget_strict,
-    )
-
-    executor.submit(_run_infer_from_feature_npy_task, task_id, req)
-    return task
+        snapshot = list(_tasks.values())
+    return task_page(DEFAULT_TASK_ROOT, "lodge", snapshot, status=status, search=search, offset=offset, limit=limit)
 
 
 @app.get("/v1/lodge/tasks/{task_id}", response_model=TaskInfo)
@@ -2021,7 +2065,7 @@ def _selected_task_video_path(task: TaskInfo, skin_id: Optional[str]) -> Path:
         if task.retarget_status != "succeeded" or not retarget_path:
             raise HTTPException(status_code=409, detail="Selected skin result not completed")
         return Path(retarget_path)
-    if task.status != "succeeded" or not task.output_mp4_path:
+    if task.status not in {"succeeded", "failed"} or not task.output_mp4_path:
         raise HTTPException(status_code=409, detail="Task not completed")
     return Path(task.output_mp4_path)
 
@@ -2084,7 +2128,7 @@ def download_task_result(task_id: str, request: Request, as_attachment: bool = F
 
     if task is None:
         raise HTTPException(status_code=404, detail="Task not found")
-    if task.status != "succeeded" or not task.output_mp4_path:
+    if task.status not in {"succeeded", "failed"} or not task.output_mp4_path:
         raise HTTPException(status_code=409, detail="Task not completed")
 
     mp4_path = Path(task.output_mp4_path)
@@ -2203,4 +2247,4 @@ def download_task_retarget_result(task_id: str, as_attachment: bool = False) -> 
 
 if __name__ == "__main__":
     access_log_enabled = os.getenv("LODGE_ACCESS_LOG", "0").strip().lower() in {"1", "true", "yes", "on"}
-    uvicorn.run(app, host="0.0.0.0", port=8002, access_log=access_log_enabled)
+    uvicorn.run(app, host=os.getenv("LODGE_HOST", "127.0.0.1"), port=int(os.getenv("LODGE_PORT", "8002")), access_log=access_log_enabled)

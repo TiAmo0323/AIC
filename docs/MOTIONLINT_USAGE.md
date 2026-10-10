@@ -1,8 +1,8 @@
 # MotionLint 使用说明
 
-最新版的时间轴、修复计数、设置、角色脚滑优化及四组实验见 [实现与交接](MOTIONLINT_DELIVERY_20261002.md)。默认规则已到版本 3，新增双方手部对另一人躯干的骨架距离检查；历史导出继续读取当次保存的固定规则。
+当前使用规则 v4；2026-10-02 的时间轴、修复计数、设置、角色脚滑优化及实验记录见 [实现与交接](MOTIONLINT_DELIVERY_20261002.md)。历史报告保留当次规则，不能与当前规则分数直接相减。
 
-新增“检查阶段”选择：原始动作、修复动作、BVH、视频角色骨架。结果与视频按阶段对应；BVH 暂无独立预览。最新实测与限制见 [新样例与最终展示阶段验证](MOTIONLINT_VALIDATION_20260930.md)。
+生成任务的“检查阶段”包括原始动作、修复动作、BVH、视频角色骨架，结果与视频按阶段对应。导入 BVH 提供骨架预览；生成任务的 BVH 阶段没有独立视频。已有实测与限制见 [新样例与最终展示阶段验证](MOTIONLINT_VALIDATION_20260930.md)。
 
 MotionLint 读取已经生成的动作文件，不会重新加载 InterGen 或 LODGE 检查点。当前支持：
 
@@ -17,18 +17,34 @@ LODGE 的关节位置优先使用本机渲染用的 SMPL-X neutral 模型计算�
 ## 启动
 
 ```powershell
-cd 'D:\竞赛记录\AIC开源赛道\HumanAction-Platform'
-.\start-local.ps1
+cd D:\AIC-main\AIC-main
+.\start-local.ps1 -CoreOnly
 ```
 
-MotionLint API 在 `http://127.0.0.1:8003`。前端生成完成后自动打开 **MotionLint** 检查面板；刷新页面后，也可以从“选择已有任务”重新加载任务视频与质检结果。点击问题时间点会跳转视频。成功接受修复后，后台生成修复前后对比视频；LODGE 使用本机 SMPL-X 模型，InterGen 使用双人骨架预览。渲染可能需要等待，页面会显示状态。
+MotionLint API 在 `http://127.0.0.1:8003`。前端生成完成后保留所选角色的视频，点击 **MotionLint** 打开检查面板；刷新页面后，也可以从“选择已有任务”重新加载任务视频与质检结果。点击问题时间点会跳转视频。成功接受修复后，后台生成修复前后对比视频；LODGE 使用本机 SMPL-X 模型，InterGen 使用双人骨架预览。渲染可能需要等待，页面会显示状态。
+
+顶部“生成任务”可查看尚未完成或失败的生成任务，并按来源、状态、描述筛选。刷新页面会重新查询上次查看的任务；任务失败时保留原因与已有标准人体预览，不会因存在部分视频就显示成功。完整重试需要保存的参数与原输入文件；连接恢复只查询原任务，不会重新生成。
+
+## 导入已有动作
+
+顶部“导入动作”支持关节 NPY（`T×22×3`）、LODGE 动作 NPY（`135/139/315/319` 维）和 BVH。选择一个文件，或一对同步的关节 NPY/BVH；合计最多 32 MB、12000 帧、128 个关节。NPY 固定为米/Y-up，填写真实帧率；BVH 使用文件中的帧率，明确选择原始单位、竖直轴与可选 JSON 关节映射。
+
+导入后自动检查并显示骨架预览。预览支持播放、暂停、视角调整和帧滑块，点击问题时间轴会定位到对应帧；它展示关节数据，外观与网格穿透需要视频验收。缺少标准足部名称时会提示映射问题，未评估项目不能被当作通过。
+
+导入参数、原文件、规范化几何快照和检查报告存放在 `motionlint/task_runs/imports/{task_id}`；后续检查使用同一几何快照，原文件修改后需要重新导入。导入记录可从质检历史重新加载，页面刷新也能恢复。点击“下载检查报告”获取包含输入约定、哈希、六项结果和质量门的 JSON。
+
+导入数据当前支持检查、预览、回归比较与报告下载。回归比较要求骨架、人数、帧率、竖直轴和几何来源一致；自动修复入口用于生成任务。
+
+BVH 必须提供完整的层级和动作数据：Frames 声明与实际帧数一致，每帧包含准确数量的通道数值。仅支持根关节平移和旋转，其他关节只支持旋转；非根关节平移会明确拒绝，不能通过丢弃通道继续检查。帧数/关节数限制在分配动作数组前执行。
+
+修复对比视频和封面核验原始/修复数组的 SHA-256；数组更新后旧视频返回不可用。渲染任务中断或服务重启后显示失败，可以点击“重新渲染对比视频”。这一步保留修复数组，单独重试渲染；渲染尚未完成时再次修复返回 HTTP 409。
 
 ## CLI
 
 使用专用的 CPU 环境：
 
 ```powershell
-$python = '..\HumanAction-runtime\envs\motionlint\Scripts\python.exe'
+$python = '.\.venv\Scripts\python.exe'
 & $python -m motionlint check path\to\motion.npy
 & $python -m motionlint repair path\to\motion.npy
 & $python -m motionlint compare baseline.npy candidate.npy
@@ -88,26 +104,30 @@ Invoke-RestMethod http://127.0.0.1:8003/v1/motionlint/inspect `
 | GET | `/v1/motionlint/config` | 查看当前 YAML 阈值与质量门 |
 | GET | `/v1/motionlint/settings` | 查看当前阶段的规则、固定状态与哈希；可传 source/task_id/stage |
 | GET | `/v1/motionlint/tasks/{source}/{task_id}/repair-summary` | 查看修复前后问题段及去重影响帧计数 |
-| GET | `/v1/motionlint/tasks` | 扫描可质检的 InterGen/LODGE 任务 |
+| GET | `/v1/motionlint/tasks` | 扫描可质检的 InterGen/LODGE 任务与导入数据 |
+| POST | `/v1/motionlint/imports` | 上传并检查一个动作文件或一对同步文件 |
+| GET | `/v1/motionlint/imports/{task_id}` | 读取导入约定与骨架信息 |
+| GET | `/v1/motionlint/imports/{task_id}/preview` | 读取指定帧段；参数 start/count，每次最多 240 帧 |
+| GET | `/v1/motionlint/imports/{task_id}/report` | 下载检查与质量门 JSON 报告 |
 | POST | `/v1/motionlint/inspect` | 生成检测报告与质量门 |
 | POST | `/v1/motionlint/repair` | 执行支持的修复并重新检测 |
+| POST | `/v1/motionlint/tasks/{source}/{task_id}/render` | 保留修复结果，仅重试渲染对比视频 |
 | POST | `/v1/motionlint/compare` | 比较两个任务的测试分数 |
 | GET | `/v1/motionlint/tasks/{source}/{task_id}/video` | 返回任务已有预览视频 |
 | GET | `/v1/motionlint/tasks/{source}/{task_id}/render-status` | 查询修复视频渲染状态 |
 | GET | `/v1/motionlint/tasks/{source}/{task_id}/comparison-video/{kind}` | 返回 `original` 或 `repaired` 对比视频 |
-| POST | `/v1/motionlint/export-character` | 将 InterGen 修复数组导出为 Kenney 双人视频并独立复检 |
-| GET | `/v1/motionlint/tasks/{source}/{task_id}/character-export-status` | 查看修复角色导出状态与三阶段质量门 |
-| GET | `/v1/motionlint/tasks/{source}/{task_id}/character-export-download` | 下载修复数组、BVH、视频与报告 |
 
-修复后导出新增 `repaired_bvh`、`repaired_character` 检查阶段。完整用法与实测结果见 [修复角色导出验证](MOTIONLINT_REPAIRED_EXPORT_20261002.md)。导出成功和通过严格质量门分别显示；重新修复动作后，旧导出会失效。
+当前检查阶段为 `raw`（原始动作）、`repaired`（修复动作）、`bvh`（普通导出骨架）和 `character`（已有角色骨架）。修复后 Kenney 角色导出及其状态、下载接口已移除；修复仍保存 NPY，并支持复测和前后骨架预览。
 
-InterGen 修复角色导出现在会比较 MoMask 与连续姿态转换结果，质量或几何退步时保留原转换。具体选择规则及最新角色分数见 [转换优化记录](MOTIONLINT_CONVERSION_OPTIMIZATION_20261002.md)。角色仍在渲染后独立复检。
-
-随后自动尝试实际角色脚部修复：保留脚部世界朝向，使用有界脚趾支撑 IK；全量复测和原接触区间检查均改善才发布匹配视频。失败时保留可用的前一导出。两条完整演示及残余 FAIL 见最新交接文档。
+普通 BVH 转换与已有角色骨架检查继续保留；历史修复角色导出的实验结果见 [转换优化记录](MOTIONLINT_CONVERSION_OPTIMIZATION_20261002.md)。
 
 ## 结果解释
 
 默认六项测试为：`temporal_continuity`、`skeleton_integrity`、`foot_sliding`、`ground_contact`、`collision`、`motion_jerk`。阈值、权重、质量门和修复参数在 [default_quality.yaml](../motionlint/configs/default_quality.yaml) 中配置。
+
+回归比较要求两份报告包含相同的规则版本、SHA-256，且与本次比较使用的规则一致。候选新增 FAIL、严重问题或无法评估的指标，即使总分提高，该项仍标记为退步，页面展示具体原因。基线无法评估的指标标记为 `INCOMPARABLE`；缺少检测项或基线评估覆盖不足时，综合变化为 `null`，无已确认退步则整体状态为 `COMPARISON INCOMPLETE`。CLI 显示 `n/a` 并返回 1；其余已评估指标的退步仍会报告。
+
+工作台切换比较对象、打开其他任务或新建对话时会取消旧请求并清除旧结果；比较失败在面板内显示，可直接重试。相同筛选条件下，生成任务刷新失败会保留已读取列表；更换筛选条件则重新读取，避免混入旧查询的任务。
 
 配置版本 2 使用共享的脚部支撑判定：高度、垂直速度、最短接触时长，以及 LODGE 接触通道共同决定支撑区间。足尖支撑时优先检查足尖，避免把踝关节绕足尖旋转重复计为脚滑；水平速度始终用于检查滑动，不用于排除支撑区间。支撑数据缺失时返回零分警告，不视为干净动作。
 

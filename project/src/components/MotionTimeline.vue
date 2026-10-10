@@ -15,20 +15,21 @@
         <i class="cursor" :style="{left: `${100 * Math.min(frameCount - 1, currentTime * fps) / Math.max(1, frameCount - 1)}%`}"></i>
       </div>
     </div>
-    <div class="scale"><span>0s</span><span>{{ ((frameCount - 1) / fps).toFixed(2) }}s</span></div>
+    <div class="scale"><span>0 秒</span><span>{{ ((frameCount - 1) / fps).toFixed(2) }} 秒</span></div>
     <label class="scrub">定位帧 <input type="range" min="0" :max="Math.max(0, frameCount - 1)" :value="Math.round(currentTime * fps)" :disabled="!canSeek" @input="$emit('seek', {start_frame: Number($event.target.value), timestamp_seconds: Number($event.target.value) / fps})" /></label>
     <small v-if="!canSeek">当前阶段没有对应视频，可点击问题查看数值。</small>
     <div v-if="selected" class="detail" aria-live="polite">
       <strong>{{ labels[selected.test_name] || selected.test_name }} · 第 {{ selected.start_frame }}–{{ selected.end_frame }} 帧</strong>
-      <span>{{ selected.message }} · {{ selected.metric }}：{{ Number(selected.value).toPrecision(4) }}，阈值 {{ selected.threshold }}</span>
+      <span>{{ localizeMessage(selected.message) }} · {{ parameterLabel(selected.metric) }}：{{ Number(selected.value).toPrecision(4) }}，阈值 {{ selected.threshold }}</span>
       <span>人物 {{ selected.actor_id == null ? '未指定' : selected.actor_id + 1 }} · 关节 {{ selected.joint_ids?.join(', ') || '未指定' }}<template v-if="selected.other_actor_id != null"> ↔ 人物 {{ selected.other_actor_id + 1 }} · 关节 {{ selected.other_joint_ids?.join(', ') }}</template></span>
-      <span v-if="selected.penetration_estimate_m != null">骨架安全距离不足 {{ (selected.penetration_estimate_m * 1000).toFixed(1) }} mm（非网格穿透量）</span>
+      <span v-if="selected.penetration_estimate_m != null">骨架安全距离不足 {{ (selected.penetration_estimate_m * 1000).toFixed(1) }} 毫米（非网格穿透量）</span>
     </div>
   </section>
 </template>
 <script setup>
 import {computed, ref, watch} from 'vue'
 import {filterIssues, timelineSegments} from '../utils/motionlintView'
+import {localizeMessage, parameterLabel, statusLabel} from '../utils/zhDisplay.js'
 const props = defineProps({issues: {type: Array, default: () => []}, frameCount: {type: Number, default: 1}, fps: {type: Number, default: 30}, labels: {type: Object, default: () => ({})}, currentTime: {type: Number, default: 0}, canSeek: Boolean})
 const emit = defineEmits(['seek'])
 const testFilter = ref(''), severityFilter = ref(''), selected = ref(null)
@@ -37,7 +38,7 @@ const filtered = computed(() => filterIssues(props.issues, testFilter.value, sev
 const segments = computed(() => timelineSegments(filtered.value))
 watch(() => props.issues, () => {selected.value = null; testFilter.value = ''; severityFilter.value = ''})
 const markerStyle = segment => ({left: `${100 * segment.start_frame / Math.max(1, props.frameCount - 1)}%`, width: `${Math.max(.6, 100 * (segment.end_frame - segment.start_frame + 1) / Math.max(1, props.frameCount))}%`})
-const markerLabel = segment => `${props.labels[segment.test_name] || segment.test_name} · ${(segment.start_frame / props.fps).toFixed(2)}–${(segment.end_frame / props.fps).toFixed(2)}s · ${segment.count} 个问题 · ${segment.severity}`
+const markerLabel = segment => `${props.labels[segment.test_name] || segment.test_name} · ${(segment.start_frame / props.fps).toFixed(2)}–${(segment.end_frame / props.fps).toFixed(2)} 秒 · ${segment.count} 个问题 · 严重度：${statusLabel(segment.severity)}`
 const choose = issue => {selected.value = issue; if (props.canSeek) emit('seek', issue)}
 </script>
 <style scoped>

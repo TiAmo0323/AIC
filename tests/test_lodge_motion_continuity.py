@@ -62,7 +62,7 @@ def synthetic_motion():
     return motion
 
 
-def test_seam_smoothing():
+def check_seam_smoothing():
     motion = synthetic_motion()
     before_step = root_step_degrees(motion)
     before_root_velocity = np.diff(motion[:, 4:7], axis=0)
@@ -91,7 +91,7 @@ def test_seam_smoothing():
     return report
 
 
-def test_converter_matrix_passthrough():
+def check_converter_matrix_passthrough():
     converter = load_converter()
     frames = 8
     axes = np.array([[1.0, 0.2, -0.1], [1.0, 0.2, -0.1]], dtype=np.float64)
@@ -115,7 +115,7 @@ def test_converter_matrix_passthrough():
     return {"near_pi_matrix_max_abs_error": error}
 
 
-def test_api_motion_preparation():
+def check_api_motion_preparation():
     api_path = PROJECT_ROOT / "LODGE_api" / "lodge_async_api.py"
     spec = importlib.util.spec_from_file_location("lodge_motion_api_test", api_path)
     module = importlib.util.module_from_spec(spec)
@@ -155,10 +155,22 @@ def test_api_motion_preparation():
     return {"raw_motion_preserved": True, "report_written": True}
 
 
+def test_seam_smoothing():
+    check_seam_smoothing()
+
+
+def test_converter_matrix_passthrough():
+    check_converter_matrix_passthrough()
+
+
+def test_api_motion_preparation():
+    check_api_motion_preparation()
+
+
 def main():
-    seam_report = test_seam_smoothing()
-    converter_report = test_converter_matrix_passthrough()
-    api_report = test_api_motion_preparation()
+    seam_report = check_seam_smoothing()
+    converter_report = check_converter_matrix_passthrough()
+    api_report = check_api_motion_preparation()
     print(json.dumps({
         "seam_smoothing": seam_report,
         "converter": converter_report,

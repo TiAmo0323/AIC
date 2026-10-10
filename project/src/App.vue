@@ -10,7 +10,8 @@
         <div class="brand-block">
           <div class="logo-orb"></div>
           <div>
-            <h1>MotionLint Studio</h1>
+            <h1>动作质检工作台</h1>
+            <small>MotionLint Studio</small>
           </div>
         </div>
 
@@ -34,49 +35,16 @@
         </nav>
       </aside>
 
-      <main class="chat-panel" @click="closeMenus">
+      <main class="chat-panel">
         <header class="top-bar">
           <div class="top-title-block">
-            <div class="model-chip">MotionLint Studio</div>
+            <div class="model-chip">动作质检（MotionLint）</div>
             <h2 class="platform-title">动作生成、质量检查与自动修复</h2>
           </div>
           <div class="top-actions">
-            <div class="menu-wrap" @click.stop>
-              <button
-                type="button"
-                class="ghost-btn icon-only"
-                aria-label="分辨率"
-                :title="`分辨率：${resolution.toUpperCase()}`"
-                @click="showResolutionMenu = !showResolutionMenu"
-              >
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path
-                    d="M4 6h16v9H4zM7 20h10"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.8"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </button>
-
-              <div v-if="showResolutionMenu" class="resolution-pop" role="menu" aria-label="选择分辨率">
-                <button
-                  v-for="item in resolutions"
-                  :key="item.value"
-                  type="button"
-                  class="resolution-item"
-                  :class="{ active: resolution === item.value }"
-                  @click="selectResolution(item.value)"
-                >
-                  {{ item.label }}
-                </button>
-              </div>
-            </div>
-
-            <button class="ghost-btn">分享</button>
-            <button type="button" class="ghost-btn" :class="{ active: qualityPanelOpen }" @click.stop="toggleQualityPanel">MotionLint</button>
+            <button type="button" class="ghost-btn" :class="{active: taskManagerOpen}" @click.stop="taskManagerOpen = !taskManagerOpen">生成任务</button>
+            <button type="button" class="ghost-btn" :class="{active: importPanelOpen}" :disabled="isGenerating || qualityLoading" @click.stop="importPanelOpen = !importPanelOpen">导入动作</button>
+            <button type="button" class="ghost-btn" :class="{ active: qualityPanelOpen }" @click.stop="toggleQualityPanel">质量检查</button>
             <button class="ghost-btn" @click.stop="openMotionSettings">设置</button>
             <button type="button" class="ghost-btn icon-only" aria-label="保存" title="保存" @click="saveRender">
               <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -93,20 +61,25 @@
           </div>
         </header>
 
-        <nav class="studio-tabs" aria-label="MotionLint 工作区">
-          <button v-for="tab in ['Generate', 'Inspect', 'Repair', 'Regression', 'Settings']" :key="tab" type="button" class="ghost-btn" :class="{active: studioTab === tab}" @click.stop="selectStudioTab(tab)">{{ tab }}</button>
+        <nav class="studio-tabs" aria-label="动作质检工作区">
+          <button v-for="tab in visibleStudioTabs" :key="tab.id" type="button" class="ghost-btn" :class="{active: studioTab === tab.id}" :title="`${tab.label}（${tab.id}）`" @click.stop="selectStudioTab(tab.id)">{{ tab.label }}</button>
         </nav>
-        <MotionSettings v-if="motionSettingsOpen" v-model:playback="playback" :policy="motionPolicy" :frozen="motionPolicyFrozen" :labels="qualityTestLabels" :error="motionSettingsError" @close="motionSettingsOpen = false" />
+        <MotionSettings v-if="motionSettingsOpen" v-model:playback="playback" :policy="motionPolicy" :labels="qualityTestLabels" :error="motionSettingsError" @close="motionSettingsOpen = false" />
         <SkinCatalogBar :options="skinOptions" />
+        <MotionImport v-if="importPanelOpen" :api-base="motionlintApiBase" :busy="isGenerating || qualityLoading"
+          :imported-asset="importedAsset" :external-error="importError" @busy="qualityLoading = $event" @imported="acceptImportedMotion" />
+        <TaskManager v-if="taskManagerOpen" :api-bases="generationApiBases" :busy="isGenerating || qualityLoading"
+          :revision="taskRevision" :error="taskManagerError" @open="openManagedTask" @retry="retryManagedTask" />
 
         <section class="generation-stage" :class="{ generating: isGenerating }">
           <div class="stage-frame" aria-label="动画展示区">
             <div class="stage-skin-badge">
               <span></span>
-              {{ qualityPanelOpen && generatedTaskId ? qualityStageLabels[qualityStage] : displayedSkinLabel }}
+              {{ importedAsset ? '导入动作骨架预览' : qualityPanelOpen && generatedTaskId ? qualityStageLabels[qualityStage] : displayedSkinLabel }}
             </div>
+            <SkeletonPreview v-if="importedAsset" ref="skeletonPreviewRef" :asset="importedAsset" :api-base="motionlintApiBase" :playback="playback" @timeupdate="motionCurrentTime = $event" />
             <video
-              v-if="generatedVideoUrl"
+              v-else-if="generatedVideoUrl"
               ref="generatedVideoRef"
               class="result-video"
               :src="generatedVideoUrl"
@@ -132,19 +105,22 @@
           <span class="progress-value">{{ generationProgress }}%</span>
         </section>
         <p class="task-status" v-if="taskStatusText">{{ taskStatusText }}</p>
+        <button type="button" class="ghost-btn" :disabled="isGenerating" @click="loadBackendSkinCatalog">刷新角色资源</button>
+        <TaskFeedback :failure="taskFailure" :checks="resourceChecks" :busy="isGenerating || qualityLoading"
+          @retry="retryFailedTask" @retry-render="retryFailedRender" @reconnect="reconnectTask" @dismiss="taskFailure = null" />
         <p class="skin-result-notice" v-if="skinResultNotice">{{ skinResultNotice }}</p>
         <section v-if="qualityPanelOpen" class="motionlint-panel" aria-label="MotionLint 质量检查">
           <div class="motionlint-panel-header">
             <div>
-              <span class="model-chip">MotionLint Studio</span>
+              <span class="model-chip">动作质检（MotionLint）</span>
               <h3>动作质量检查</h3>
             </div>
             <div class="motionlint-actions">
               <button type="button" class="ghost-btn" :disabled="qualityLoading || !generatedTaskId" @click="inspectCurrentMotion">
                 {{ qualityLoading ? '检查中…' : '重新检查' }}
               </button>
-              <button type="button" class="ghost-btn primary" :disabled="qualityLoading || !qualityReport || !['raw', 'repaired'].includes(qualityStage) || characterExportBusy" @click="repairCurrentMotion">Repair All</button>
-              <button v-if="motionlintSource === 'intergen'" type="button" class="ghost-btn" :disabled="qualityLoading || !generatedTaskId || characterExportBusy" @click="exportRepairedCharacter">{{ characterExportBusy ? '角色导出中…' : '导出修复角色' }}</button>
+              <button v-if="!importedAsset" type="button" class="ghost-btn primary" :disabled="qualityLoading || !qualityReport || !['raw', 'repaired'].includes(qualityStage)" @click="repairCurrentMotion">修复全部可修复项</button>
+              <a v-else :href="`${motionlintApiBase}/v1/motionlint/imports/${generatedTaskId}/report`">下载检查报告</a>
             </div>
           </div>
           <div class="regression-controls motionlint-history-controls">
@@ -160,61 +136,42 @@
               <label for="quality-stage">检查阶段</label>
               <select id="quality-stage" v-model="qualityStage" :disabled="qualityLoading" @change="inspectCurrentMotion">
                 <option value="raw">原始动作</option>
-                <option value="repaired">修复后的动作</option>
-                <option value="bvh">导出的 BVH 骨架</option>
-                <option value="character">视频中的角色骨架</option>
-                <option v-if="motionlintSource === 'intergen'" value="repaired_bvh">修复后导出的 BVH</option>
-                <option v-if="motionlintSource === 'intergen'" value="repaired_character">修复后的 Kenney 角色</option>
+                <option v-if="!importedAsset" value="repaired">修复后的动作</option>
+                <option v-if="!importedAsset" value="bvh">导出的 BVH 骨架</option>
+                <option v-if="!importedAsset" value="character">视频中的角色骨架</option>
               </select>
             </div>
-            <p v-if="qualityReport" class="motionlint-empty">本次结果：{{ qualityStageLabels[qualityReport.metadata?.inspection_stage || qualityStage] }}。{{ ['character', 'repaired_character'].includes(qualityStage) ? '检查视频场景里的骨骼，穿模仍需观看画面确认。' : ['bvh', 'repaired_bvh'].includes(qualityStage) ? 'BVH 没有对应的独立视频；角色视频需要单独检查。' : '分数只适用于当前阶段的动作。' }}</p>
+            <p v-if="qualityReport" class="motionlint-empty">本次结果：{{ qualityStageLabels[qualityReport.metadata?.inspection_stage || qualityStage] }}。{{ qualityStage === 'character' ? '检查视频场景里的骨骼，穿模仍需观看画面确认。' : qualityStage === 'bvh' ? 'BVH 没有对应的独立视频；角色视频需要单独检查。' : '分数只适用于当前阶段的动作。' }}</p>
             <small v-if="qualityReport">规则版本 {{ qualityReport.metadata?.config_version ?? '未知历史版本' }} · 格式 {{ qualityReport.metadata?.schema_version ?? '历史格式' }} · 规则哈希 {{ qualityReport.metadata?.config_sha256?.slice(0, 12) || '历史报告未记录' }}</small>
-            <div v-if="characterExport.status !== 'unavailable' && motionlintSource === 'intergen'" class="repair-summary character-export-summary" aria-label="修复角色导出状态">
-              <strong>修复角色导出 · {{ characterExportStatusText }}</strong>
-              <small v-if="characterExport.error">{{ characterExport.error }}</small>
-              <template v-if="characterExport.status === 'ready'">
-                <div v-for="(result, stage) in characterExport.quality" :key="stage" class="character-export-score">
-                  <span>{{ qualityStageLabels[stage] }}</span>
-                  <strong>{{ Number(result.score).toFixed(1) }}</strong>
-                  <span class="quality-status" :class="result.gate.status.toLowerCase()">{{ result.gate.status }}</span>
-                </div>
-                <small>角色视频已单独复检；导出完成后仍需查看质量门结果。</small>
-                <small>导出记录按生成时的规则保存；切换到对应阶段重新检查后，才能与当前规则的结果一起分析。</small>
-                <div class="motionlint-actions">
-                  <button type="button" class="ghost-btn" :disabled="qualityLoading" @click="showRepairedCharacter">播放并检查修复角色</button>
-                  <a class="ghost-btn" :href="`${motionlintApiBase}${characterExport.bundle_url}`" download>下载动作、BVH、视频与报告</a>
-                </div>
-              </template>
-            </div>
             <div v-if="qualityReport" class="quality-summary">
               <div class="quality-score" :class="qualityGate?.status === 'PASS' ? 'pass' : 'fail'">
                 <strong>{{ Number(qualityReport.overall_score).toFixed(1) }}</strong>
-                <span>Overall</span>
+                <span>综合评分</span>
               </div>
               <div class="quality-gate-copy">
-                <strong>Quality Gate · {{ qualityGate?.status || '—' }}</strong>
-                <small>{{ qualityGate?.reasons?.[0] || '当前结果满足配置中的质量门。' }}</small>
+                <strong>质量门（Quality Gate）· {{ statusLabel(qualityGate?.status) }}</strong>
+                <small>{{ localizeMessage(qualityGate?.reasons?.[0]) || (qualityGate?.status === 'PASS' ? '当前结果满足配置中的质量要求。' : '请查看各检测项结果。') }}</small>
               </div>
               <div class="quality-counts">
-                <span>{{ qualityReport.issue_count || 0 }} issues</span>
-                <span>{{ qualityReport.critical_issue_count || 0 }} critical</span>
+                <span>{{ qualityReport.issue_count || 0 }} 个问题</span>
+                <span>{{ qualityReport.critical_issue_count || 0 }} 个严重问题</span>
               </div>
             </div>
             <div v-if="qualityReport" class="quality-test-grid">
               <div v-for="test in qualityReport.tests" :key="test.test_name" class="quality-test-row">
-                <span class="quality-status" :class="test.status.toLowerCase()">{{ test.status }}</span>
+                <span class="quality-status" :class="test.status.toLowerCase()">{{ statusLabel(test.status) }}</span>
                 <strong>{{ qualityTestLabels[test.test_name] || test.test_name }}</strong>
                 <span>{{ Number(test.score).toFixed(1) }}</span>
-                <small>{{ test.metrics?.evaluation_status === 'unavailable' ? '未评估：' + test.metrics.reason : `${test.issues?.length || 0} issues` }}</small>
+                <small>{{ test.metrics?.evaluation_status === 'unavailable' ? '未评估：' + localizeMessage(test.metrics.reason) : `${test.issues?.length || 0} 个问题` }}</small>
               </div>
             </div>
-            <MotionTimeline v-if="qualityReport" :issues="qualityIssues" :frame-count="qualityReport.metadata?.frame_count || 1" :fps="qualityReport.metadata?.fps || 30" :labels="qualityTestLabels" :current-time="motionCurrentTime" :can-seek="Boolean(generatedVideoUrl) && !['bvh', 'repaired_bvh'].includes(qualityStage)" @seek="seekToIssue" />
+            <MotionTimeline v-if="qualityReport" :issues="qualityIssues" :frame-count="qualityReport.metadata?.frame_count || 1" :fps="qualityReport.metadata?.fps || 30" :labels="qualityTestLabels" :current-time="motionCurrentTime" :can-seek="Boolean(importedAsset) || (Boolean(generatedVideoUrl) && qualityStage !== 'bvh')" @seek="seekToIssue" />
             <div v-if="qualityIssues.length" class="quality-issues">
               <div class="quality-issues-title">问题时间点</div>
               <button v-for="(issue, index) in qualityIssues.slice(0, 8)" :key="`${issue.test_name}-${issue.start_frame}-${issue.metric}-${issue.actor_id}-${index}`" type="button" class="quality-issue-row" @click="seekToIssue(issue)">
-                <span>{{ issueTime(issue).toFixed(2) }}s</span>
+                <span>{{ issueTime(issue).toFixed(2) }} 秒</span>
                 <strong>{{ qualityTestLabels[issue.test_name] || issue.test_name }}</strong>
-                <small>{{ issue.message }}</small>
+                <small>{{ localizeMessage(issue.message) }}</small>
               </button>
               <small v-if="qualityIssues.length > 8">还有 {{ qualityIssues.length - 8 }} 个问题，完整结果已写入任务目录。</small>
             </div>
@@ -222,10 +179,11 @@
               <small>修复记录规则版本 {{ repairSummary.metadata?.config_version ?? '未知历史版本' }} · 算法 {{ repairSummary.algorithm_version ?? '历史版本' }}</small>
               <small v-if="repairSummary.historical_report || repairSummary.metadata?.config_sha256 !== qualityReport?.metadata?.config_sha256">这是历史或不同规则的修复记录。下列改善量仅属于该记录，不能与当前检查分数相减；请重新修复和复查。</small>
               <div>修复前 {{ Number(repairSummary.before_score).toFixed(1) }} → 修复后 {{ Number(repairSummary.after_score).toFixed(1) }}（{{ repairSummary.improvement >= 0 ? '+' : '' }}{{ Number(repairSummary.improvement).toFixed(1) }}）</div>
-              <strong>候选改善：{{ repairSummary.steps?.some(step => step.applied) ? '已接受部分修复' : '保留原结果' }} · 当前阶段整体达标：{{ qualityGate?.status || '尚未复查' }}</strong>
-              <div v-for="(step, index) in repairSummary.steps || []" :key="`${step.repair}-${index}`" class="repair-detail">{{ step.repair }} · {{ step.status || (step.applied ? 'accepted' : '未应用') }}<template v-if="step.reason"> · {{ step.reason }}</template><template v-if="step.max_joint_shift_m != null"> · 最大关节位移 {{ (step.max_joint_shift_m * 1000).toFixed(1) }} mm</template></div>
-              <small>{{ repairSummary.steps?.some((step) => step.applied) ? `视频渲染：${comparisonRenderStatus}` : '这条动作没有通过复测的修复步骤，原始动作保持不变。' }}</small>
-              <small v-if="comparisonRenderError">{{ comparisonRenderError }}</small>
+              <strong>候选改善：{{ repairSummary.steps?.some(step => step.applied) ? '已接受部分修复' : '保留原结果' }} · 当前阶段整体达标：{{ qualityGate?.status ? statusLabel(qualityGate.status) : '尚未复查' }}</strong>
+              <div v-for="(step, index) in repairSummary.steps || []" :key="`${step.repair}-${index}`" class="repair-detail">{{ repairLabel(step.repair) }} · {{ step.status ? statusLabel(step.status) : (step.applied ? '已接受' : '未应用') }}<template v-if="step.reason"> · {{ localizeMessage(step.reason) }}</template><template v-if="step.max_joint_shift_m != null"> · 最大关节位移 {{ (step.max_joint_shift_m * 1000).toFixed(1) }} 毫米</template></div>
+              <small>{{ repairSummary.steps?.some((step) => step.applied) ? `视频渲染：${statusLabel(comparisonRenderStatus)}` : '这条动作没有通过复测的修复步骤，原始动作保持不变。' }}</small>
+              <small v-if="comparisonRenderError">{{ localizeMessage(comparisonRenderError) }}</small>
+              <button v-if="comparisonRenderStatus === 'failed' && repairSummary.steps?.some(step => step.applied)" type="button" class="ghost-btn" :disabled="isGenerating || qualityLoading" @click="retryComparisonRender">重新渲染对比视频</button>
               <div v-for="row in repairSummary.issue_summary || []" :key="row.test" class="repair-detail">{{ qualityTestLabels[row.test] || row.test }}：问题段 {{ row.segments_before }} → {{ row.segments_after }}，涉及帧 {{ row.frames_before }} → {{ row.frames_after }}<template v-if="row.sliding_frames_before != null">，脚滑关节帧 {{ row.sliding_frames_before }} → {{ row.sliding_frames_after }}</template></div>
             </div>
             <div v-if="comparisonRenderStatus === 'ready' && ['raw', 'repaired'].includes(qualityStage)" class="comparison-videos" aria-label="修复前后视频对比">
@@ -234,27 +192,31 @@
             </div>
           </template>
           <div class="regression-box" id="motionlint-regression">
-            <div class="quality-issues-title">Regression</div>
+            <div class="quality-issues-title">回归比较（Regression）</div>
             <div class="regression-controls">
               <select v-model="baselineTaskKey" aria-label="选择基线任务">
-                <option value="">选择 baseline</option>
+                <option value="">选择基线动作</option>
                 <option v-for="task in motionlintTasks" :key="`base-${task.source}-${task.task_id}`" :value="taskKey(task)">{{ taskLabel(task) }}</option>
               </select>
               <select v-model="candidateTaskKey" aria-label="选择候选任务">
-                <option value="">选择 candidate</option>
+                <option value="">选择待比较动作</option>
                 <option v-for="task in motionlintTasks" :key="`candidate-${task.source}-${task.task_id}`" :value="taskKey(task)">{{ taskLabel(task) }}</option>
               </select>
               <button type="button" class="ghost-btn" :disabled="regressionLoading || !baselineTaskKey || !candidateTaskKey" @click="compareMotionLint">{{ regressionLoading ? '比较中…' : '比较' }}</button>
             </div>
+            <p v-if="regressionError" class="regression-error" role="alert">{{ regressionError }}</p>
             <div v-if="regressionResult" class="regression-result" :class="{ regression: regressionResult.status !== 'PASS' }">
-              {{ regressionResult.status }} · Overall {{ regressionResult.overall_change >= 0 ? '+' : '' }}{{ Number(regressionResult.overall_change).toFixed(1) }}
+              {{ statusLabel(regressionResult.status) }} · <template v-if="regressionResult.overall_change != null">综合评分变化 {{ regressionResult.overall_change >= 0 ? '+' : '' }}{{ Number(regressionResult.overall_change).toFixed(1) }}</template><template v-else>评估覆盖不足，无法比较综合评分</template>
             </div>
+            <ul v-if="regressionResult?.reasons?.length" class="regression-reasons">
+              <li v-for="(reason, index) in regressionResult.reasons" :key="index">{{ localizeMessage(reason) }}</li>
+            </ul>
             <div v-if="regressionResult" class="regression-table" aria-label="回归指标比较">
               <div v-for="row in regressionResult.tests" :key="row.test" class="regression-row" :class="{ regression: row.status === 'REGRESSION' }">
                 <strong>{{ qualityTestLabels[row.test] || row.test }}</strong>
                 <span>{{ Number(row.baseline).toFixed(1) }} → {{ Number(row.candidate).toFixed(1) }}</span>
-                <span>{{ row.change >= 0 ? '+' : '' }}{{ Number(row.change).toFixed(1) }}</span>
-                <small>{{ row.status }}</small>
+                <span><template v-if="row.change != null">{{ row.change >= 0 ? '+' : '' }}{{ Number(row.change).toFixed(1) }}</template><template v-else>—</template></span>
+                <small>{{ statusLabel(row.status) }}</small>
               </div>
             </div>
           </div>
@@ -346,7 +308,7 @@
     <SkinSelectionDialog
       :open="skinDialogOpen"
       :mode="pendingInputMode"
-      :options="skinOptions"
+      :options="submissionSkinOptions"
       :text-person-skin-ids="textPersonSkinIds"
       :audio-skin-ids="selectedSkinIds"
       :audio-selection-mode="skinSelectionMode"
@@ -357,12 +319,19 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import axios from 'axios'
 import SkinCatalogBar from './components/SkinCatalogBar.vue'
 import SkinSelectionDialog from './components/SkinSelectionDialog.vue'
 import MotionTimeline from './components/MotionTimeline.vue'
 import MotionSettings from './components/MotionSettings.vue'
+import TaskFeedback from './components/TaskFeedback.vue'
+import TaskManager from './components/TaskManager.vue'
+import MotionImport from './components/MotionImport.vue'
+import SkeletonPreview from './components/SkeletonPreview.vue'
+import {readActiveTask, saveActiveTask, taskIsActive} from './features/taskBrowser.js'
+import { createTaskPoller, errorMessage, mergeSkinCatalogs, optionsForBackend } from './features/generationWorkflow.js'
+import { qualityTestLabels, statusLabel, repairLabel, localizeMessage } from './utils/zhDisplay.js'
 import {
   DEFAULT_SKIN_ID,
   getSkinOption,
@@ -388,8 +357,6 @@ const motionlintApiBase = (import.meta.env.VITE_MOTIONLINT_API_BASE || `${apiPro
 const prompt = ref('')
 const isGenerating = ref(false)
 const generationProgress = ref(0)
-const resolution = ref('1080p')
-const showResolutionMenu = ref(false)
 const inputMode = ref('text')
 const uploadFileInput = ref(null)
 const composerTextarea = ref(null)
@@ -400,12 +367,27 @@ const generatedVideoRef = ref(null)
 const uploadStatus = ref('')
 const isUploadReady = ref(false)
 const taskStatusText = ref('')
+const taskFailure = ref(null)
+const resourceChecks = ref([])
+const lastSubmission = ref(null)
+const activeTaskContext = ref(null)
+let taskStorage
+try {taskStorage = window.localStorage} catch {}
+const taskManagerOpen = ref(false)
+const taskManagerError = ref('')
+const taskRevision = ref(0)
+const generationApiBases = {intergen: intergenApiBase, lodge: lodgeApiBase}
+const importPanelOpen = ref(false)
+const importedAsset = ref(null)
+const importError = ref('')
+const skeletonPreviewRef = ref(null)
 const skinOptions = ref([...defaultSkinOptions])
 const selectedSkinIds = ref([DEFAULT_SKIN_ID])
 const skinSelectionMode = ref(SINGLE_SKIN_SELECTION)
 const textPersonSkinIds = ref(['robot', 'y_bot'])
 const skinDialogOpen = ref(false)
 const pendingInputMode = ref('text')
+const submissionSkinOptions = computed(() => optionsForBackend(skinOptions.value, pendingInputMode.value === 'text' ? 'intergen' : 'lodge'))
 const generatedSkinId = ref('')
 const generatedPersonSkinIds = ref([])
 const generatedOutputs = ref({})
@@ -421,16 +403,18 @@ const qualityLoading = ref(false)
 const qualityReport = ref(null)
 const qualityGate = ref(null)
 const qualityStage = ref('raw')
-const qualityStageLabels = { raw: '原始动作', repaired: '修复后的动作', bvh: '导出的 BVH 骨架', character: '视频中的角色骨架', repaired_bvh: '修复后导出的 BVH', repaired_character: '修复后的 Kenney 角色' }
-const characterExport = ref({ status: 'unavailable' })
-const characterExportBusy = computed(() => ['queued', 'running'].includes(characterExport.value.status))
-const characterExportStatusText = computed(() => ({ queued: '排队中', running: '处理中', ready: '已完成', failed: '失败', stale: '动作已更新，请重新导出' }[characterExport.value.status] || characterExport.value.status))
+const qualityStageLabels = { raw: '原始动作', repaired: '修复后的动作', bvh: '导出的 BVH 骨架', character: '视频中的角色骨架' }
 const qualityIssues = ref([])
+const studioTabs = [
+  {id: 'Generate', label: '动作生成'}, {id: 'Inspect', label: '质量检查'},
+  {id: 'Repair', label: '自动修复'}, {id: 'Regression', label: '回归比较'},
+  {id: 'Settings', label: '设置'}
+]
+const visibleStudioTabs = computed(() => importedAsset.value ? studioTabs.filter(tab => tab.id !== 'Repair') : studioTabs)
 const studioTab = ref('Generate')
 const motionCurrentTime = ref(0)
 const motionSettingsOpen = ref(false)
 const motionPolicy = ref(null)
-const motionPolicyFrozen = ref(false)
 const motionSettingsError = ref('')
 let savedPlayback = {}
 try { savedPlayback = JSON.parse(localStorage.getItem('motionlint-playback') || '{}') } catch {}
@@ -451,8 +435,7 @@ const loadMotionSettings = async () => {
     const response = await axios.get(`${motionlintApiBase}/v1/motionlint/settings`, {params})
     if (request !== motionPolicyRequest) return
     motionPolicy.value = response.data.policy
-    motionPolicyFrozen.value = response.data.frozen
-  } catch (error) {if (request === motionPolicyRequest) motionSettingsError.value = error.response?.data?.detail || error.message}
+  } catch (error) {if (request === motionPolicyRequest) motionSettingsError.value = localizeMessage(error.response?.data?.detail || error.message)}
 }
 const openMotionSettings = async () => {
   motionSettingsOpen.value = true
@@ -478,28 +461,34 @@ const comparisonOriginalUrl = ref('')
 const comparisonRepairedUrl = ref('')
 const comparisonOriginalPoster = ref('')
 const comparisonRepairedPoster = ref('')
+let comparisonTimer = null
+let comparisonEpoch = 0
+let comparisonRequest = 0
+const stopComparisonPolling = () => {
+  comparisonEpoch++
+  if (comparisonTimer !== null) window.clearTimeout(comparisonTimer)
+  comparisonTimer = null
+}
 const motionlintTasks = ref([])
 const selectedHistoryTaskKey = ref('')
 const baselineTaskKey = ref('')
 const candidateTaskKey = ref('')
 const regressionLoading = ref(false)
 const regressionResult = ref(null)
-const qualityTestLabels = {
-  temporal_continuity: 'Temporal Continuity',
-  skeleton_integrity: 'Skeleton Integrity',
-  foot_sliding: 'Foot Sliding',
-  ground_contact: 'Ground Contact',
-  collision: 'Collision',
-  motion_jerk: 'Motion Jerk'
+const regressionError = ref('')
+let regressionRequest = 0
+let regressionController = null
+const resetRegressionComparison = () => {
+  regressionRequest++
+  regressionController?.abort()
+  regressionController = null
+  regressionLoading.value = false
+  regressionResult.value = null
+  regressionError.value = ''
 }
+watch([baselineTaskKey, candidateTaskKey], resetRegressionComparison, {flush: 'sync'})
 const allowedUploadExts = new Set(['mp4', 'mp3', 'npy', 'wav'])
 const audioUploadExts = new Set(['mp4', 'mp3', 'wav'])
-
-const resolutions = [
-  { label: '720p', value: '720p' },
-  { label: '1080p', value: '1080p' },
-  { label: '2K', value: '2k' }
-]
 
 const resolveSkinOption = (skinId) => getSkinOption(skinId, skinOptions.value)
 const skinLabels = (skinIds) => skinIds.map((skinId) => resolveSkinOption(skinId).label).join(' + ')
@@ -522,14 +511,11 @@ const generatedAvailableSkinIds = computed(() => (
     .map(([skinId]) => skinId)
 ))
 
-const motionlintSource = computed(() => generatedTaskBaseUrl.value.includes(':8001/') ? 'intergen' : 'lodge')
+const motionlintSource = computed(() => importedAsset.value ? 'import' : generatedTaskBaseUrl.value.includes('/v1/intergen/tasks') ? 'intergen' : 'lodge')
 const taskKey = (task) => `${task.source}:${task.task_id}`
-const taskLabel = (task) => `${task.source === 'intergen' ? 'InterGen' : 'LODGE'} · ${task.task_id.slice(0, 8)}`
+const taskLabel = (task) => `${task.source === 'import' ? '导入动作 · ' + (task.title || '') : task.source === 'intergen' ? '文字动作（InterGen）' : '音乐舞蹈（LODGE）'} · ${task.task_id.slice(0, 8)}`
 const currentMotionlintRef = computed(() => ({ source: motionlintSource.value, task_id: generatedTaskId.value }))
-watch(() => taskKey(currentMotionlintRef.value), () => {
-  characterExport.value = { status: 'unavailable' }
-  refreshCharacterExport()
-})
+watch(() => taskKey(currentMotionlintRef.value), resetRegressionComparison, {flush: 'sync'})
 watch(() => `${taskKey(currentMotionlintRef.value)}:${qualityStage.value}`, () => {
   if (motionSettingsOpen.value) loadMotionSettings()
 })
@@ -538,36 +524,28 @@ const history = ref([])
 
 const loadBackendSkinCatalog = async () => {
   const results = await Promise.allSettled([
-    axios.get(`${intergenApiBase}/v1/intergen/skins`),
-    axios.get(`${lodgeApiBase}/v1/lodge/skins`)
+    axios.get(`${intergenApiBase}/v1/intergen/skins`, {timeout: 10000}),
+    axios.get(`${lodgeApiBase}/v1/lodge/skins`, {timeout: 10000})
   ])
-  const catalog = results
-    .filter((result) => result.status === 'fulfilled')
-    .map((result) => result.value.data)
-    .find((payload) => Array.isArray(payload?.skins) && payload.skins.length)
-
-  if (!catalog) return
-
-  skinOptions.value = catalog.skins.map((skin) => ({
-    id: skin.id,
-    label: skin.label || skin.id,
-    category: skin.category || '角色蒙皮',
-    description: skin.description || '',
-    outputKind: skin.output_kind,
-    backendMode: skin.backend_mode || 'smplx',
-    thumbnail: defaultSkinOptions.find((option) => option.id === skin.id)?.thumbnail || ''
-  }))
-
-  selectedSkinIds.value = selectedSkinIds.value.filter((skinId) =>
-    skinOptions.value.some((skin) => skin.id === skinId)
-  )
-  if (!selectedSkinIds.value.length) {
-    selectedSkinIds.value = [catalog.default_skin_id || DEFAULT_SKIN_ID]
+  const catalogs = {}
+  for (const [index, result] of results.entries()) {
+    if (result.status === 'fulfilled') catalogs[index === 0 ? 'intergen' : 'lodge'] = result.value.data
   }
+  skinOptions.value = mergeSkinCatalogs(defaultSkinOptions, catalogs)
+  const available = optionsForBackend(skinOptions.value, 'lodge').filter(option => option.available)
+  selectedSkinIds.value = selectedSkinIds.value.filter(id => available.some(option => option.id === id))
+  if (!selectedSkinIds.value.length && available[0]) selectedSkinIds.value = [available[0].id]
 }
 
 onMounted(() => {
   loadBackendSkinCatalog()
+  const saved = readActiveTask(taskStorage)
+  if (saved) {
+    if (saved.source === 'import') {loadImportedTask(saved.taskId); return}
+    isGenerating.value = true
+    taskStatusText.value = '正在恢复上次查看的任务…'
+    startPolling(saved.taskId, `${generationApiBases[saved.source]}/v1/${saved.source}/tasks`, saved.requestedSkinIds, saved.personSkinIds)
+  }
 })
 
 const applyGeneratedSkin = (skinId, updateStatus = true) => {
@@ -607,11 +585,16 @@ const removeHistoryItem = (id) => {
 }
 
 const startNewChat = () => {
-  if (window.pollTimer) {
-    clearInterval(window.pollTimer)
-    window.pollTimer = null
-  }
-
+  if (isGenerating.value || qualityLoading.value) return
+  taskPoller.stop()
+  stopComparisonPolling()
+  activeTaskContext.value = null
+  saveActiveTask(taskStorage, null)
+  importedAsset.value = null
+  importError.value = ''
+  taskFailure.value = null
+  resourceChecks.value = []
+  lastSubmission.value = null
   prompt.value = ''
   isGenerating.value = false
   generationProgress.value = 0
@@ -635,7 +618,7 @@ const startNewChat = () => {
   repairSummary.value = null
   comparisonRenderStatus.value = 'unavailable'
   comparisonRenderError.value = ''
-  regressionResult.value = null
+  resetRegressionComparison()
   selectedHistoryTaskKey.value = ''
   skinDialogOpen.value = false
   skinResultNotice.value = ''
@@ -656,7 +639,7 @@ const toggleQualityPanel = async () => {
 
 const loadMotionLintTasks = async () => {
   try {
-    const response = await axios.get(`${motionlintApiBase}/v1/motionlint/tasks`)
+    const response = await axios.get(`${motionlintApiBase}/v1/motionlint/tasks`, {timeout: 10000})
     motionlintTasks.value = response.data || []
     if (generatedTaskId.value) {
       const current = taskKey(currentMotionlintRef.value)
@@ -669,40 +652,18 @@ const loadMotionLintTasks = async () => {
 }
 
 const loadExistingMotion = async () => {
-  if (!selectedHistoryTaskKey.value) return
+  if (isGenerating.value || qualityLoading.value || !selectedHistoryTaskKey.value) return
   const ref = parseTaskKey(selectedHistoryTaskKey.value)
-  const base = ref.source === 'intergen' ? intergenApiBase : lodgeApiBase
-  try {
-    const response = await axios.get(`${base}/v1/${ref.source}/tasks/${ref.task_id}`)
-    const task = response.data
-    const retargetPath = task.output_retarget_mp4_path || task.output_retarget_path
-    const videoPath = retargetPath || task.output_mp4_path
-    if (!videoPath) throw new Error('此任务没有可播放的视频产物')
-    generatedTaskId.value = ref.task_id
-    generatedTaskBaseUrl.value = `${base}/v1/${ref.source}/tasks`
-    const videoEndpoint = retargetPath ? 'download-retarget' : 'download'
-    generatedVideoUrl.value = `${generatedTaskBaseUrl.value}/${ref.task_id}/${videoEndpoint}`
-    generatedVideoDownloadUrl.value = `${generatedVideoUrl.value}?as_attachment=true`
-    generatedVideoFilePath.value = videoPath
-    generatedSkinId.value = retargetPath ? (task.available_skin_ids || []).find((skinId) => skinId !== 'smpl') || task.skin_id : 'smpl'
-    generatedPersonSkinIds.value = task.person_skin_ids || []
-    generatedOutputs.value = {}
-    repairSummary.value = null
-    comparisonRenderStatus.value = 'unavailable'
-    qualityReport.value = null
-    qualityGate.value = null
-    qualityIssues.value = []
-    qualityStage.value = 'raw'
+  if (await openManagedTask(ref)) {
+    if (ref.source === 'import') return
+    qualityPanelOpen.value = true
     await inspectCurrentMotion()
     await refreshComparisonRender(ref)
-    await refreshCharacterExport(ref)
-  } catch (error) {
-    window.alert(`加载历史任务失败：${error.response?.data?.detail || error.message}`)
   }
 }
 
 const inspectCurrentMotion = async () => {
-  if (!generatedTaskId.value) return
+  if (!generatedTaskId.value || isGenerating.value) return
   qualityLoading.value = true
   qualityReport.value = null
   qualityGate.value = null
@@ -711,8 +672,8 @@ const inspectCurrentMotion = async () => {
   generatedVideoDownloadUrl.value = ''
   generatedVideoFilePath.value = ''
   try {
-    await refreshCharacterExport()
     const response = await axios.post(`${motionlintApiBase}/v1/motionlint/inspect-stage`, { ...currentMotionlintRef.value, stage: qualityStage.value })
+    if (response.data.import) importedAsset.value = response.data.import
     qualityReport.value = response.data.report
     qualityGate.value = response.data.gate
     qualityIssues.value = (qualityReport.value.tests || [])
@@ -735,71 +696,62 @@ const inspectCurrentMotion = async () => {
     qualityReport.value = null
     qualityGate.value = null
     qualityIssues.value = []
-    window.alert(`MotionLint 检查失败：${error.response?.data?.detail || error.message}`)
+    window.alert(`动作质量检查失败：${localizeMessage(error.response?.data?.detail || error.message)}`)
   } finally {
     qualityLoading.value = false
   }
 }
 
-const refreshComparisonRender = async (ref = currentMotionlintRef.value) => {
-  if (!ref.task_id) return
+const refreshComparisonRender = async (ref = currentMotionlintRef.value, epoch = comparisonEpoch) => {
+  if (!ref.task_id || ref.source === 'import' || epoch !== comparisonEpoch || taskKey(ref) !== taskKey(currentMotionlintRef.value)) return
+  if (comparisonTimer !== null) window.clearTimeout(comparisonTimer)
+  comparisonTimer = null
+  const request = ++comparisonRequest
+  const current = () => epoch === comparisonEpoch && request === comparisonRequest && taskKey(ref) === taskKey(currentMotionlintRef.value)
   try {
-    const response = await axios.get(`${motionlintApiBase}/v1/motionlint/tasks/${ref.source}/${ref.task_id}/render-status`)
-    if (taskKey(ref) !== taskKey(currentMotionlintRef.value)) return
+    const response = await axios.get(`${motionlintApiBase}/v1/motionlint/tasks/${ref.source}/${ref.task_id}/render-status`, {timeout: 15000})
+    if (!current()) return
     comparisonRenderStatus.value = response.data.status
     comparisonRenderError.value = response.data.error || ''
     if (response.data.status === 'ready') {
+      const version = response.data.version ? `?v=${encodeURIComponent(response.data.version)}` : ''
       const base = `${motionlintApiBase}/v1/motionlint/tasks/${ref.source}/${ref.task_id}/comparison-video`
-      comparisonOriginalUrl.value = `${base}/original`
-      comparisonRepairedUrl.value = `${base}/repaired`
+      comparisonOriginalUrl.value = `${base}/original${version}`
+      comparisonRepairedUrl.value = `${base}/repaired${version}`
       const posterBase = `${motionlintApiBase}/v1/motionlint/tasks/${ref.source}/${ref.task_id}/comparison-poster`
-      comparisonOriginalPoster.value = `${posterBase}/original`
-      comparisonRepairedPoster.value = `${posterBase}/repaired`
+      comparisonOriginalPoster.value = `${posterBase}/original${version}`
+      comparisonRepairedPoster.value = `${posterBase}/repaired${version}`
       if (qualityStage.value === 'repaired' && generatedTaskId.value === ref.task_id) {
         generatedVideoUrl.value = comparisonRepairedUrl.value
         generatedVideoDownloadUrl.value = generatedVideoUrl.value
       }
-    } else if (['queued', 'running'].includes(response.data.status)) {
-      window.setTimeout(() => refreshComparisonRender(ref), 2500)
+    } else {
+      comparisonOriginalUrl.value = ''; comparisonRepairedUrl.value = ''
+      comparisonOriginalPoster.value = ''; comparisonRepairedPoster.value = ''
+      if (qualityStage.value === 'repaired') {generatedVideoUrl.value = ''; generatedVideoDownloadUrl.value = ''}
+      if (['queued', 'running'].includes(response.data.status)) comparisonTimer = window.setTimeout(() => refreshComparisonRender(ref, epoch), 2500)
     }
   } catch (error) {
+    if (!current()) return
     comparisonRenderStatus.value = 'failed'
     comparisonRenderError.value = error.response?.data?.detail || error.message
   }
 }
 
-const refreshCharacterExport = async (ref = currentMotionlintRef.value) => {
-  if (ref.source !== 'intergen' || !ref.task_id) {
-    characterExport.value = { status: 'unavailable' }
-    return
-  }
+const retryComparisonRender = async () => {
+  if (isGenerating.value || qualityLoading.value || importedAsset.value || !generatedTaskId.value) return
+  const ref = {...currentMotionlintRef.value}
+  qualityLoading.value = true
+  stopComparisonPolling()
+  comparisonRenderStatus.value = 'queued'
+  comparisonRenderError.value = ''
   try {
-    const response = await axios.get(`${motionlintApiBase}/v1/motionlint/tasks/${ref.source}/${ref.task_id}/character-export-status`)
-    if (taskKey(ref) !== taskKey(currentMotionlintRef.value)) return
-    characterExport.value = response.data
-    if (['queued', 'running'].includes(response.data.status)) window.setTimeout(() => refreshCharacterExport(ref), 2500)
+    await axios.post(`${motionlintApiBase}/v1/motionlint/tasks/${ref.source}/${ref.task_id}/render`, null, {timeout: 15000})
+    await refreshComparisonRender(ref)
   } catch (error) {
-    if (taskKey(ref) === taskKey(currentMotionlintRef.value)) characterExport.value = { status: 'failed', error: error.response?.data?.detail || error.message }
-  }
-}
-
-const exportRepairedCharacter = async () => {
-  const ref = currentMotionlintRef.value
-  try {
-    const response = await axios.post(`${motionlintApiBase}/v1/motionlint/export-character`, ref)
-    if (taskKey(ref) !== taskKey(currentMotionlintRef.value)) return
-    characterExport.value = response.data
-    await refreshCharacterExport(ref)
-  } catch (error) {
-    window.alert(`角色导出失败：${error.response?.data?.detail || error.message}`)
-  }
-}
-
-const showRepairedCharacter = async () => {
-  qualityStage.value = 'repaired_character'
-  await inspectCurrentMotion()
-  await nextTick()
-  try { await generatedVideoRef.value?.play() } catch (error) { console.warn('角色视频播放失败:', error) }
+    comparisonRenderStatus.value = 'failed'
+    comparisonRenderError.value = localizeMessage(errorMessage(error.response?.data?.detail || error.message))
+  } finally {qualityLoading.value = false}
 }
 
 const syncComparisonVideo = () => {
@@ -821,7 +773,7 @@ const playComparisonVideo = async () => {
 const pauseComparisonVideo = () => comparisonRepairedRef.value?.pause()
 
 const repairCurrentMotion = async () => {
-  if (!generatedTaskId.value) return
+  if (!generatedTaskId.value || isGenerating.value || importedAsset.value) return
   qualityLoading.value = true
   try {
     const response = await axios.post(`${motionlintApiBase}/v1/motionlint/repair`, currentMotionlintRef.value)
@@ -836,9 +788,8 @@ const repairCurrentMotion = async () => {
     repairSummary.value = response.data.repair
     comparisonRenderStatus.value = response.data.render_status
     await refreshComparisonRender()
-    await refreshCharacterExport()
   } catch (error) {
-    window.alert(`MotionLint 修复失败：${error.response?.data?.detail || error.message}`)
+    window.alert(`动作修复失败：${localizeMessage(error.response?.data?.detail || error.message)}`)
   } finally {
     qualityLoading.value = false
   }
@@ -847,7 +798,8 @@ const repairCurrentMotion = async () => {
 const issueTime = (issue) => Number(issue.timestamp_seconds ?? issue.start_frame / (qualityReport.value?.metadata?.fps || 30))
 
 const seekToIssue = async (issue) => {
-  if (['bvh', 'repaired_bvh'].includes(qualityStage.value)) return
+  if (importedAsset.value) {await skeletonPreviewRef.value?.seek(issueTime(issue)); return}
+  if (qualityStage.value === 'bvh') return
   const video = generatedVideoRef.value
   if (!video) return
   video.pause()
@@ -867,22 +819,31 @@ const parseTaskKey = (key) => {
 }
 
 const compareMotionLint = async () => {
-  if (!baselineTaskKey.value || !candidateTaskKey.value) return
+  if (regressionLoading.value || !baselineTaskKey.value || !candidateTaskKey.value) return
+  const baseline = baselineTaskKey.value
+  const candidate = candidateTaskKey.value
+  const request = ++regressionRequest
+  const controller = new AbortController()
+  regressionController = controller
+  const current = () => request === regressionRequest && baseline === baselineTaskKey.value && candidate === candidateTaskKey.value
   regressionLoading.value = true
+  regressionResult.value = null
+  regressionError.value = ''
   try {
     const response = await axios.post(`${motionlintApiBase}/v1/motionlint/compare`, {
-      baseline: parseTaskKey(baselineTaskKey.value),
-      candidate: parseTaskKey(candidateTaskKey.value)
-    })
-    regressionResult.value = response.data
+      baseline: parseTaskKey(baseline),
+      candidate: parseTaskKey(candidate)
+    }, {timeout: 120000, signal: controller.signal})
+    if (current()) regressionResult.value = response.data
   } catch (error) {
-    window.alert(`回归比较失败：${error.response?.data?.detail || error.message}`)
+    if (current()) regressionError.value = `回归比较失败：${localizeMessage(error.response?.data?.detail || error.message)}`
   } finally {
-    regressionLoading.value = false
+    if (current()) {regressionLoading.value = false; regressionController = null}
   }
 }
 
-const sendMessage = () => {
+const sendMessage = async () => {
+  if (isGenerating.value || qualityLoading.value) return
   if (inputMode.value === 'text' && !prompt.value.trim()) {
     window.alert('请先输入舞蹈描述文本，再点击生成。')
     return
@@ -904,6 +865,7 @@ const sendMessage = () => {
   }
 
   pendingInputMode.value = inputMode.value
+  await loadBackendSkinCatalog()
   skinDialogOpen.value = true
 }
 
@@ -923,6 +885,9 @@ const confirmSkinDialog = (selection) => {
 }
 
 const submitGeneration = async (selection) => {
+  if (isGenerating.value || qualityLoading.value) return
+  taskFailure.value = null
+  resourceChecks.value = []
   const submissionMode = selection.mode
   const personSkinIds = submissionMode === 'text' ? [...selection.personSkinIds] : []
   const requestedSkinIds = submissionMode === 'text'
@@ -942,7 +907,7 @@ const submitGeneration = async (selection) => {
   const currentPrompt = prompt.value
   generatedPersonSkinIds.value = []
   skinResultNotice.value = `本次任务蒙皮：${requestedSkinSummary}`
-  prompt.value = ''
+  lastSubmission.value = {selection, text: currentPrompt, audioFile: selectedMusicFileObj.value}
 
   try {
     let apiUrl = ''
@@ -1010,7 +975,19 @@ const submitGeneration = async (selection) => {
       ? { headers: { 'Content-Type': 'multipart/form-data' } }
       : undefined
 
+    const source = submissionMode === 'text' ? 'intergen' : 'lodge'
+    const root = source === 'intergen' ? intergenApiBase : lodgeApiBase
+    const preflightPayload = payload instanceof FormData
+      ? {...Object.fromEntries(payload.entries()), skin_ids: requestedSkinIds, retarget_enabled: requestsRetarget, operation: 'generate'}
+      : payload
+    // The file itself is uploaded only after the selected resources pass.
+    delete preflightPayload.audio_file
+    delete preflightPayload.npy_file
+    const preflight = await axios.post(`${root}/v1/${source}/preflight`, preflightPayload, {timeout: 15000})
+    resourceChecks.value = preflight.data.checks || []
+    if (!preflight.data.ready) throw new Error('生成资源未就绪，请处理下方提示后重新提交。')
     const res = await axios.post(apiUrl, payload, axiosConfig)
+    if (submissionMode === 'text' && prompt.value === currentPrompt) prompt.value = ''
     const taskId = res.data.task_id
     console.log("任务已提交，ID:", taskId)
 
@@ -1022,8 +999,10 @@ const submitGeneration = async (selection) => {
 
   } catch (error) {
     console.error("请求出错了:", error)
-    const detail = error.response?.data?.detail || error.message || '未知错误'
-    window.alert(`任务提交失败：${detail}`)
+    const detail = error.response?.data?.detail
+    if (detail?.checks) resourceChecks.value = detail.checks
+    taskFailure.value = {kind: 'submission', message: localizeMessage(errorMessage(detail || error.message)), canRetry: true}
+    taskStatusText.value = '任务未提交，请查看提示后重试。'
     generationProgress.value = 0
     isGenerating.value = false
   }
@@ -1034,149 +1013,324 @@ const handleComposerEnter = () => {
   sendMessage()
 }
 
-const startPolling = (taskId, baseUrl, requestedSkinIds, personSkinIds = []) => {
-  // 清除可能存在的旧定时器
-  if (window.pollTimer) clearInterval(window.pollTimer)
+const setTaskFailure = (task, context, message = '') => {
+  taskFailure.value = {...context, taskId: context.taskId, kind: 'task', canRetry: context.retryAvailable !== false,
+    message: localizeMessage(message || task.retarget_message || task.message || '未知错误'),
+    canRetryRender: context.source === 'intergen' && (task.progress >= 65 || task.output_bvh_path)
+      && context.personSkinIds.length === 2 && context.personSkinIds.every(id => resolveSkinOption(id).outputKind === 'retarget')}
+}
 
-  window.pollTimer = setInterval(async () => {
-    try {
-      const checkRes = await axios.get(`${baseUrl}/${taskId}`)
-      const task = checkRes.data
-      taskStatusText.value = task.message || `任务状态：${task.status}`
+const clearTaskView = () => {
+  stopComparisonPolling()
+  importedAsset.value = null
+  importError.value = ''
+  generatedVideoUrl.value = ''
+  generatedVideoDownloadUrl.value = ''
+  generatedVideoFilePath.value = ''
+  generatedOutputs.value = {}
+  generatedSkinId.value = ''
+  generatedPersonSkinIds.value = []
+  qualityPanelOpen.value = false
+  qualityStage.value = 'raw'
+  qualityReport.value = null
+  qualityGate.value = null
+  qualityIssues.value = []
+  repairSummary.value = null
+  comparisonRenderStatus.value = 'unavailable'
+  comparisonRenderError.value = ''
+  comparisonOriginalUrl.value = ''
+  comparisonRepairedUrl.value = ''
+  comparisonOriginalPoster.value = ''
+  comparisonRepairedPoster.value = ''
+  resetRegressionComparison()
+  skinResultNotice.value = ''
+}
 
-      if (typeof task.progress === 'number') {
-        generationProgress.value = Math.max(0, Math.min(100, task.progress))
-      } else if (generationProgress.value < 95) {
-        // 兼容旧后端：没有 progress 字段时保持原先的模拟进度。
-        generationProgress.value += 5
+const acceptImportedMotion = async result => {
+  taskPoller.stop()
+  activeTaskContext.value = null
+  lastSubmission.value = null
+  taskFailure.value = null
+  resourceChecks.value = []
+  clearTaskView()
+  importedAsset.value = result.import
+  importPanelOpen.value = true
+  generatedTaskId.value = result.task.task_id
+  generatedTaskBaseUrl.value = `${motionlintApiBase}/v1/motionlint/imports`
+  qualityReport.value = result.report
+  qualityGate.value = result.gate
+  qualityIssues.value = (result.report.tests || []).flatMap(test => test.issues || []).sort((a, b) => a.start_frame - b.start_frame)
+  qualityPanelOpen.value = true
+  studioTab.value = 'Inspect'
+  motionCurrentTime.value = 0
+  generationProgress.value = 100
+  taskStatusText.value = `已导入 ${result.import.title}，质量门：${statusLabel(result.gate.status)}。`
+  saveActiveTask(taskStorage, {source: 'import', taskId: result.task.task_id})
+  await loadMotionLintTasks()
+}
+
+const loadImportedTask = async taskId => {
+  qualityLoading.value = true
+  importError.value = ''
+  try {
+    const response = await axios.post(`${motionlintApiBase}/v1/motionlint/inspect-stage`, {source: 'import', task_id: taskId, stage: 'raw'}, {timeout: 120000})
+    await acceptImportedMotion(response.data)
+    return true
+  } catch (error) {
+    importPanelOpen.value = true
+    importError.value = localizeMessage(errorMessage(error.response?.data?.detail || error.message))
+    return false
+  } finally {qualityLoading.value = false}
+}
+
+const managedTaskContext = task => ({taskId: task.task_id, source: task.source,
+  baseUrl: `${generationApiBases[task.source]}/v1/${task.source}/tasks`,
+  requestedSkinIds: task.requested_skin_ids?.length ? task.requested_skin_ids : [task.skin_id || 'smpl'],
+  personSkinIds: task.person_skin_ids || [], retryAvailable: task.retry_available})
+
+const openManagedTask = async summary => {
+  if (isGenerating.value || qualityLoading.value) return
+  if (summary.source === 'import') return loadImportedTask(summary.task_id)
+  taskManagerError.value = ''
+  isGenerating.value = true
+  try {
+    const context = managedTaskContext(summary)
+    const task = (await axios.get(`${context.baseUrl}/${context.taskId}`, {timeout: 15000})).data
+    const restored = managedTaskContext({...summary, ...task, source: summary.source})
+    taskPoller.stop()
+    activeTaskContext.value = restored
+    saveActiveTask(taskStorage, restored)
+    lastSubmission.value = null
+    taskFailure.value = null
+    resourceChecks.value = []
+    clearTaskView()
+    generatedTaskId.value = restored.taskId
+    generatedTaskBaseUrl.value = restored.baseUrl
+    if (taskIsActive(task)) startPolling(restored.taskId, restored.baseUrl, restored.requestedSkinIds, restored.personSkinIds)
+    else await handleGenerationTask(task, restored)
+    return true
+  } catch (error) {
+    taskManagerError.value = localizeMessage(errorMessage(error.response?.data?.detail || error.message))
+    taskManagerOpen.value = true
+    isGenerating.value = false
+    return false
+  }
+}
+
+const retryManagedTask = async task => {
+  if (isGenerating.value || qualityLoading.value) return
+  if (!task.retry_available) {taskManagerError.value = task.retry_unavailable_reason; return}
+  taskManagerError.value = ''
+  lastSubmission.value = null
+  taskFailure.value = {...managedTaskContext(task), kind: 'task', canRetry: true, message: localizeMessage(task.message)}
+  await retryFailedTask()
+}
+
+const applyTaskResult = (task, context) => {
+  const {taskId, baseUrl, requestedSkinIds, personSkinIds} = context
+  const resolvedPersonSkinIds = task.person_skin_ids?.length === 2
+    ? task.person_skin_ids
+    : personSkinIds
+  const isPersonPair = resolvedPersonSkinIds.length === 2
+  const requestedSummary = isPersonPair
+    ? personSkinSummary(resolvedPersonSkinIds)
+    : skinLabels(requestedSkinIds)
+  taskStatusText.value = `任务已完成，已按选择生成：${requestedSummary}。`
+
+  const retargetPath = task.output_retarget_mp4_path || task.output_retarget_path || ''
+  const retargetSucceeded = task.retarget_status === 'succeeded' && Boolean(retargetPath)
+  const taskRequestedSkinIds = task.requested_skin_ids?.length
+    ? task.requested_skin_ids
+    : requestedSkinIds
+  const taskSkinId = task.skin_id || taskRequestedSkinIds[0]
+  const retargetSkinId = (task.available_skin_ids || []).find((skinId) => skinId !== 'smpl')
+    || (taskSkinId !== 'smpl' ? taskSkinId : 'robot')
+  const outputs = {}
+  if (task.output_mp4_path) {
+    outputs.smpl = {
+      available: Boolean(task.output_mp4_path),
+      url: `${baseUrl}/${taskId}/download`,
+      downloadUrl: `${baseUrl}/${taskId}/download?as_attachment=true`,
+      filePath: task.output_mp4_path || ''
+    }
+  }
+  if (retargetSucceeded) {
+    outputs[retargetSkinId] = {
+      available: retargetSucceeded,
+      generated: retargetSucceeded,
+      url: `${baseUrl}/${taskId}/download-retarget`,
+      downloadUrl: `${baseUrl}/${taskId}/download-retarget?as_attachment=true`,
+      filePath: retargetPath,
+      reason: '本次任务没有生成可播放的机器人重定向视频。'
+    }
+  }
+  if (!isPersonPair) {
+    taskRequestedSkinIds.forEach((skinId) => {
+      if (!outputs[skinId]) {
+        outputs[skinId] = {
+          available: false,
+          reason: `${resolveSkinOption(skinId).label} 未成功生成。`
+        }
       }
-
-      if (task.status === 'succeeded') {
-        clearInterval(window.pollTimer)
-        window.pollTimer = null
-        generationProgress.value = 100
-        isGenerating.value = false
-        const resolvedPersonSkinIds = task.person_skin_ids?.length === 2
-          ? task.person_skin_ids
-          : personSkinIds
-        const isPersonPair = resolvedPersonSkinIds.length === 2
-        const requestedSummary = isPersonPair
-          ? personSkinSummary(resolvedPersonSkinIds)
-          : skinLabels(requestedSkinIds)
-        taskStatusText.value = `任务已完成，已按选择生成：${requestedSummary}。`
-
-        const retargetPath = task.output_retarget_mp4_path || task.output_retarget_path || ''
-        const retargetSucceeded = task.retarget_status === 'succeeded' && Boolean(retargetPath)
-        const taskRequestedSkinIds = task.requested_skin_ids?.length
-          ? task.requested_skin_ids
-          : requestedSkinIds
-        const taskSkinId = task.skin_id || taskRequestedSkinIds[0]
-        const retargetSkinId = (task.available_skin_ids || []).find((skinId) => skinId !== 'smpl')
-          || (taskSkinId !== 'smpl' ? taskSkinId : 'robot')
-        const outputs = {}
-        if (task.output_mp4_path) {
-          outputs.smpl = {
-            available: Boolean(task.output_mp4_path),
-            url: `${baseUrl}/${taskId}/download`,
-            downloadUrl: `${baseUrl}/${taskId}/download?as_attachment=true`,
-            filePath: task.output_mp4_path || ''
-          }
-        }
-        if (retargetSucceeded) {
-          outputs[retargetSkinId] = {
-            available: retargetSucceeded,
-            generated: retargetSucceeded,
-            url: `${baseUrl}/${taskId}/download-retarget`,
-            downloadUrl: `${baseUrl}/${taskId}/download-retarget?as_attachment=true`,
-            filePath: retargetPath,
-            reason: '本次任务没有生成可播放的机器人重定向视频。'
-          }
-        }
-        if (!isPersonPair) {
-          taskRequestedSkinIds.forEach((skinId) => {
-            if (!outputs[skinId]) {
-              outputs[skinId] = {
-                available: false,
-                reason: `${resolveSkinOption(skinId).label} 未成功生成。`
-              }
-            }
-          })
-        }
-        generatedOutputs.value = outputs
-        generatedTaskId.value = taskId
-        generatedTaskBaseUrl.value = baseUrl
-        qualityStage.value = 'raw'
-        qualityReport.value = null
-        qualityGate.value = null
-        qualityIssues.value = []
-        repairSummary.value = null
-        generatedPersonSkinIds.value = isPersonPair ? [...resolvedPersonSkinIds] : []
-        const initialSkinId = isPersonPair
-          ? resolvedPersonSkinIds.find((skinId) => outputs[skinId]?.available)
-          : requestedSkinIds.find((skinId) => outputs[skinId]?.available)
-        if (initialSkinId) {
-          applyGeneratedSkin(initialSkinId, false)
-          if (isPersonPair) {
-            skinResultNotice.value = `当前展示：${requestedSummary}。`
-          } else {
-            const missingSkinIds = requestedSkinIds.filter((skinId) => !outputs[skinId]?.available)
-            if (missingSkinIds.length) {
-            skinResultNotice.value = `当前展示：${resolveSkinOption(initialSkinId).label}；未成功生成：${skinLabels(missingSkinIds)}。`
-            taskStatusText.value = '任务部分完成，请查看未成功生成的蒙皮状态。'
-            }
-          }
-        } else {
-          generatedVideoUrl.value = ''
-          generatedVideoDownloadUrl.value = ''
-          generatedVideoFilePath.value = ''
-          skinResultNotice.value = '后端没有返回任何已选择蒙皮的可播放视频。'
-          taskStatusText.value = '任务结束，但所选蒙皮均未成功生成。'
-        }
-
-        console.log("生成成功！视频地址：", generatedVideoUrl.value)
-        if (!generatedVideoUrl.value) {
-          window.alert('任务结束，但所选蒙皮没有生成可播放视频，请查看任务状态信息。')
-          return
-        }
-
-        qualityPanelOpen.value = true
-        await loadMotionLintTasks()
-        await inspectCurrentMotion()
-
-        const shouldOpenPlayer = window.confirm('视频已生成完毕。点击“确定”将直接调用系统默认 MP4 播放器播放；点击“取消”进入下载选项。')
-        if (shouldOpenPlayer) {
-          await openVideoWithSystemPlayer()
-        } else {
-          const shouldDownload = window.confirm('是否立即下载该视频？')
-          if (shouldDownload) {
-            downloadGeneratedVideo()
-          } else {
-            await openVideoFolder()
-            window.alert('已尝试打开视频所在文件夹。你可以继续使用页面上的“下载视频/复制后端保存路径”按钮。')
-          }
-        }
-      }
-      else if (task.status === 'failed') {
-        clearInterval(window.pollTimer)
-        window.pollTimer = null
-        isGenerating.value = false
-        generationProgress.value = 0
-        taskStatusText.value = '任务失败，请查看错误信息。'
-        window.alert('生成失败: ' + (task.message || '未知错误'))
-      }
-    } catch (err) {
-      console.error("轮询任务状态失败:", err)
-      if (err?.response?.status === 404) {
-        clearInterval(window.pollTimer)
-        window.pollTimer = null
-        isGenerating.value = false
-        generationProgress.value = 0
-        taskStatusText.value = '任务不存在（后端重启后旧任务会失效），请重新提交。'
-        window.alert('任务不存在（可能是后端重启导致），请重新上传并提交。')
+    })
+  }
+  generatedOutputs.value = outputs
+  generatedTaskId.value = taskId
+  generatedTaskBaseUrl.value = baseUrl
+  qualityStage.value = 'raw'
+  qualityReport.value = null
+  qualityGate.value = null
+  qualityIssues.value = []
+  repairSummary.value = null
+  generatedPersonSkinIds.value = isPersonPair ? [...resolvedPersonSkinIds] : []
+  const selectedOutputId = isPersonPair
+    ? resolvedPersonSkinIds.find((skinId) => outputs[skinId]?.available)
+    : requestedSkinIds.find((skinId) => outputs[skinId]?.available)
+  const initialSkinId = selectedOutputId || ((task.status === 'failed' || task.retarget_status === 'failed') && outputs.smpl?.available ? 'smpl' : '')
+  if (initialSkinId) {
+    applyGeneratedSkin(initialSkinId, false)
+    if (!selectedOutputId) {
+      skinResultNotice.value = '所选角色未完成，当前展示已保存的标准人体预览。'
+      taskStatusText.value = '任务部分完成，请查看角色渲染的失败原因。'
+    } else if (isPersonPair) {
+      skinResultNotice.value = `当前展示：${requestedSummary}。`
+    } else {
+      const missingSkinIds = requestedSkinIds.filter((skinId) => !outputs[skinId]?.available)
+      if (missingSkinIds.length) {
+      skinResultNotice.value = `当前展示：${resolveSkinOption(initialSkinId).label}；未成功生成：${skinLabels(missingSkinIds)}。`
+      taskStatusText.value = '任务部分完成，请查看未成功生成的蒙皮状态。'
       }
     }
-  }, 5000) // 每 5 秒查询一次
+  } else {
+    generatedVideoUrl.value = ''
+    generatedVideoDownloadUrl.value = ''
+    generatedVideoFilePath.value = ''
+    skinResultNotice.value = '后端没有返回任何已选择蒙皮的可播放视频。'
+    taskStatusText.value = '任务结束，但所选蒙皮均未成功生成。'
+  }
+
 }
+
+const handleGenerationTask = async (task, context) => {
+  taskStatusText.value = `任务状态：${statusLabel(task.status)}${task.message ? ' · ' + localizeMessage(task.message) : ''}`
+
+  if (typeof task.progress === 'number') {
+    generationProgress.value = Math.max(0, Math.min(100, task.progress))
+  } else if (generationProgress.value < 95) {
+    // 兼容旧后端：没有 progress 字段时保持原先的模拟进度。
+    generationProgress.value += 5
+  }
+
+  if (task.status === 'succeeded') {
+    taskPoller.stop()
+    taskRevision.value++
+    generationProgress.value = 100
+    isGenerating.value = false
+    applyTaskResult(task, context)
+
+    console.log("生成成功！视频地址：", generatedVideoUrl.value)
+    if (!generatedVideoUrl.value) {
+      setTaskFailure(task, context, '任务结束，但所选角色没有可播放视频。')
+      return
+    }
+
+    qualityPanelOpen.value = false
+    if (task.retarget_status === 'failed') setTaskFailure(task, context)
+    await loadMotionLintTasks()
+
+  }
+  else if (task.status === 'failed') {
+    taskPoller.stop()
+    taskRevision.value++
+    isGenerating.value = false
+    applyTaskResult(task, context)
+    generationProgress.value = Math.max(0, Math.min(100, task.progress || 0))
+    taskStatusText.value = '任务失败，输入与已有产物仍保留。'
+    qualityPanelOpen.value = false
+    if (!generatedVideoUrl.value && task.output_mp4_path) {
+      applyGeneratedSkin('smpl', false)
+      skinResultNotice.value = '任务未完成，当前展示已保存的标准人体预览。'
+    }
+    setTaskFailure(task, context)
+  }
+}
+
+const taskPoller = createTaskPoller({
+  fetchTask: async context => (await axios.get(`${context.baseUrl}/${context.taskId}`, {timeout: 15000})).data,
+  onTask: handleGenerationTask,
+  onFailure: (error, context) => {
+    isGenerating.value = false
+    taskFailure.value = {...context, kind: 'network', canRetry: error?.response?.status === 404 && Boolean(lastSubmission.value), resubmit: error?.response?.status === 404,
+      message: error?.response?.status === 404 ? '未找到该任务。请确认已连接正确的服务，或重新提交原始输入。' : '连续多次获取状态失败。任务可能仍在后端运行，重新连接不会重复生成。'}
+    taskStatusText.value = '连接已暂停，任务记录保留。'
+  }
+})
+
+const startPolling = (taskId, baseUrl, requestedSkinIds, personSkinIds = []) => {
+  const context = {taskId, baseUrl, requestedSkinIds, personSkinIds,
+    source: baseUrl.includes('/v1/intergen/tasks') ? 'intergen' : 'lodge'}
+  activeTaskContext.value = context
+  saveActiveTask(taskStorage, context)
+  clearTaskView()
+  generatedTaskId.value = taskId
+  generatedTaskBaseUrl.value = baseUrl
+  isGenerating.value = true
+  taskRevision.value++
+  taskPoller.start(context)
+}
+
+const reconnectTask = () => {
+  if (!activeTaskContext.value || isGenerating.value) return
+  taskFailure.value = null
+  isGenerating.value = true
+  taskPoller.start(activeTaskContext.value)
+}
+
+const retryFailedTask = async () => {
+  if (isGenerating.value || qualityLoading.value) return
+  const failure = taskFailure.value
+  if (!failure?.taskId || failure.resubmit) {
+    if (lastSubmission.value) {
+      prompt.value = lastSubmission.value.text
+      selectedMusicFileObj.value = lastSubmission.value.audioFile
+      selectedMusicFile.value = lastSubmission.value.audioFile?.name || ''
+      await submitGeneration(lastSubmission.value.selection)
+    }
+    return
+  }
+  isGenerating.value = true
+  try {
+    const response = await axios.post(`${failure.baseUrl}/${failure.taskId}/retry`, null, {timeout: 15000})
+    taskFailure.value = null
+    generationProgress.value = 0
+    startPolling(response.data.task_id, failure.baseUrl, response.data.requested_skin_ids || failure.requestedSkinIds,
+      response.data.person_skin_ids || failure.personSkinIds)
+  } catch (error) {
+    isGenerating.value = false
+    const detail = error.response?.data?.detail
+    if (detail?.checks) resourceChecks.value = detail.checks
+    taskFailure.value = {...failure, message: localizeMessage(errorMessage(detail || error.message))}
+  }
+}
+
+const retryFailedRender = async () => {
+  const failure = taskFailure.value
+  if (isGenerating.value || qualityLoading.value || !failure?.canRetryRender) return
+  isGenerating.value = true
+  try {
+    const payload = {...buildIntergenSkinPayload('Retry existing motion', failure.personSkinIds, skinOptions.value), retarget_strict: true}
+    const response = await axios.post(`${failure.baseUrl}/${failure.taskId}/retry-retarget`, payload, {timeout: 15000})
+    taskFailure.value = null
+    startPolling(response.data.task_id, failure.baseUrl, response.data.requested_skin_ids, response.data.person_skin_ids)
+  } catch (error) {
+    isGenerating.value = false
+    const detail = error.response?.data?.detail
+    if (detail?.checks) resourceChecks.value = detail.checks
+    taskFailure.value = {...failure, message: localizeMessage(errorMessage(detail || error.message))}
+  }
+}
+
+onUnmounted(() => {taskPoller.stop(); stopComparisonPolling(); resetRegressionComparison()})
 
 
 const composerPlaceholder = computed(() => {
@@ -1184,10 +1338,6 @@ const composerPlaceholder = computed(() => {
   if (inputMode.value === 'music') return '请上传音乐文件，系统将按节奏生成舞蹈'
   return '请输入舞蹈提示词，例如：两个人正在跳舞。'
 })
-
-const closeMenus = () => {
-  showResolutionMenu.value = false
-}
 
 const activateTextMode = () => {
   if (selectedMusicFileObj.value) return
@@ -1219,7 +1369,7 @@ const onUploadFileChange = (event) => {
   selectedMusicFileObj.value = file
 
   if (audioUploadExts.has(ext)) {
-    uploadStatus.value = `音频上传成功：${file.name}。按回车可调用 LODGE 模型。`
+    uploadStatus.value = `音频上传成功：${file.name}。按回车开始生成舞蹈。`
   } else {
     uploadStatus.value = `文件上传成功：${file.name}。按回车可开始生成。`
   }
@@ -1233,10 +1383,7 @@ const onUploadFileChange = (event) => {
   event.target.value = ''
 }
 
-const selectResolution = (value) => {
-  resolution.value = value
-  showResolutionMenu.value = false
-}
+
 
 const openVideoInNewTab = () => {
   if (!generatedVideoUrl.value) {
@@ -1422,7 +1569,7 @@ const saveRender = async () => {
 
 .quality-test-row {
   display: grid;
-  grid-template-columns: 52px 1fr 48px 58px;
+  grid-template-columns: 52px minmax(0, 1fr) 40px minmax(60px, .7fr);
   align-items: center;
   gap: 7px;
   padding: 8px 9px;
@@ -1461,7 +1608,7 @@ const saveRender = async () => {
 
 .quality-issue-row {
   display: grid;
-  grid-template-columns: 54px 130px 1fr;
+  grid-template-columns: 65px 130px minmax(0, 1fr);
   gap: 7px;
   width: 100%;
   padding: 5px 0;
@@ -1482,10 +1629,6 @@ const saveRender = async () => {
   font-size: 13px;
 }
 
-.character-export-summary { display: grid; gap: 8px; color: #e2e8f0; }
-.character-export-score { display: flex; gap: 12px; align-items: center; font-size: 12px; }
-.character-export-score > span:first-child { flex: 1; }
-.character-export-summary a { text-decoration: none; }
 
 .comparison-videos {
   display: grid;
@@ -1514,6 +1657,7 @@ const saveRender = async () => {
 }
 
 .regression-result.regression { color: #fca5a5; }
+.regression-error, .regression-reasons { color: #fca5a5; font-size: 13px; overflow-wrap: anywhere; }
 
 .regression-table { margin-top: 9px; }
 .regression-row {

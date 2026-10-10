@@ -27,6 +27,8 @@ def load_intergen_joints(paths: str | Path | Sequence[str | Path], *, fps: float
         raise ValueError("At least one InterGen joints22 NPY is required")
     actors = [np.load(path, allow_pickle=False) for path in resolved]
     for actor in actors:
+        if not np.issubdtype(actor.dtype, np.number) or np.iscomplexobj(actor):
+            raise ValueError("InterGen joints must contain real numeric values")
         if actor.ndim != 3 or actor.shape[1:] != (22, 3):
             raise ValueError(f"InterGen joints must have shape (T, 22, 3); got {actor.shape}")
     if len({len(actor) for actor in actors}) != 1:

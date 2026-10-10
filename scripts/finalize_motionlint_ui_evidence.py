@@ -4,7 +4,6 @@ import json
 import re
 import shutil
 import subprocess
-import urllib.request
 import zipfile
 from pathlib import Path
 
@@ -36,8 +35,8 @@ def main():
     provenance = json.loads((OUT / 'demo_provenance.json').read_text(encoding='utf-8'))
     task_id = provenance['task_id']
     task = ROOT / 'InterGen_api/task_runs' / task_id
-    with urllib.request.urlopen(f'http://127.0.0.1:8003/v1/motionlint/tasks/intergen/{task_id}/character-export-status') as response:
-        exported = json.load(response)
+    # This dated evidence records the removed feature; read saved artifacts only.
+    exported = json.loads((task / 'motionlint/character_export.json').read_text(encoding='utf-8'))
     if exported['status'] != 'ready':
         raise ValueError('Character export is not complete')
     folder = Path(exported['export_dir'])

@@ -1,0 +1,51 @@
+import assert from 'node:assert/strict'
+import {setImmediate} from 'node:timers/promises'
+import {buildImportForm, createPreviewLoader, previewFrame, skeletonProjection, validateMotionFiles} from '../project/src/features/motionImport.js'
+import {readActiveTask, saveActiveTask} from '../project/src/features/taskBrowser.js'
+
+const file = name => new File([new Uint8Array([1, 2, 3])], name)
+assert.equal(validateMotionFiles([file('actor.npy')]), '')
+assert.ok(validateMotionFiles([]))
+assert.ok(validateMotionFiles([file('actor.npy'), file('other.bvh')]))
+assert.ok(validateMotionFiles([new File([], 'empty.npy')]))
+assert.ok(validateMotionFiles([{name: 'large.npy', size: 33 * 1024 * 1024}]))
+const npy = buildImportForm([file('a.npy'), file('b.npy')], {fps: 24, unitScale: .01, upAxis: 2, jointMapping: 'not json'})
+assert.equal(npy.getAll('files').length, 2)
+assert.equal(npy.get('fps'), '24')
+assert.equal(npy.get('unit_scale'), '1')
+assert.equal(npy.get('up_axis'), '1')
+const bvh = buildImportForm([file('actor.BVH')], {unitScale: .01, upAxis: 2, jointMapping: '{"foot_L":"LeftFoot"}'})
+assert.equal(bvh.get('unit_scale'), '0.01')
+assert.equal(bvh.get('up_axis'), '2')
+assert.deepEqual(JSON.parse(bvh.get('joint_mapping')), {foot_L: 'LeftFoot'})
+assert.throws(() => buildImportForm([file('a.bvh')], {jointMapping: '[]'}), /映射/)
+assert.throws(() => buildImportForm([file('a.npy')], {fps: 0}), /帧率/)
+assert.equal(previewFrame(7 / 24, 24, 24), 7)
+assert.equal(previewFrame(200, 24, 24), 23)
+assert.equal(previewFrame(-1, 24, 24), 0)
+assert.deepEqual(skeletonProjection([0, 2, 0], [[0, 0, 0], [0, 2, 0]], 1, 0), [0, 1])
+assert.deepEqual(skeletonProjection([0, 0, 2], [[0, 0, 0], [0, 0, 2]], 2, 0), [0, 1])
+
+const requests = []
+const loader = createPreviewLoader((key, start, count) => new Promise(resolve => requests.push({key, start, count, resolve})))
+loader.reset('first')
+const a = loader.load(7), b = loader.load(8)
+assert.equal(requests.length, 1, 'Concurrent frame requests share a single block download')
+requests[0].resolve({start: 0, positions: []})
+assert.deepEqual(await a, await b)
+await loader.load(10)
+assert.equal(requests.length, 1, 'Seeking within a block uses cached data')
+const old = loader.load(125)
+loader.reset('second')
+const current = loader.load(125)
+requests[1].resolve({start: 120, positions: ['old']})
+assert.equal(await old, null, 'Old motion frames cannot overwrite the new motion')
+requests[2].resolve({start: 120, positions: ['current']})
+assert.equal((await current).positions[0], 'current')
+assert.equal(requests[2].key, 'second')
+
+const values = new Map()
+const storage = {getItem: key => values.get(key), setItem: (key, value) => values.set(key, value)}
+saveActiveTask(storage, {source: 'import', taskId: '11111111-1111-4111-8111-111111111111'})
+assert.equal(readActiveTask(storage).source, 'import')
+console.log('Motion format validation, fixed NPY conventions, exact frame seek, preview caching and import recovery: PASS')

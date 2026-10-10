@@ -10,6 +10,7 @@ import tempfile
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -37,7 +38,7 @@ def load_module(name: str, relative_path: str):
     return module
 
 
-def test_lodge_plans(lodge):
+def check_lodge_plans(lodge):
     cases = {
         "smpl_only": (["smpl"], False, True),
         "multi": (["smpl", "robot"], True, True),
@@ -74,7 +75,7 @@ def test_lodge_plans(lodge):
     return results
 
 
-def test_catalog_resources():
+def check_catalog_resources():
     requested_ids = ["smpl", *RETARGET_SKINS]
     profiles = {
         str(profile["id"]): profile
@@ -89,8 +90,8 @@ def test_catalog_resources():
     assert public_ids == ["smpl", "kenney_cc0", *RETARGET_SKINS]
 
     kenney = resolve_skins(REPO_ROOT, ["kenney_cc0"])[0]
-    assert Path(resolve_skin_resource(REPO_ROOT, kenney, "target_fbx")).is_file()
-    assert Path(resolve_skin_resource(REPO_ROOT, kenney, "mapping_file")).is_file()
+    assert Path(resolve_skin_resource(REPO_ROOT, kenney, "target_fbx")).name == "characterMedium.fbx"
+    assert Path(resolve_skin_resource(REPO_ROOT, kenney, "mapping_file")).name == "kenney_mapping.json"
 
     results = {}
     for skin_id, (expected_fbx, expected_mapping) in RETARGET_SKINS.items():
@@ -109,7 +110,7 @@ def test_catalog_resources():
     return results
 
 
-def test_intergen_outputs(intergen):
+def check_intergen_outputs(intergen):
     original_generate = intergen.service.generate
     original_retarget = intergen._run_intergen_retarget_if_requested
     render_plans = {}
@@ -320,7 +321,7 @@ def test_intergen_outputs(intergen):
     return results
 
 
-def test_intergen_service_retarget_only_skips_candidate_mp4(intergen, task_root):
+def check_intergen_service_retarget_only_skips_candidate_mp4(intergen, task_root):
     service = intergen.InterGenService()
     render_flags = []
 
@@ -383,7 +384,7 @@ def test_intergen_service_retarget_only_skips_candidate_mp4(intergen, task_root)
     }
 
 
-def test_intergen_candidate_audit_retains_all_samples(intergen, task_root):
+def check_intergen_candidate_audit_retains_all_samples(intergen, task_root):
     service = intergen.InterGenService()
 
     class FakeMotionModel:
@@ -461,7 +462,7 @@ def test_intergen_candidate_audit_retains_all_samples(intergen, task_root):
     }
 
 
-def test_intergen_candidate_audit_review_contract(intergen, task_root):
+def check_intergen_candidate_audit_review_contract(intergen, task_root):
     task_id = "candidate-audit-review"
     task_dir = task_root / task_id
     candidate_video = task_dir / "output" / "candidates" / "sample1.mp4"
@@ -526,7 +527,7 @@ def test_intergen_candidate_audit_review_contract(intergen, task_root):
     }
 
 
-def test_intergen_person_skin_manifest(intergen, task_root):
+def check_intergen_person_skin_manifest(intergen, task_root):
     task_id = "person-skin-pair"
     now = "2026-07-26T00:00:00Z"
     person_skin_ids = ["aj", "ch09_nonpbr"]
@@ -654,7 +655,7 @@ def test_intergen_person_skin_manifest(intergen, task_root):
     }
 
 
-def test_intergen_default_motion_frames(intergen):
+def check_intergen_default_motion_frames(intergen):
     model = object.__new__(intergen.LitGenModel)
     env_keys = (
         "INTERGEN_DEFAULT_MOTION_FRAMES",
@@ -691,7 +692,7 @@ def test_intergen_default_motion_frames(intergen):
                 os.environ[key] = value
 
 
-def test_motionlint_candidate_ranking(intergen):
+def check_motionlint_candidate_ranking(intergen):
     candidates = [
         {"candidate_index": 1, "motionlint": {"overall_score": 70}, "self_collision": {"hard_violation_count": 0}},
         {"candidate_index": 2, "motionlint": {"overall_score": 85}, "self_collision": {"hard_violation_count": 0}},
@@ -699,6 +700,49 @@ def test_motionlint_candidate_ranking(intergen):
     ]
     assert intergen._pick_best_candidate(candidates)["candidate_index"] == 2
     return {"higher_motionlint_score_selected": True, "hard_collision_still_rejected": True}
+
+
+def test_lodge_plans(lodge):
+    check_lodge_plans(lodge)
+
+
+def test_catalog_resources():
+    check_catalog_resources()
+
+
+@pytest.mark.integration
+def test_intergen_outputs(intergen):
+    check_intergen_outputs(intergen)
+
+
+@pytest.mark.integration
+def test_intergen_service_retarget_only_skips_candidate_mp4(intergen, task_root):
+    check_intergen_service_retarget_only_skips_candidate_mp4(intergen, task_root)
+
+
+@pytest.mark.integration
+def test_intergen_candidate_audit_retains_all_samples(intergen, task_root):
+    check_intergen_candidate_audit_retains_all_samples(intergen, task_root)
+
+
+@pytest.mark.integration
+def test_intergen_candidate_audit_review_contract(intergen, task_root):
+    check_intergen_candidate_audit_review_contract(intergen, task_root)
+
+
+@pytest.mark.integration
+def test_intergen_person_skin_manifest(intergen, task_root):
+    check_intergen_person_skin_manifest(intergen, task_root)
+
+
+@pytest.mark.integration
+def test_intergen_default_motion_frames(intergen):
+    check_intergen_default_motion_frames(intergen)
+
+
+@pytest.mark.integration
+def test_motionlint_candidate_ranking(intergen):
+    check_motionlint_candidate_ranking(intergen)
 
 
 def main():
@@ -730,29 +774,29 @@ def main():
                     )
                 ],
             },
-            "catalog_resources": test_catalog_resources(),
-            "lodge_execution_plan": test_lodge_plans(lodge),
-            "intergen_mock_outputs": test_intergen_outputs(intergen),
+            "catalog_resources": check_catalog_resources(),
+            "lodge_execution_plan": check_lodge_plans(lodge),
+            "intergen_mock_outputs": check_intergen_outputs(intergen),
             "intergen_retarget_only_generation": (
-                test_intergen_service_retarget_only_skips_candidate_mp4(
+                check_intergen_service_retarget_only_skips_candidate_mp4(
                     intergen,
                     Path(temp_dir),
                 )
             ),
-            "intergen_candidate_audit": test_intergen_candidate_audit_retains_all_samples(
+            "intergen_candidate_audit": check_intergen_candidate_audit_retains_all_samples(
                 intergen,
                 Path(temp_dir),
             ),
-            "intergen_candidate_audit_review": test_intergen_candidate_audit_review_contract(
+            "intergen_candidate_audit_review": check_intergen_candidate_audit_review_contract(
                 intergen,
                 Path(temp_dir),
             ),
-            "intergen_person_skin_manifest": test_intergen_person_skin_manifest(
+            "intergen_person_skin_manifest": check_intergen_person_skin_manifest(
                 intergen,
                 Path(temp_dir),
             ),
-            "intergen_default_motion_frames": test_intergen_default_motion_frames(intergen),
-            "motionlint_candidate_ranking": test_motionlint_candidate_ranking(intergen),
+            "intergen_default_motion_frames": check_intergen_default_motion_frames(intergen),
+            "motionlint_candidate_ranking": check_motionlint_candidate_ranking(intergen),
         }
     assert results["contract_resolution"]["explicit_smpl_overrides_legacy_flag"] == ["smpl"]
     assert results["contract_resolution"]["legacy_retarget_requests_both"] == ["smpl", "robot"]

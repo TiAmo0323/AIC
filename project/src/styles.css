@@ -126,6 +126,9 @@ body {
   font-size: 1.18rem;
 }
 
+.brand-block small { display: block; margin-top: 4px; font-size: 11px; opacity: .7; }
+.top-actions { flex-wrap: wrap; }
+
 .new-chat {
   border: none;
   border-radius: 14px;

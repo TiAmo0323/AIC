@@ -27,11 +27,12 @@ motionlint compare demo/foot_sliding_00.npy reports/repair/repaired_actor1.npy -
 
 ## 约定
 
-- 退出码：0 通过，1 质量失败/退步，2 输入或运行错误。批处理包含输入错误时返回 2，否则任一质量失败返回 1。
+- 退出码：0 通过，1 质量失败/退步或比较覆盖不足，2 输入或运行错误。批处理包含输入错误时返回 2，否则任一质量失败返回 1。
 - NPY 固定为米/Y-up；支持 joints22 `(T,22,3)` 和 LODGE `(T,135/139/315/319)`。BVH 使用文件 FPS；厘米文件加 `--unit-scale 0.01`，Z-up 加 `--up-axis 2`。
 - BVH `--joint-map map.json` 格式为 `{"原关节名":"LeftFoot"}`。修复暂只支持 InterGen/LODGE NPY，不承诺任意 BVH 的修复。
 - 四个命令均支持 `--config path.yaml`。版本 3 规则在 `motionlint/configs/quality_v3.yaml`，默认版本 4。
 - 报告保存规则哈希、输入哈希、阶段和覆盖情况。不同规则报告不能直接比较；重新用同一规则检查两条输入。
+- 比较时基线无法评估的指标显示 `INCOMPARABLE`，不会把零分到有效分数误算为改善；综合变化为 `null`、CLI 显示 `n/a`。无已确认退步时整体状态为 `COMPARISON INCOMPLETE`。
 - 骨架近距风险不是网格穿透深度；握手/击掌等需要人工判断。缺失映射或短序列明确未评估并阻止完整质量门通过。
 - 修复输出到新目录。命令拒绝把输出写到原输入路径；原始数据不覆盖。
 

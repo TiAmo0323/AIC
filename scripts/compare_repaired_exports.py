@@ -14,7 +14,7 @@ from motionlint.cli.main import _write_json
 from motionlint.core.quality_gate import evaluate_gate
 from motionlint.pipeline.inspector import inspect
 from motionlint.pipeline.regression import compare
-from motionlint.export_intergen import fingerprint
+from scripts.archived_export_evidence import fingerprint
 
 
 def compare_exports(baseline_path: Path, candidate_path: Path):

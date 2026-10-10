@@ -29,7 +29,7 @@ def evidence():
               for label, task in TASKS]
     for _, state in states:
         if state["status"] != "ready":
-            raise ValueError("Complete the character exports before building review materials")
+            raise ValueError("Historical completed character exports are required for this dated report")
         if load_config(Path(state["export_dir"]) / "quality.yaml")["version"] != 3:
             raise ValueError("This report describes character exports using policy version 3")
     experiments = read(ROOT / "reports/system_experiments_20261002/summary.json")
@@ -62,6 +62,8 @@ def write_report(states, experiments):
         values = [r for r in experiments["records"] if r["method"] == method]
         trial_rows.append(f"| {label} | {len(values)} | {sum(r['accepted'] for r in values)} | {sum('error' in r for r in values)} |")
     REPORT.write_text("""# MotionLint Studio：实现、实验与交接
+
+> 历史记录：修复后 Kenney 角色导出已于 2026-10-09 移除。本文保留当时的实验结果，不代表当前功能。
 
 2026-10-02 · 本地可演示版本 · 以现有 HumanAction-Platform 为基础
 

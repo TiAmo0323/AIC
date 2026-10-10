@@ -57,6 +57,8 @@ if not exist "%LODGE_PYTHON%" (
 	set "LODGE_PYTHON=python"
 )
 
+if exist "%PROJECT_ROOT%\config\runtime.local.bat" call "%PROJECT_ROOT%\config\runtime.local.bat"
+
 echo LODGE_PORT=%LODGE_PORT%
 echo LODGE_MAX_CONCURRENT_TASKS=%LODGE_MAX_CONCURRENT_TASKS%
 echo PYTHONIOENCODING=%PYTHONIOENCODING%

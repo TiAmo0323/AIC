@@ -5,7 +5,9 @@ import pytest
 from LODGE_api.lodge2bvh import BVH_OFFSETS, BVH_PARENTS, SMPL_TO_BVH22
 from motionlint.adapters.bvh_adapter import load_bvh
 from motionlint.core.result import MotionQualityReport, TestResult as QualityTestResult
-from motionlint.export_intergen import select_converter
+from motionlint.core.config import load_config
+from motionlint.core.provenance import rule_hash
+from motionlint.bvh_conversion import select_converter
 from motionlint.joints_to_bvh import convert_continuous_joints, fit_positions
 
 
@@ -61,8 +63,10 @@ def test_invalid_or_collapsed_bones_are_rejected(invalid):
 def reports(scores, statuses=None):
     names = ("temporal_continuity", "skeleton_integrity", "foot_sliding", "ground_contact", "collision", "motion_jerk")
     statuses = statuses or {}
+    policy = load_config()
     return MotionQualityReport(float(np.mean(list(scores.values()))),
-                               [QualityTestResult(name, statuses.get(name, "PASS"), scores.get(name, 100)) for name in names])
+                               [QualityTestResult(name, statuses.get(name, "PASS"), scores.get(name, 100)) for name in names],
+                               metadata={"config_version": policy["version"], "config_sha256": rule_hash(policy)})
 
 
 def fidelity_rows(mean=.02, p95=.05, root=0):
@@ -101,7 +105,7 @@ def test_candidate_exception_keeps_valid_legacy_bvh(tmp_path, monkeypatch):
     from types import ModuleType
     import motionlint.joints_to_bvh as continuous
     from motionlint.core.config import DEFAULT_CONFIG
-    from motionlint.export_intergen import convert_snapshot
+    from motionlint.bvh_conversion import convert_snapshot
 
     # Supply a working legacy writer without importing the GPU generation stack.
     legacy = ModuleType("InterGen_api.intergen_joints2bvh")

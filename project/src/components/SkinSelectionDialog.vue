@@ -31,11 +31,14 @@
                 :class="{ active: textDraft[person.key] === option.id }"
                 role="option"
                 :aria-selected="textDraft[person.key] === option.id"
+                :disabled="option.available === false"
+                :title="option.available === false ? option.unavailableReason : option.description"
                 @click="selectTextSkin(person.key, option.id)"
               >
                 <img v-if="option.thumbnail" :src="option.thumbnail" :alt="`${option.label}预览`" />
                 <span v-else class="dialog-skin-placeholder">{{ option.label.slice(0, 1) }}</span>
                 <span>{{ option.label }}</span>
+                <small v-if="option.available === false">暂不可用</small>
                 <i aria-hidden="true">{{ textDraft[person.key] === option.id ? '✓' : '' }}</i>
               </button>
             </div>
@@ -65,11 +68,14 @@
               :class="{ active: audioDraft.includes(option.id) }"
               role="option"
               :aria-selected="audioDraft.includes(option.id)"
+              :disabled="option.available === false"
+              :title="option.available === false ? option.unavailableReason : option.description"
               @click="selectAudioSkin(option.id)"
             >
               <img v-if="option.thumbnail" :src="option.thumbnail" :alt="`${option.label}预览`" />
               <span v-else class="dialog-skin-placeholder">{{ option.label.slice(0, 1) }}</span>
               <span>{{ option.label }}</span>
+              <small v-if="option.available === false">暂不可用</small>
               <i aria-hidden="true">{{ audioDraft.includes(option.id) ? '✓' : '' }}</i>
             </button>
           </div>
@@ -81,7 +87,7 @@
             ref="confirmButton"
             type="submit"
             class="dialog-primary"
-            :disabled="isTextMode && !textSelectionValid"
+            :disabled="isTextMode ? !textSelectionValid : !audioDraft.length"
           >
             确认并开始生成
           </button>
@@ -93,6 +99,7 @@
 
 <script setup>
 import { computed, nextTick, reactive, ref, watch } from 'vue'
+import { validPersonSelection } from '../features/generationWorkflow.js'
 import {
   MULTI_SKIN_SELECTION,
   SINGLE_SKIN_SELECTION,
@@ -117,10 +124,7 @@ const audioModeDraft = ref(SINGLE_SKIN_SELECTION)
 const isTextMode = computed(() => props.mode === 'text')
 const textOptions = computed(() => props.options)
 const textSelectionValid = computed(() => {
-  const selectedOptions = [textDraft.personA, textDraft.personB]
-    .map((skinId) => textOptions.value.find((option) => option.id === skinId))
-  return selectedOptions.every(Boolean)
-    && new Set(selectedOptions.map((option) => option.outputKind)).size === 1
+  return validPersonSelection([textDraft.personA, textDraft.personB], textOptions.value)
 })
 const people = [
   { key: 'personA', badge: 'A', label: '人物 A' },
@@ -128,23 +132,25 @@ const people = [
 ]
 
 const initializeDraft = () => {
-  const fallbackA = textOptions.value.find((option) => option.outputKind === 'retarget')?.id
-    || textOptions.value[0]?.id
+  const available = textOptions.value.filter(option => option.available !== false)
+  const fallbackA = available.find((option) => option.outputKind === 'retarget')?.id
+    || available[0]?.id
     || ''
-  const fallbackB = textOptions.value.find((option) => option.outputKind === 'retarget' && option.id !== fallbackA)?.id
+  const fallbackB = available.find((option) => option.outputKind === 'retarget' && option.id !== fallbackA)?.id
     || fallbackA
-  textDraft.personA = textOptions.value.some((option) => option.id === props.textPersonSkinIds[0])
+  textDraft.personA = available.some((option) => option.id === props.textPersonSkinIds[0])
     ? props.textPersonSkinIds[0]
     : fallbackA
-  textDraft.personB = textOptions.value.some((option) => option.id === props.textPersonSkinIds[1])
+  textDraft.personB = available.some((option) => option.id === props.textPersonSkinIds[1])
     ? props.textPersonSkinIds[1]
     : fallbackB
   audioModeDraft.value = props.audioSelectionMode
   audioDraft.value = normalizeSkinSelection(
-    props.audioSkinIds.filter((skinId) => props.options.some((option) => option.id === skinId)),
+    props.audioSkinIds.filter((skinId) => available.some((option) => option.id === skinId)),
     audioModeDraft.value
   )
-  if (!audioDraft.value.length && props.options[0]) audioDraft.value = [props.options[0].id]
+  if (!audioDraft.value.length && available[0]) audioDraft.value = [available[0].id]
+  if (!textSelectionValid.value) textDraft.personB = textDraft.personA
 }
 
 watch(() => props.open, (open) => {
@@ -155,14 +161,13 @@ watch(() => props.open, (open) => {
 })
 
 const selectAudioSkin = (skinId) => {
+  if (!props.options.some(option => option.id === skinId && option.available !== false)) return
   audioDraft.value = toggleSkinSelection(audioDraft.value, skinId, audioModeDraft.value)
 }
 
 const selectTextSkin = (personKey, skinId) => {
+  if (!textOptions.value.some(option => option.id === skinId && option.available !== false)) return
   textDraft[personKey] = skinId
-  if (!textSelectionValid.value) {
-    window.alert('标准人体暂不能与其他角色混合渲染。请将人物 A 和人物 B 同时选择标准人体，或同时选择其他角色。')
-  }
 }
 
 const toggleAudioMode = () => {
@@ -183,6 +188,7 @@ const confirm = () => {
     })
     return
   }
+  if (!audioDraft.value.length || audioDraft.value.some(id => !props.options.some(option => option.id === id && option.available !== false))) return
   emit('confirm', {
     mode: 'music',
     skinIds: [...audioDraft.value],
@@ -192,6 +198,8 @@ const confirm = () => {
 </script>
 
 <style scoped>
+.dialog-skin-option:disabled { opacity: .45; cursor: not-allowed; }
+.dialog-skin-option small { font-size: 11px; }
 .skin-dialog-backdrop {
   position: fixed;
   z-index: 100;

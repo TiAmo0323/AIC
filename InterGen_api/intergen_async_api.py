@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 import copy
+import pickle
 try:
     import lightning as L
 except Exception:
@@ -28,7 +29,7 @@ import numpy as np
 import scipy.ndimage as filters
 import torch
 import uvicorn
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse
 from openai import OpenAI
 from pydantic import BaseModel, Field
@@ -108,6 +109,9 @@ from shared.skin_catalog import (
     skin_requires_retarget,
 )
 from shared.task_manifest import restore_task_manifests, write_task_manifest
+from shared.runtime_checks import checked_catalog, runtime_report
+from shared.task_requests import save_request, load_request
+from shared.task_listing import task_page
 # 【实验功能，未应用于实际生产默认逻辑链路】
 # Motion Planner 与候选审计仅保留为显式 API 实验能力。当前生产前端不发送相关字段，
 # 两个开关默认均为关闭；最终结果仍由 _pick_best_candidate 的物理质量规则选出。
@@ -237,6 +241,9 @@ class GenerateMotionRequest(BaseModel):
 
 
 class RetryRetargetRequest(BaseModel):
+    person_a_skin_id: Optional[str] = None
+    person_b_skin_id: Optional[str] = None
+    skin_ids: Optional[List[str]] = None
     skin_id: Optional[str] = Field(
         default="robot",
         description="Requested retarget skin id from config/skin_catalog.json",
@@ -1487,7 +1494,7 @@ class InterGenService:
             try:
                 ckpt = torch.load(str(ckpt_path), map_location="cpu", mmap=True, weights_only=True)
                 mapped_checkpoint = True
-            except (RuntimeError, ValueError, TypeError, OSError):
+            except (RuntimeError, ValueError, TypeError, OSError, pickle.UnpicklingError):
                 ckpt = torch.load(str(ckpt_path), map_location="cpu", weights_only=False)
             state_dict = ckpt.get("state_dict", {})
             for key in list(state_dict.keys()):
@@ -1712,12 +1719,15 @@ def _restore_task_artifacts(task: TaskInfo) -> TaskInfo:
     if output_video.is_file():
         data["output_retarget_path"] = str(output_video.resolve())
         data["output_retarget_mp4_path"] = str(output_video.resolve())
-        data["retarget_status"] = "succeeded"
+        if data.get("status") != "failed" and data.get("retarget_status") != "failed":
+            data["retarget_status"] = "succeeded"
         person_ids = data.get("person_skin_ids") or retarget.get("person_skin_ids") or []
         data["available_skin_ids"] = list(dict.fromkeys((data.get("available_skin_ids") or []) + (person_ids or [retarget.get("skin_id", "robot")])))
         data["skin_id"] = data["available_skin_ids"][-1]
-    if data.get("output_mp4_path") or data.get("output_retarget_mp4_path"):
-        data["status"] = "succeeded"
+    for key in ("output_mp4_path", "output_retarget_mp4_path", "output_retarget_path"):
+        if data.get(key) and not Path(data[key]).is_file():
+            data[key] = None
+    if data.get("status") == "succeeded" and (data.get("output_mp4_path") or data.get("output_retarget_mp4_path")):
         data["progress"] = 100
     elif data.get("status") == "succeeded":
         data["status"] = "failed"
@@ -1794,6 +1804,18 @@ def _validate_request_skins(req, require_retarget: bool = False) -> List[Dict[st
 
 def _validate_request_skin(req, require_retarget: bool = False) -> Dict[str, object]:
     return _validate_request_skins(req, require_retarget=require_retarget)[0]
+
+
+def _resource_report(req, profiles, operation="generate") -> dict:
+    options = req.model_dump() if hasattr(req, "model_dump") else req.dict()
+    options["source_root"] = str(MODEL_SOURCE_ROOT)
+    return runtime_report(PROJECT_ROOT, "intergen", profiles, options, operation=operation)
+
+
+def _ensure_resources(req, profiles, operation="generate") -> None:
+    report = _resource_report(req, profiles, operation)
+    if not report["ready"]:
+        raise HTTPException(422, detail={"code": "resources_unavailable", "message": "生成资源未就绪", "checks": report["checks"]})
 
 
 def _update_task(task_id: str, **kwargs) -> None:
@@ -2252,9 +2274,7 @@ def _existing_task_motion_files(task_id: str) -> Tuple[Path, Path, List[str]]:
         raise FileNotFoundError(f"Task directory not found: {task_id}")
 
     output_path = task_root / "output" / f"{task_id}.mp4"
-    if not output_path.is_file():
-        raise FileNotFoundError(f"SMPL preview not found: {output_path}")
-
+    # Retarget-only generation intentionally has no SMPL preview.
     def _person_number(path: Path) -> int:
         match = re.search(r"_person(\d+)_joints22\.npy$", path.name)
         return int(match.group(1)) if match else 999
@@ -2302,6 +2322,9 @@ def _run_retry_retarget_task(task_id: str, req: RetryRetargetRequest) -> None:
                     retry_motion_prompt = ""
         retarget_req = GenerateMotionRequest(
             text="Retry existing InterGen motion retarget",
+            person_a_skin_id=req.person_a_skin_id,
+            person_b_skin_id=req.person_b_skin_id,
+            skin_ids=req.skin_ids,
             skin_id=req.skin_id,
             retarget_enabled=True,
             retarget_strict=req.retarget_strict,
@@ -2328,7 +2351,7 @@ def _run_retry_retarget_task(task_id: str, req: RetryRetargetRequest) -> None:
                 status="succeeded",
                 message="SMPL preview preserved; retarget retry did not complete",
                 progress=100,
-                output_mp4_path=str(output_path.resolve()),
+                output_mp4_path=str(output_path.resolve()) if output_path.is_file() else None,
             )
             return
         _update_task(
@@ -2336,7 +2359,7 @@ def _run_retry_retarget_task(task_id: str, req: RetryRetargetRequest) -> None:
             status="succeeded",
             message="Retarget retry completed",
             progress=100,
-            output_mp4_path=str(output_path.resolve()),
+            output_mp4_path=str(output_path.resolve()) if output_path.is_file() else None,
             retarget_message=retarget_message,
         )
     except Exception as exc:
@@ -2396,14 +2419,20 @@ def translate(req: TranslateRequest) -> Dict[str, str]:
 @app.get("/v1/intergen/skins")
 def get_supported_skins() -> Dict[str, object]:
     try:
-        return public_skin_catalog(PROJECT_ROOT)
+        return checked_catalog(PROJECT_ROOT, "intergen", public_skin_catalog(PROJECT_ROOT), {"source_root": str(MODEL_SOURCE_ROOT)})
     except SkinCatalogError as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.post("/v1/intergen/preflight")
+def preflight(req: GenerateMotionRequest) -> dict:
+    return _resource_report(req, _validate_request_skins(req))
 
 
 @app.post("/v1/intergen/tasks/generate", response_model=TaskInfo)
 def create_generate_task(req: GenerateMotionRequest) -> TaskInfo:
     skin_profiles = _validate_request_skins(req)
+    _ensure_resources(req, skin_profiles)
     if req.candidate_audit and not any(
         str(profile.get("output_kind") or "") == "smpl"
         for profile in skin_profiles
@@ -2445,13 +2474,34 @@ def create_generate_task(req: GenerateMotionRequest) -> TaskInfo:
         _tasks[task_id] = task
         _persist_task(task)
 
+    save_request(DEFAULT_TASK_ROOT, task_id, "generate", req)
     executor.submit(_run_generate_task, task_id, req)
     return task
 
 
+@app.post("/v1/intergen/tasks/{task_id}/retry", response_model=TaskInfo)
+def retry_generation(task_id: str) -> TaskInfo:
+    with _task_lock:
+        existing = _tasks.get(task_id)
+        if existing is None:
+            raise HTTPException(404, "Task not found")
+        if existing.status in {"queued", "running", "processing"}:
+            raise HTTPException(409, "任务仍在运行，不能重复提交。")
+    try:
+        saved = load_request(DEFAULT_TASK_ROOT, task_id)
+        if saved["operation"] != "generate":
+            raise ValueError("Unsupported retry operation")
+        req = GenerateMotionRequest(**saved["request"])
+    except (ValueError, OSError, KeyError) as exc:
+        raise HTTPException(422, str(exc)) from exc
+    return create_generate_task(req)
+
+
 @app.post("/v1/intergen/tasks/{task_id}/retry-retarget", response_model=TaskInfo)
 def retry_task_retarget(task_id: str, req: RetryRetargetRequest) -> TaskInfo:
-    skin_profile = _validate_request_skin(req, require_retarget=True)
+    profiles = _validate_request_skins(req, require_retarget=True)
+    _ensure_resources(req, profiles, operation="retarget")
+    skin_profile = profiles[0]
     try:
         _, output_path, _ = _existing_task_motion_files(task_id)
     except ValueError as exc:
@@ -2461,6 +2511,8 @@ def retry_task_retarget(task_id: str, req: RetryRetargetRequest) -> TaskInfo:
 
     with _task_lock:
         existing = _tasks.get(task_id)
+        if existing and existing.status in {"queued", "running", "processing"}:
+            raise HTTPException(409, "任务仍在运行，请等待结束后重试。")
         now = _utc_now()
         task = TaskInfo(
             task_id=task_id,
@@ -2468,7 +2520,8 @@ def retry_task_retarget(task_id: str, req: RetryRetargetRequest) -> TaskInfo:
             created_at=existing.created_at if existing else now,
             updated_at=now,
             skin_id=str(skin_profile["id"]),
-            requested_skin_ids=[str(skin_profile["id"])],
+            requested_skin_ids=[str(profile["id"]) for profile in profiles],
+            person_skin_ids=_requested_person_skin_ids(req),
             message="Retarget retry queued",
             progress=65,
             original_prompt=existing.original_prompt if existing else "",
@@ -2493,7 +2546,7 @@ def retry_task_retarget(task_id: str, req: RetryRetargetRequest) -> TaskInfo:
                 existing.candidate_audit_manifest_path if existing else None
             ),
             experiment_manifest_path=existing.experiment_manifest_path if existing else None,
-            output_mp4_path=str(output_path.resolve()),
+            output_mp4_path=str(output_path.resolve()) if output_path.is_file() else None,
             output_bvh_path=existing.output_bvh_path if existing else None,
             output_retarget_path=None,
             output_retarget_mp4_path=None,
@@ -2508,6 +2561,14 @@ def retry_task_retarget(task_id: str, req: RetryRetargetRequest) -> TaskInfo:
 
     executor.submit(_run_retry_retarget_task, task_id, req)
     return task
+
+
+@app.get("/v1/intergen/tasks")
+def list_tasks(status: str = Query("", pattern="^(|active|queued|running|processing|succeeded|failed)$"),
+               search: str = Query("", max_length=240), offset: int = Query(0, ge=0), limit: int = Query(20, ge=1, le=100)) -> dict:
+    with _task_lock:
+        snapshot = list(_tasks.values())
+    return task_page(DEFAULT_TASK_ROOT, "intergen", snapshot, status=status, search=search, offset=offset, limit=limit)
 
 
 @app.get("/v1/intergen/tasks/{task_id}", response_model=TaskInfo)
@@ -2654,7 +2715,7 @@ def _selected_task_video_path(task: TaskInfo, skin_id: Optional[str]) -> Path:
         if task.retarget_status != "succeeded" or not retarget_path:
             raise HTTPException(status_code=409, detail="Selected skin result not completed")
         return Path(retarget_path)
-    if task.status != "succeeded" or not task.output_mp4_path:
+    if task.status not in {"succeeded", "failed"} or not task.output_mp4_path:
         raise HTTPException(status_code=409, detail="Task not completed")
     return Path(task.output_mp4_path)
 
@@ -2713,7 +2774,7 @@ def download_task_result(task_id: str) -> FileResponse:
 
     if task is None:
         raise HTTPException(status_code=404, detail="Task not found")
-    if task.status != "succeeded" or not task.output_mp4_path:
+    if task.status not in {"succeeded", "failed"} or not task.output_mp4_path:
         raise HTTPException(status_code=409, detail="Task not completed")
 
     mp4_path = Path(task.output_mp4_path)

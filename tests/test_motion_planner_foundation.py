@@ -8,6 +8,7 @@ from contextlib import contextmanager
 from pathlib import Path
 
 from pydantic import ValidationError
+import pytest
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -120,8 +121,9 @@ def expect_exception(exception_type, message_fragment=""):
         raise AssertionError(f"Expected {exception_type.__name__}")
 
 
+@pytest.mark.integration
 def test_motion_plan_and_compiler_are_role_aware():
-    plan = MotionPlan.parse_obj(VALID_PLAN)
+    plan = MotionPlan.model_validate(VALID_PLAN)
     for max_words in (24, 48):
         prompt = compile_intergen_prompt(plan, max_words=max_words)
         assert prompt.startswith("Two people")
@@ -134,8 +136,9 @@ def test_motion_plan_and_compiler_are_role_aware():
             assert f"{phase}:" in prompt
 
 
+@pytest.mark.integration
 def test_compiler_covers_every_phase_before_expanding_details():
-    plan = MotionPlan.parse_obj(FOUR_PHASE_BADMINTON_PLAN)
+    plan = MotionPlan.model_validate(FOUR_PHASE_BADMINTON_PLAN)
     prompt = compile_intergen_prompt(plan, max_words=48)
 
     for phase in ("serve", "recover", "receive", "return"):
@@ -151,12 +154,54 @@ def test_motion_plan_rejects_invalid_time_and_order():
     invalid = json.loads(json.dumps(VALID_PLAN))
     invalid["actor_a"][0]["time"] = [0.8, 0.2]
     with expect_exception(ValidationError):
-        MotionPlan.parse_obj(invalid)
-
+        MotionPlan.model_validate(invalid)
     invalid = json.loads(json.dumps(VALID_PLAN))
     invalid["actor_a"] = list(reversed(invalid["actor_a"]))
     with expect_exception(ValidationError):
-        MotionPlan.parse_obj(invalid)
+        MotionPlan.model_validate(invalid)
+
+
+def test_compiler_retains_all_phases_with_controlled_token_budget(monkeypatch):
+    # Exercise compilation on CPU; real CLIP BPE coverage is explicitly optional.
+    import motion_planner as planner
+    monkeypatch.setattr(planner, "_clip_body_token_count", lambda text: len(text.split()))
+    plan = MotionPlan.model_validate(FOUR_PHASE_BADMINTON_PLAN)
+    prompt = planner.compile_intergen_prompt(plan, max_words=48)
+    assert len(prompt.split()) <= 75
+    for phase in plan.actor_a + plan.actor_b:
+        assert f"{phase.phase}:" in prompt
+    assert "Person A" in prompt and "Person B" in prompt
+
+
+def test_motion_plan_rejects_empty_body_parts_and_nonfinite_times():
+    invalid = json.loads(json.dumps(VALID_PLAN))
+    invalid["actor_a"][0]["body_parts"] = ["   "]
+    with pytest.raises(ValidationError):
+        MotionPlan.model_validate(invalid)
+    invalid = json.loads(json.dumps(VALID_PLAN))
+    invalid["actor_a"][0]["time"] = [0, float("nan")]
+    with pytest.raises(ValidationError):
+        MotionPlan.model_validate(invalid)
+
+
+def test_planner_schema_is_compatible_with_pydantic_one(monkeypatch):
+    import importlib.util
+    import pydantic.v1 as pydantic_one
+    spec = importlib.util.spec_from_file_location("planner_v1_compat_test", INTERGEN_API_ROOT / "motion_planner.py")
+    module = importlib.util.module_from_spec(spec)
+    monkeypatch.setitem(sys.modules, "planner_v1_compat_test", module)
+    monkeypatch.setitem(sys.modules, "pydantic", pydantic_one)
+    spec.loader.exec_module(module)
+    assert not module.PYDANTIC_V2
+    plan = module.MotionPlan.model_validate(VALID_PLAN)
+    assert plan.model_dump()["action"] == VALID_PLAN["action"]
+    invalid = json.loads(json.dumps(VALID_PLAN))
+    invalid["actor_a"] = list(reversed(invalid["actor_a"]))
+    with pytest.raises(pydantic_one.ValidationError):
+        module.MotionPlan.model_validate(invalid)
+    invalid["actor_a"][0]["time"] = [0.9, 0.1]
+    with pytest.raises(pydantic_one.ValidationError):
+        module.MotionPlan.model_validate(invalid)
 
 
 def test_parse_motion_plan_accepts_json_fence():
@@ -207,6 +252,7 @@ def test_planner_settings_reject_invalid_numeric_env():
                 os.environ[key] = value
 
 
+@pytest.mark.integration
 def test_phase0_suite_is_valid():
     suite_path = INTERGEN_API_ROOT / "experiments" / "motion_r1_phase0_prompts.json"
     suite = json.loads(suite_path.read_text(encoding="utf-8"))
@@ -216,7 +262,7 @@ def test_phase0_suite_is_valid():
     assert {"id-tai-chi-control", "ood-badminton-serve"}.issubset(ids)
     badminton = next(case for case in suite["cases"] if case["id"] == "ood-badminton-serve")
     assert len(badminton["flat_prompt"].split()) <= 24
-    plan = MotionPlan.parse_obj(badminton["manual_plan"])
+    plan = MotionPlan.model_validate(badminton["manual_plan"])
     prompt = compile_intergen_prompt(plan, max_words=48)
     for phase in plan.actor_a + plan.actor_b:
         assert f"{phase.phase}:" in prompt

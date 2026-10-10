@@ -7,7 +7,7 @@ import numpy as np
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
-from motionlint.export_intergen import read_export
+from scripts.archived_export_evidence import read_export
 from motionlint.joints_to_bvh import convert_continuous_joints, fidelity
 from motionlint.adapters.bvh_adapter import load_bvh_pair
 from motionlint.adapters.intergen_adapter import load_intergen_joints

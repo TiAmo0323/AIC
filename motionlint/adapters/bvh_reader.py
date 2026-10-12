@@ -15,10 +15,11 @@ import numpy as np
 def read_bvh(path, *, max_frames=None, max_joints=None):
     path = Path(path)
     with path.open(encoding="utf-8-sig") as handle:
-        header = []
+        header, header_lines = [], []
         for line in handle:
             if line.strip() == "MOTION":
                 break
+            header_lines.append(line)
             header.extend(re.findall(r"[{}]|[^\s{}]+", line))
         else:
             raise ValueError("BVH 缺少 MOTION 数据段。")
@@ -57,8 +58,6 @@ def read_bvh(path, *, max_frames=None, max_joints=None):
             count = int(take())
             if count not in (3, 6):
                 raise ValueError("BVH 只支持 3 个旋转通道，或根关节的 6 个位移与旋转通道。")
-            if index != 0 and count == 6:
-                raise ValueError("暂不支持非根关节的平移通道，请导出仅根关节平移的 BVH。")
             labels = [take() for _ in range(count)]
             rotations = labels[-3:]
             if set(rotations) != {"Xrotation", "Yrotation", "Zrotation"}:
@@ -106,6 +105,7 @@ def read_bvh(path, *, max_frames=None, max_joints=None):
         positions = np.broadcast_to(offsets, (frames, len(names), 3)).copy()
         rotations = np.zeros((frames, len(names), 3))
         width = sum(map(len, channels))
+        channel_values = np.empty((frames,width))
         actual = 0
         for line in handle:
             if not line.strip():
@@ -118,6 +118,7 @@ def read_bvh(path, *, max_frames=None, max_joints=None):
             values = np.asarray([float(word) for word in words])
             if not np.isfinite(values).all():
                 raise ValueError("BVH 动作数据包含 NaN 或 Inf。")
+            channel_values[actual]=values
             cursor = 0
             for index, labels in enumerate(channels):
                 count = len(labels)
@@ -133,4 +134,5 @@ def read_bvh(path, *, max_frames=None, max_joints=None):
         "parents": np.asarray(parents), "end_sites": np.asarray(end_sites).reshape(-1, 3),
         "end_sites_parents": np.asarray(end_parents, dtype=int), "rot_order": np.asarray(orders),
         "channels": np.asarray([len(labels) for labels in channels]), "positions": positions,
-        "rotations": rotations, "frame_time": frame_time}
+        "rotations": rotations, "frame_time": frame_time, 'channel_labels':channels,
+        'channel_values':channel_values, 'hierarchy_text':''.join(header_lines)}

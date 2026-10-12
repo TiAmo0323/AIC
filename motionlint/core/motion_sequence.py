@@ -32,6 +32,8 @@ class MotionSequence:
     prompt: str | None = None
     music_path: str | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
+    local_positions: np.ndarray | None = None  # (T, A, J, 3), BVH local positions
+    channel_values: np.ndarray | None = None  # (T, A, C), original BVH channels
 
     def __post_init__(self) -> None:
         if not self.source:
@@ -44,6 +46,7 @@ class MotionSequence:
         joint_count: int | None = None
         for name, trailing_shape in (
             ("positions", (3,)),
+            ("local_positions", (3,)),
             ("rotations_6d", (6,)),
             ("rotation_matrices", (3, 3)),
         ):
@@ -76,6 +79,12 @@ class MotionSequence:
             if contacts.ndim != 3 or contacts.shape[:2] != (self.frame_count, self.actor_count):
                 raise ValueError(f"contacts must have shape (T, A, C); got {contacts.shape}")
             self.contacts = contacts
+
+        if self.channel_values is not None:
+            channels=np.asarray(self.channel_values)
+            if channels.ndim!=3 or channels.shape[:2]!=(self.frame_count,self.actor_count) or not np.isfinite(channels).all():
+                raise ValueError('channel_values requires finite (T, A, C) arrays')
+            self.channel_values=channels
 
         if self.joint_names is not None and joint_count is not None and len(self.joint_names) != joint_count:
             raise ValueError(f"joint_names has {len(self.joint_names)} entries; expected {joint_count}")

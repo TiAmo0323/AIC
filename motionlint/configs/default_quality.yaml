@@ -1,15 +1,19 @@
-version: 4
+version: 5
 tests:
   temporal_continuity:
     weight: 0.20
     root_step_m: 0.18
     root_acceleration_m_s2: 90.0
+    check_root_acceleration: true
     angular_step_deg: 65.0
     chunk_frames: 256
   skeleton_integrity:
     weight: 0.15
     bone_length_variation_ratio: 0.12
     joint_collapse_m: 0.015
+    validate_hierarchy: true
+    check_all_collapses: true
+    ignore_declared_helpers: true
   foot_sliding:
     use_explicit_floor: true
     weight: 0.20
@@ -17,6 +21,7 @@ tests:
     horizontal_speed_m_s: 0.16
     vertical_speed_m_s: 0.15
     min_contact_frames: 3
+    shared_floor: true
   ground_contact:
     use_explicit_floor: true
     flag_unconfirmed_airborne: false
@@ -26,6 +31,7 @@ tests:
     contact_height_m: 0.06
   collision:
     weight: 0.20
+    explicit_contact_intervals: true
     extended_inter_actor_checks: true
     wrist_head_clearance_m: 0.12
     forearm_head_clearance_m: 0.09
@@ -35,6 +41,7 @@ tests:
     weight: 0.10
     joint_jerk_m_s3: 450.0
     angular_acceleration_deg_s2: 18000.0
+    signed_angular_derivatives: true
 gate:
   overall_min_score: 80.0
   max_critical_issues: 0

@@ -85,6 +85,8 @@ def _write_report(folder: Path, report) -> None:
     folder.mkdir(parents=True, exist_ok=True)
     _write_json(folder / "motionlint_report.json", report.to_dict())
     _write_json(folder / "issues.json", [issue.to_dict() for test in report.tests for issue in test.issues])
+    from motionlint.offline_report import write_html
+    write_html(folder / 'report.html', report)
     with (folder / "metrics.csv").open("w", encoding="utf-8-sig", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=["test", "status", "score", "issue_count"])
         writer.writeheader()
@@ -102,7 +104,12 @@ def _print_report(report, gate) -> None:
 
 
 def _main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="motionlint", description="Quality checks and repair for human motion")
+    argv = sys.argv[1:] if argv is None else argv
+    if argv and argv[0] in {'doctor', 'resources', 'benchmark', 'serve', 'pipeline'}:
+        from motionlint.cli.extended import dispatch
+        return dispatch(argv)
+    parser = argparse.ArgumentParser(prog="motionlint", description="Quality checks and repair for human motion",
+        epilog='Additional commands: doctor, serve, pipeline, resources, benchmark. Use motionlint COMMAND --help.')
     sub = parser.add_subparsers(dest="command", required=True)
     check_parser = sub.add_parser("check", help="Inspect a motion file")
     check_parser.add_argument("input")
@@ -149,9 +156,14 @@ def _main(argv: list[str] | None = None) -> int:
         return 2 if summary["success_count"] != summary["count"] else (0 if summary["gate_pass_count"] == summary["count"] else 1)
 
     if args.command == "compare":
-        baseline = inspect(load_motion(args.baseline, args.baseline_actor2, args.fps, **options), config_path=args.config)
-        candidate = inspect(load_motion(args.candidate, args.candidate_actor2, args.fps, **options), config_path=args.config)
-        comparison = compare(baseline, candidate, config_path=args.config)
+        baseline_motion = load_motion(args.baseline, args.baseline_actor2, args.fps, **options)
+        candidate_motion = load_motion(args.candidate, args.candidate_actor2, args.fps, **options)
+        from motionlint.core.context import freeze_pair
+        from motionlint.core.config import load_config, DEFAULT_CONFIG
+        baseline_motion, candidate_motion = freeze_pair(baseline_motion, candidate_motion, load_config(args.config or DEFAULT_CONFIG))
+        baseline = inspect(baseline_motion, config_path=args.config)
+        candidate = inspect(candidate_motion, config_path=args.config)
+        comparison = compare(baseline, candidate, config_path=args.config, baseline_motion=baseline_motion, candidate_motion=candidate_motion)
         folder = args.output_dir or Path("reports") / f"{Path(args.baseline).stem}_vs_{Path(args.candidate).stem}"
         _write_report(folder / "baseline", baseline)
         _write_report(folder / "candidate", candidate)
@@ -176,9 +188,8 @@ def _main(argv: list[str] | None = None) -> int:
         _print_report(report, gate)
         return 1 if gate.status == "FAIL" else 0
 
-    if motion.source not in {"lodge", "intergen"}:
-        raise ValueError("Repair currently supports LODGE and InterGen NPY, not BVH")
-    prospective = [folder / "repaired.npy"] if motion.source == "lodge" else [folder / f"repaired_actor{a+1}.npy" for a in range(motion.actor_count)]
+    extension = 'bvh' if motion.source == 'bvh' else 'npy'
+    prospective = [folder / "repaired.npy"] if motion.source == "lodge" else [folder / f"repaired_actor{a+1}.{extension}" for a in range(motion.actor_count)]
     inputs = {Path(args.input).resolve()} | ({Path(args.actor2).resolve()} if args.actor2 else set())
     if any(path.resolve() in inputs for path in prospective):
         raise ValueError("Repair output would overwrite original input; choose a different output directory")
@@ -186,10 +197,27 @@ def _main(argv: list[str] | None = None) -> int:
     _write_report(folder / "before", outcome.before)
     _write_report(folder / "after", outcome.after)
     _write_json(folder / "repair_report.json", outcome.to_dict())
-    _write_json(folder / "comparison.json", compare(outcome.before, outcome.after, config_path=args.config))
+    from motionlint.core.context import freeze_pair
+    from motionlint.core.config import load_config
+    motion, candidate = freeze_pair(motion, outcome.motion, load_config(args.config))
+    _write_json(folder / "comparison.json", compare(outcome.before, outcome.after, config_path=args.config, baseline_motion=motion, candidate_motion=candidate))
     if motion.source == "lodge":
         raw = outcome.raw_lodge if outcome.raw_lodge is not None else np.load(args.input, allow_pickle=False)
         np.save(folder / "repaired.npy", raw)
+    elif motion.source == 'bvh':
+        from motionlint.bvh_preserve import write_preserving_bvh
+        for actor, path in enumerate(prospective):
+            write_preserving_bvh(path, outcome.motion, actor)
+        readback = load_motion(prospective[0], prospective[1] if len(prospective) == 2 else None, **options)
+        error = float(np.max(np.abs(readback.positions - outcome.motion.positions)))
+        if error > 1e-5:
+            raise ValueError(f'Written BVH failed coordinate verification: {error:.8g} m')
+        readback.metadata.update(floor_height_m=motion.metadata.get('floor_height_m'), stage='bvh')
+        exported_report = inspect(readback, config_path=args.config)
+        _write_report(folder / 'bvh', exported_report)
+        _write_json(folder / 'bvh/quality_gate.json', evaluate_gate(exported_report, config_path=args.config).to_dict())
+        _write_json(folder / 'export_manifest.json', {'schema_version': 3, 'round_trip_max_coordinate_error_m': error,
+            'files': [{'path': path.name, 'fps': readback.fps, **options} for path in prospective]})
     else:
         for actor in range(outcome.motion.actor_count):
             np.save(folder / f"repaired_actor{actor + 1}.npy", outcome.motion.positions[:, actor])

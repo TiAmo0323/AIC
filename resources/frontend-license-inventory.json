@@ -1,0 +1,659 @@
+{
+  "scope": "Frontend production closure notices; not a claim of project-wide licence",
+  "count": 50,
+  "packages": [
+    {
+      "name": "axios",
+      "version": "1.20.0",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/axios/axios.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "vue",
+      "version": "3.5.43",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vuejs/core.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "follow-redirects",
+      "version": "1.16.1",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/follow-redirects/follow-redirects.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "form-data",
+      "version": "4.0.6",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git://github.com/form-data/form-data.git"
+      },
+      "full_notice_files": [
+        "License"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "https-proxy-agent",
+      "version": "5.0.1",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git://github.com/TooTallNate/node-https-proxy-agent.git"
+      },
+      "full_notice_files": [
+        "https-proxy-agent-5.0.1.txt"
+      ],
+      "recovered_source": {
+        "name": "https-proxy-agent",
+        "version": "5.0.1",
+        "source_file": "installed package README.md, full licence section",
+        "readme_sha256": "32f0856d2c43df7d05cca960fdee84e1e38ab545bd7b2186433dfa41aa90a712",
+        "sha256": "f59b84f08208c7b127560f983c93bbd65939202e88bd480b90cdc347107f3cde"
+      }
+    },
+    {
+      "name": "proxy-from-env",
+      "version": "2.1.0",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Rob--W/proxy-from-env.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "@vue/shared",
+      "version": "3.5.43",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vuejs/core.git",
+        "directory": "packages/shared"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "@vue/compiler-dom",
+      "version": "3.5.43",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vuejs/core.git",
+        "directory": "packages/compiler-dom"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "@vue/runtime-dom",
+      "version": "3.5.43",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vuejs/core.git",
+        "directory": "packages/runtime-dom"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "@vue/compiler-sfc",
+      "version": "3.5.43",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vuejs/core.git",
+        "directory": "packages/compiler-sfc"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "@vue/server-renderer",
+      "version": "3.5.43",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vuejs/core.git",
+        "directory": "packages/server-renderer"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "asynckit",
+      "version": "0.4.0",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/alexindigo/asynckit.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "combined-stream",
+      "version": "1.0.8",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git://github.com/felixge/node-combined-stream.git"
+      },
+      "full_notice_files": [
+        "License"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "es-set-tostringtag",
+      "version": "2.1.0",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/es-shims/es-set-tostringtag.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "hasown",
+      "version": "2.0.4",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/inspect-js/hasOwn.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "mime-types",
+      "version": "2.1.35",
+      "license": "MIT",
+      "repository": "jshttp/mime-types",
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "agent-base",
+      "version": "6.0.2",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git://github.com/TooTallNate/node-agent-base.git"
+      },
+      "full_notice_files": [
+        "agent-base-6.0.2.txt"
+      ],
+      "recovered_source": {
+        "name": "agent-base",
+        "version": "6.0.2",
+        "source_file": "installed package README.md, full licence section",
+        "readme_sha256": "f1425c3b72330fe4fb2aa5a2fb152e939bdf534692a32b5f0b38f74147b98556",
+        "sha256": "f59b84f08208c7b127560f983c93bbd65939202e88bd480b90cdc347107f3cde"
+      }
+    },
+    {
+      "name": "debug",
+      "version": "4.4.3",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git://github.com/debug-js/debug.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "@vue/compiler-core",
+      "version": "3.5.43",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vuejs/core.git",
+        "directory": "packages/compiler-core"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "@vue/runtime-core",
+      "version": "3.5.43",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vuejs/core.git",
+        "directory": "packages/runtime-core"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "@vue/reactivity",
+      "version": "3.5.43",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vuejs/core.git",
+        "directory": "packages/reactivity"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "csstype",
+      "version": "3.2.3",
+      "license": "MIT",
+      "repository": "https://github.com/frenic/csstype",
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "@babel/parser",
+      "version": "7.29.9",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/babel/babel.git",
+        "directory": "packages/babel-parser"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "@vue/compiler-ssr",
+      "version": "3.5.43",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vuejs/core.git",
+        "directory": "packages/compiler-ssr"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "estree-walker",
+      "version": "2.0.2",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/Rich-Harris/estree-walker"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "magic-string",
+      "version": "0.30.21",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Rich-Harris/magic-string.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "postcss",
+      "version": "8.5.29",
+      "license": "MIT",
+      "repository": "postcss/postcss",
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "source-map-js",
+      "version": "1.2.2",
+      "license": "BSD-3-Clause",
+      "repository": "7rulnik/source-map-js",
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "delayed-stream",
+      "version": "1.0.0",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git://github.com/felixge/node-delayed-stream.git"
+      },
+      "full_notice_files": [
+        "License"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "es-errors",
+      "version": "1.3.0",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ljharb/es-errors.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "get-intrinsic",
+      "version": "1.3.0",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ljharb/get-intrinsic.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "has-tostringtag",
+      "version": "1.0.2",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/inspect-js/has-tostringtag.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "function-bind",
+      "version": "1.1.2",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/Raynos/function-bind.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "mime-db",
+      "version": "1.52.0",
+      "license": "MIT",
+      "repository": "jshttp/mime-db",
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "ms",
+      "version": "2.1.3",
+      "license": "MIT",
+      "repository": "vercel/ms",
+      "full_notice_files": [
+        "license.md"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "entities",
+      "version": "7.0.1",
+      "license": "BSD-2-Clause",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/fb55/entities.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "@babel/types",
+      "version": "7.29.8",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/babel/babel.git",
+        "directory": "packages/babel-types"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "@jridgewell/sourcemap-codec",
+      "version": "1.6.0",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jridgewell/sourcemaps.git",
+        "directory": "packages/sourcemap-codec"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "nanoid",
+      "version": "3.3.20",
+      "license": "MIT",
+      "repository": "ai/nanoid",
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "picocolors",
+      "version": "1.1.1",
+      "license": "ISC",
+      "repository": "alexeyraspopov/picocolors",
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "call-bind-apply-helpers",
+      "version": "1.0.2",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ljharb/call-bind-apply-helpers.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "es-define-property",
+      "version": "1.0.1",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ljharb/es-define-property.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "es-object-atoms",
+      "version": "1.1.2",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ljharb/es-object-atoms.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "get-proto",
+      "version": "1.0.1",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ljharb/get-proto.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "gopd",
+      "version": "1.2.0",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ljharb/gopd.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "has-symbols",
+      "version": "1.1.0",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git://github.com/inspect-js/has-symbols.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "math-intrinsics",
+      "version": "1.1.0",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/es-shims/math-intrinsics.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "@babel/helper-string-parser",
+      "version": "7.29.7",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/babel/babel.git",
+        "directory": "packages/babel-helper-string-parser"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "@babel/helper-validator-identifier",
+      "version": "7.29.7",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/babel/babel.git",
+        "directory": "packages/babel-helper-validator-identifier"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    },
+    {
+      "name": "dunder-proto",
+      "version": "1.0.1",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/es-shims/dunder-proto.git"
+      },
+      "full_notice_files": [
+        "LICENSE"
+      ],
+      "recovered_source": null
+    }
+  ],
+  "notices_sha256": "fab97333f4123d8029691dc2bf12c67726219100e032afa6cc2eb82dd915e5de"
+}

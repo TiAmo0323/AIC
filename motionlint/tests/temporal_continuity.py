@@ -33,6 +33,12 @@ def check(motion: MotionSequence, settings: dict) -> TestResult:
         if len(root) >= 3:
             acceleration = np.linalg.norm(np.diff(root, n=2, axis=0), axis=-1) * motion.fps ** 2
             metrics["max_root_acceleration_m_s2"] = float(np.nanmax(acceleration))
+            if settings.get('check_root_acceleration', False):
+                limit=float(settings['root_acceleration_m_s2'])
+                for actor in range(motion.actor_count):
+                    for start,end in segments(acceleration[:,actor]>limit):
+                        issues.append(MotionIssue(name,'high',start+2,end+2,'root_acceleration_m_s2',float(acceleration[start:end+1,actor].max()),limit,
+                                                  'Root acceleration discontinuity',actor_id=actor,joint_ids=[0]))
     else:
         metrics["root_available"] = False
 

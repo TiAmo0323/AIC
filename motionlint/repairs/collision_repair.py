@@ -57,7 +57,7 @@ def repair_lodge_collisions(motion: MotionSequence, *, raw: np.ndarray | None, s
         first = start + 3 + 6 * SMPL_TO_BVH22[joint]
         repaired_raw[:, first:first + 6] = local[:, joint, :2].reshape(-1, 6).astype(raw.dtype)
     repaired = normalize_lodge_array(repaired_raw, fps=motion.fps, source_path=motion.metadata.get("source_path"),
-                                     model_path=motion.metadata.get("geometry_model_path"))
+                                     frozen_geometry=motion.metadata)
     wrists = [lookup[side + "Hand"] for side in ("Left", "Right")]
     shift = float(np.linalg.norm(repaired.positions[:, 0, wrists] - positions[:, wrists], axis=-1).max())
     max_joint = float(np.linalg.norm(repaired.positions - motion.positions, axis=-1).max())

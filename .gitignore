@@ -22,6 +22,7 @@ dist/
 .vite/
 coverage/
 .playwright-cli/
+output/playwright/
 
 # Local configuration and credentials
 .env
@@ -77,3 +78,6 @@ docs/project-growth/
 *.temp
 tmp/
 temp/
+output/
+.playwright-cli/
+.playwright/

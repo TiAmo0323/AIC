@@ -130,6 +130,28 @@ try {
   assert.equal(view.regressionResult, null, 'Switching the visible task invalidates any comparison in flight')
   assert.equal(switchRequest.config.signal.aborted, true)
   assert.equal(view.regressionError, '')
+  view.clearTaskView()
+  view.generatedTaskId = 'import-task'
+  view.importedAsset = {task_id: 'import-task', source: 'import', fps: 24, frame_count: 20}
+  view.qualityReport = {tests: []}
+  assert.ok(view.visibleStudioTabs.some(tab => tab.id === 'Repair'), 'Imports offer the repair workspace')
+  const repairing = view.repairCurrentMotion()
+  const repairRequest = comparisons.shift()
+  assert.equal(repairRequest.body.source, 'import')
+  assert.ok(repairRequest.url.endsWith('/repair'))
+  repairRequest.resolve({data: {after: {tests: [], overall_score: 97}, gate: {status: 'FAIL'}, repair: {steps: []},
+    render_status: 'skeleton_ready', artifacts: {run_id: 'first-run'}, preview: {task_id: 'import-task', source: 'import', run_id: 'first-run', fps: 24, frame_count: 20}}})
+  await repairing
+  assert.equal(view.qualityStage, 'repaired')
+  assert.equal(view.activeSkeletonAsset.run_id, 'first-run')
+  assert.equal(view.repairArtifacts.run_id, 'first-run')
+  const pendingCharacter = view.refreshCharacterExport()
+  const oldCharacter = requests.shift()
+  view.generatedTaskId = 'different-task'
+  oldCharacter.resolve({data: {status: 'ready', video_url: '/old-video'}})
+  await pendingCharacter
+  assert.equal(view.characterExportState.status, 'unavailable', 'A previous export cannot populate a new task')
+  assert.equal(view.repairArtifacts, null)
   console.log('Actual App render recovery and comparison cancellation, stale response protection and inline failures: PASS')
 } finally {
   app?.unmount()

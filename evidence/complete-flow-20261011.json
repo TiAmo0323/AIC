@@ -1,0 +1,906 @@
+{
+  "schema_version": 1,
+  "scope": "Developer Windows engineering verification using self-authored fixtures; no human annotation or blind-test accuracy claim",
+  "python": "3.11.15",
+  "base_commit": "3ddbe35f601a3de09d85d8bea9f576a1680c71a3",
+  "source_sha256": {
+    "motionlint/__init__.py": "6b17def84132816c280812417caef3e8b9cf699e7111c055027d60dcefa8fd16",
+    "motionlint/__main__.py": "621913e317105b8e7eca0d22431b0477ba9b34020b90a669530fbd518bb87ea6",
+    "motionlint/adapters/__init__.py": "032b586e791aa50009b8c5888200b0fa616e5a2facdef8f5c3bfd6f81153bbaa",
+    "motionlint/adapters/bvh_adapter.py": "bba806d5753c735ec2bd17aed80506b70d29baa9c08c9964c1f3081b1cba3030",
+    "motionlint/adapters/bvh_reader.py": "eb5eec21f8a524919a8a5fe88f792d20fa9632e029621639f201d87a80b3e80c",
+    "motionlint/adapters/character_adapter.py": "cf4e48685fb0416a36fda66f4fd6eb0a022322700f17b0b62bddbd2153c5802d",
+    "motionlint/adapters/intergen_adapter.py": "38d720f6030249d9660457079a769d1da61f5f17e00d3b05aa79eaedcbcd1e5b",
+    "motionlint/adapters/lodge_adapter.py": "3850d9eb13df94d48631894197d1f89b967df252225d40a69a449b21a6fe4514",
+    "motionlint/adapters/smplx_geometry.py": "ee9a75058a0f53d9fa62cce250abfa0652999663b7371eeb7b1295eefbd0dec2",
+    "motionlint/api.py": "759f11108136e7f7b053d29bc8df72fae0f8e4a800d2eb83cf23acb72f34b58b",
+    "motionlint/artifacts.py": "88e6f5d34ad1b2b9f4f5bf85d038c0477b997cb93d4363a2328afee80fd60e74",
+    "motionlint/benchmark/__init__.py": "03832334764d58d3a378a165b3a39608b6dc566c049e7b3f734d315ec50d2a96",
+    "motionlint/benchmark/evaluation.py": "00c5b807090917d4cff250231425c2f9640532d641b067798cf3715f658c55ac",
+    "motionlint/benchmark/fixtures.py": "58c14b3799fd4b846d8b734f9d1550875b3a25b1d134a24c9a88f4b4c3c80289",
+    "motionlint/bvh_conversion.py": "8c99fd8ad8b5dd2f68ae88c6b69a30f2f47fd0cf5e13e0ccaae12056f7b047db",
+    "motionlint/bvh_writer.py": "3771abd22f9dd94eb551c86b91afad3dc26ab0b33fe95838d5d0b87722af7912",
+    "motionlint/character_export.py": "7d088d60afcdf7ac5b779bad95fc2e3e4d9cb6c9742a2b843b9d5db45743bf7f",
+    "motionlint/character_feet.py": "242ab0da70144178fc61364657dc97bdba7c4775a608dec600af5ce1ea6c94da",
+    "motionlint/cli/__init__.py": "808d4f16010d8aa4142f262dc64a0356824c7a4fe8d4f06f314b45968c647c5a",
+    "motionlint/cli/main.py": "b6ce513ed89ac25a3cc08acb48efa33989c2c4a03a123f87823f06e6ec315128",
+    "motionlint/core/__init__.py": "5d5761806172b2effe5539210c79446a79e5b006271d81826c5f074a95e9eb53",
+    "motionlint/core/config.py": "9f4a3d3dcf2543a8d86f2b5890e9891be67d6fc1587e0bd3a9c5dae3d27de0d2",
+    "motionlint/core/continuity.py": "63157ffe83c128cfc1d0dbfbabbd34c2bc771177321dbe1aaa2cab4728d08104",
+    "motionlint/core/floor.py": "3fa072c016eea3f00e8d3efa60358a611bcafe629ebebf90b488a7ba46314f30",
+    "motionlint/core/foot_support.py": "b89dd08f3317cba841a9dbb99706eedcd461fd9262aecafcb9bffd849f325de3",
+    "motionlint/core/geometry.py": "685aff88fb785d10cdffa5c67372c1c5f4105998a4d171c121e1ff8384c23a74",
+    "motionlint/core/legacy_arm_clearance.py": "8a1ab4c5c1ddc364611a99ca303b0a28c1cc856719fa7a45391146a8a6db0000",
+    "motionlint/core/motion_sequence.py": "9006d7d27a580b50e831083bdf8dea788177d8d389e4bb2ad36c2a33409a1974",
+    "motionlint/core/provenance.py": "d6910e76802e7009ed8870a6a833282d9f6e7360e4e4ad51f91a7562a7a8be9c",
+    "motionlint/core/quality_gate.py": "1cb0fb49da186634a7bc0366c21171dc9047683e7cfb96fd76c8d4fd5fcc85b9",
+    "motionlint/core/registry.py": "5e1e2d07e34e40ad54fabad9dd8bb7d2857ee1352e23b8e937612cbf6e9e7953",
+    "motionlint/core/result.py": "6123af2bcc3eebb0426ae14d21441d446a0623a3ee616e6764c4a4e8afe79d64",
+    "motionlint/core/skeleton.py": "e4efd19a779c5bdbcec5173ec2bfe849dba996cba4fbb00dfa5b7c2413c70ec7",
+    "motionlint/import_io.py": "dd1aba58c14a06349adf4a843b661917d8a7a7b93eec8f263239e2d9a3792b8a",
+    "motionlint/joints_to_bvh.py": "01f26fd100244541a92933d836524c9d046c210761248cdd750720408d9339e6",
+    "motionlint/pipeline/__init__.py": "59c207c32b9c8bbc8e55b398d53e8386ad2af253fcff0a5525a583c0dbafe224",
+    "motionlint/pipeline/experiment.py": "b871ac01c7cda359e5330112edfdf46a86a02995111082a015edceedbbc86e36",
+    "motionlint/pipeline/inspector.py": "857a03448c133978a8f72cc6c3d2bd00901965621db7584cf2b550c8581cfb22",
+    "motionlint/pipeline/regression.py": "f33ef47d8b6dcbf5e1fe82984a3cbe7614cf51cb8d14483786493e4b975403be",
+    "motionlint/pipeline/repair_pipeline.py": "d5d9d827a200a93030889dba9afc57917f16732856faa773d88415a7b84913d3",
+    "motionlint/render_intergen_preview.py": "5a95c5fda7f8706feb27ecc6df23eef25733bae90c09f88f0104cf56723d053e",
+    "motionlint/repairs/__init__.py": "de2c8a3da8c5c7cd4c9bc746c6a490ee2ccfee39a4d4ffb64d38ef10680ba4ac",
+    "motionlint/repairs/bone_length.py": "4139e4a08c6c341ee850bcf53b40c0dc6a620b279f5b7caed85fcd393c7e83f5",
+    "motionlint/repairs/collision_repair.py": "e847f9fe23595efd7b9c6128b4e208404f6aee341a35604233bd45d1b3c122a6",
+    "motionlint/repairs/foot_lock.py": "47c0522d1a701b333df29e41f18dc31f290576616987b5f669254fcd2125396c",
+    "motionlint/repairs/inter_actor.py": "2bfa77c7b6b8a70851464943bd78ea8b74bb54f9c70dc9e1d17a9b04840dd412",
+    "motionlint/repairs/kinematics.py": "ffba489cfacf09980b547bd949b1cabb5cd2b5a87b53402e55323f59f98f61e9",
+    "motionlint/repairs/seam_repair.py": "1120df6c4b5dc15bf8c311c643b386c78fa9f79a4588683b99f53c1c57121242",
+    "motionlint/tests/__init__.py": "c055d4c7a68362156df5dc31aee3333f4f8cf7ae94be4cd3c8c843c6d21bc375",
+    "motionlint/tests/collision.py": "1ce8d938b1fab7074caffa07f8a84d55c6bd081c9a2937741aaf60b7032769fd",
+    "motionlint/tests/common.py": "cdedf15bcdc704c2f167c2d2c6eeb63d8b82210a1162edda76ee77afb2455414",
+    "motionlint/tests/foot_sliding.py": "9d76ae5521a7824816bdf610104b9aaa39e09e6b8e46d6ca60769445240b540d",
+    "motionlint/tests/ground_contact.py": "192de1e9d5dc3b7dbaa42daf42ef7ba4692a4fe2eb18019d93726fdef7da7c0c",
+    "motionlint/tests/motion_jerk.py": "d00dd3dca5743c4d529606777002726f30106bdd3821ffe784e647cc5887cc66",
+    "motionlint/tests/skeleton_integrity.py": "fbc0595438395518eb1575442b4fee15f4057739e2f7d5f010d2f14a6afbab5d",
+    "motionlint/tests/temporal_continuity.py": "7b1b27ffffcfe59c3bc5849a6011cd85044af1daf7f5a885fe4a22539d4ec872",
+    "LODGE_api/blender_rokoko_retarget.py": "8c8a67362b051fd1873a48a8afbf426901814744b12b46919293b85033631d3f",
+    "scripts/export_blender_motionlint.py": "1cd97984d107a8fb5e79fd57bbea21d1feeec2283bb3889a24c589d6d684a5c6"
+  },
+  "wheel_sha256": "e04f21372441809147962d7305374d83353797633f3387685489a209876ae5d8",
+  "samples": [
+    {
+      "task_id": "74142207-4ec2-480b-a546-1cb7b7561262",
+      "input_title": "foot_sliding_00.npy",
+      "run_id": "7a5f7cfd-9723-4ee2-a5cf-43116ed8249b",
+      "input_files": [
+        {
+          "path": "actor1.npy",
+          "sha256": "f38f03c486bbe3cbde2c30dfa6cdb5c787f8615b03679bea414350dd217e737f"
+        }
+      ],
+      "artifact_files": [
+        {
+          "key": "bvh__issues.json",
+          "path": "bvh/issues.json",
+          "sha256": "6a2f9fae8e537e35c20f80e777a3ed0896d1af53933090c66c56d0102fdc5fbc",
+          "download": false
+        },
+        {
+          "key": "bvh__metrics.csv",
+          "path": "bvh/metrics.csv",
+          "sha256": "7f2c21c9698c226df6607bac1d260d8c7747e6156e174e7fb6e9fae1cd961fcc",
+          "download": false
+        },
+        {
+          "key": "bvh__motionlint_report.json",
+          "path": "bvh/motionlint_report.json",
+          "sha256": "2639c3ea125068b2a3812b50557749e9a46928acd602ce3ee14c11df3207978b",
+          "download": false
+        },
+        {
+          "key": "bvh__quality_gate.json",
+          "path": "bvh/quality_gate.json",
+          "sha256": "7410c1a4b431ddac42decf373e7c69ab38479172d2d53e32df3f445131c625f7",
+          "download": false
+        },
+        {
+          "key": "bvh_motion.npz",
+          "path": "bvh_motion.npz",
+          "sha256": "c0444bde28abf7cf9a314d6e8cca4fee3b6a1f2b50ec8daa997e238a4f406c66",
+          "download": false
+        },
+        {
+          "key": "comparison.json",
+          "path": "comparison.json",
+          "sha256": "2f74a95bc4714fe44b874958ae44bee81d5c079a23d986a8c148d090673eb9bc",
+          "download": true
+        },
+        {
+          "key": "quality.yaml",
+          "path": "quality.yaml",
+          "sha256": "ad1760cde3227f6c9540562406617e4f5ccd367a5633794dcd352bb5ee3f64c8",
+          "download": false
+        },
+        {
+          "key": "raw__issues.json",
+          "path": "raw/issues.json",
+          "sha256": "9ac25f7649d1362aeba04eb13b21c050b1b559ecb4a168bfe621280ff7d0bb88",
+          "download": false
+        },
+        {
+          "key": "raw__metrics.csv",
+          "path": "raw/metrics.csv",
+          "sha256": "02b42926414d426a70a5c63fe1dafc9412d8667db443d11306c8b041c53ad08c",
+          "download": false
+        },
+        {
+          "key": "raw__motionlint_report.json",
+          "path": "raw/motionlint_report.json",
+          "sha256": "8fef96b2f331d81c7a69b0d99d6bd10b04378c15a8cb568bc2e7db7585c73a0a",
+          "download": false
+        },
+        {
+          "key": "raw__quality_gate.json",
+          "path": "raw/quality_gate.json",
+          "sha256": "7410c1a4b431ddac42decf373e7c69ab38479172d2d53e32df3f445131c625f7",
+          "download": false
+        },
+        {
+          "key": "raw_motion.npz",
+          "path": "raw_motion.npz",
+          "sha256": "5e279fb381dadecd0184bd83ec6fed605c33e4909a644001521aad6c7e410cb2",
+          "download": false
+        },
+        {
+          "key": "README.md",
+          "path": "README.md",
+          "sha256": "2cc44136c83acaa08be713474f8c942a40a2ba96d7a790fbc47f815833c4b185",
+          "download": false
+        },
+        {
+          "key": "repair_report.json",
+          "path": "repair_report.json",
+          "sha256": "ab5452cd98a707b0f0ee7390a153a07d045a675f635797e2af1793cf7b451075",
+          "download": true
+        },
+        {
+          "key": "repaired__issues.json",
+          "path": "repaired/issues.json",
+          "sha256": "c8fe08e665a9918af75a6aeb7fac29bcf46d3618a905a9c14e873aa205efcfcb",
+          "download": false
+        },
+        {
+          "key": "repaired__metrics.csv",
+          "path": "repaired/metrics.csv",
+          "sha256": "7f2c21c9698c226df6607bac1d260d8c7747e6156e174e7fb6e9fae1cd961fcc",
+          "download": false
+        },
+        {
+          "key": "repaired__motionlint_report.json",
+          "path": "repaired/motionlint_report.json",
+          "sha256": "6d4806e162568f4dc6f69f0ea792a1ad25c6368bb3d7c232a739376049b4cd5d",
+          "download": false
+        },
+        {
+          "key": "repaired__quality_gate.json",
+          "path": "repaired/quality_gate.json",
+          "sha256": "7410c1a4b431ddac42decf373e7c69ab38479172d2d53e32df3f445131c625f7",
+          "download": false
+        },
+        {
+          "key": "repaired_actor1.bvh",
+          "path": "repaired_actor1.bvh",
+          "sha256": "2605fb84ec28cb7a89fb87d1e269b8e22e022d4419c5868d21cffe5c4423a96d",
+          "download": true
+        },
+        {
+          "key": "repaired_actor1.conversion.json",
+          "path": "repaired_actor1.conversion.json",
+          "sha256": "3771bcdb8beeecc9a8ee7bcc12e034451095a9e8805b0160a2b7899fdc27bff4",
+          "download": false
+        },
+        {
+          "key": "repaired_actor1.npy",
+          "path": "repaired_actor1.npy",
+          "sha256": "1f4049db52b1d36534792cf2c04f638038285c65edc522e1164c00ff1d3a02f5",
+          "download": true
+        },
+        {
+          "key": "repaired_motion.npz",
+          "path": "repaired_motion.npz",
+          "sha256": "d8e962ae86ccb9131be97922f9f18d8ba1a00a122aa89c471d63aece4704ca21",
+          "download": false
+        }
+      ],
+      "stages": [
+        {
+          "stage": "raw",
+          "score": 96.7,
+          "gate": {
+            "status": "FAIL",
+            "reasons": [
+              "foot_sliding has high-severity issues"
+            ]
+          },
+          "issue_count": 2,
+          "actors": 1,
+          "frames": 300,
+          "fps": 30.0,
+          "array_sha256": {
+            "positions": "090500fb019d2e4810b9769cc651b11c0477e24908096f0c2efac9914a8aa811",
+            "root_translation": "4c629af74b6547611ae001a9f13b8701fcc9df1d5ec36eda0b7b49f5a6726f23"
+          },
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "geometry_source": "native_joint_positions"
+        },
+        {
+          "stage": "repaired",
+          "score": 97.18,
+          "gate": {
+            "status": "FAIL",
+            "reasons": [
+              "foot_sliding has high-severity issues"
+            ]
+          },
+          "issue_count": 2,
+          "actors": 1,
+          "frames": 300,
+          "fps": 30.0,
+          "array_sha256": {
+            "positions": "24458e4bb8b52c75b38375f3af6b1c84442ff25e0a68774b87e19dc7053b1c0c",
+            "root_translation": "4c629af74b6547611ae001a9f13b8701fcc9df1d5ec36eda0b7b49f5a6726f23"
+          },
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "geometry_source": "native_joint_positions"
+        },
+        {
+          "stage": "bvh",
+          "score": 97.18,
+          "gate": {
+            "status": "FAIL",
+            "reasons": [
+              "foot_sliding has high-severity issues"
+            ]
+          },
+          "issue_count": 2,
+          "actors": 1,
+          "frames": 300,
+          "fps": 30.0,
+          "array_sha256": {
+            "positions": "fffbfbcec17a34e453c2154531547f0eea9e176e43a69ea4a72895d85e7527d9",
+            "rotation_matrices": "31c45628154f33fe2a2e5c8c567343b18af90fcc9484a7cb80c439fb4c174e6f",
+            "root_translation": "6c70d93b456a58af3078f4c1b0d823147dc2a6bdcb6d24321a4478997ead8b12"
+          },
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "geometry_source": "bvh_fk"
+        },
+        {
+          "stage": "character",
+          "score": 97.18,
+          "gate": {
+            "status": "FAIL",
+            "reasons": [
+              "foot_sliding has high-severity issues"
+            ]
+          },
+          "issue_count": 2,
+          "actors": 1,
+          "frames": 300,
+          "fps": 30.0,
+          "array_sha256": {
+            "positions": "11d43518ddcf32fc4309edea0840ddf4771fa5bc69b9d264c0901f32e4eedd2e",
+            "rotation_matrices": "ef1bbe38865cfed77c04905e933b41efcd03e39384fbcaa6f40b4b3011117941",
+            "root_translation": "a990f8eac49aa3e0bdb96f65a0eebf86f82425c44a0dc4103b622f2556372357"
+          },
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "geometry_source": "evaluated_blender_character_bone_heads"
+        }
+      ],
+      "steps": [
+        {
+          "repair": "foot_lock",
+          "status": "accepted",
+          "applied": true,
+          "reason": null,
+          "max_joint_shift_m": 0.1484880761105182
+        },
+        {
+          "repair": "seam_repair",
+          "status": "no_op",
+          "applied": false,
+          "reason": "No supported repairable issue",
+          "max_joint_shift_m": null
+        },
+        {
+          "repair": "bone_length_projection",
+          "status": "no_op",
+          "applied": false,
+          "reason": "No supported repairable issue",
+          "max_joint_shift_m": null
+        },
+        {
+          "repair": "inter_actor_separation",
+          "status": "no_op",
+          "applied": false,
+          "reason": "No supported repairable issue",
+          "max_joint_shift_m": null
+        },
+        {
+          "repair": "collision_repair",
+          "status": "no_op",
+          "applied": false,
+          "reason": "No supported repairable issue",
+          "max_joint_shift_m": null
+        }
+      ],
+      "video": {
+        "fully_decoded": true,
+        "frames": 300,
+        "fps": 30.0,
+        "duration_seconds": 10.0,
+        "sha256": "a1886c7659ef8148c9e33ab1605ed957a40b76db402906d68897cc9af3e0ad48"
+      },
+      "export_id": "c488c978-cceb-494f-906b-e8ef1beb2114"
+    },
+    {
+      "task_id": "0d11ac32-c010-483d-a6b3-d0e37dd17a99",
+      "input_title": "skeleton_integrity_00.npy",
+      "run_id": "6fbdd0bb-b35d-4741-bd4a-cc66627fbfc0",
+      "input_files": [
+        {
+          "path": "actor1.npy",
+          "sha256": "c683446e93b8ca5511468ad2eeac1e17bfd519d44c66a11d59f9ddb220f84688"
+        }
+      ],
+      "artifact_files": [
+        {
+          "key": "bvh__issues.json",
+          "path": "bvh/issues.json",
+          "sha256": "d62f29353af0cbfd1fb21fde2b0c3b742945ca8e5af6ce7ef22fa8a60b1cb974",
+          "download": false
+        },
+        {
+          "key": "bvh__metrics.csv",
+          "path": "bvh/metrics.csv",
+          "sha256": "b1fd3bc394d3f01bfc86578298dc94ce2e1de9c89ec966d85f986ccf4891dd25",
+          "download": false
+        },
+        {
+          "key": "bvh__motionlint_report.json",
+          "path": "bvh/motionlint_report.json",
+          "sha256": "f64bb10bed4f4c2f46626648746ce118c3a6ef3dc248ecfd367eb3addf699428",
+          "download": false
+        },
+        {
+          "key": "bvh__quality_gate.json",
+          "path": "bvh/quality_gate.json",
+          "sha256": "4992728c1d4d290ff126fa08ef2aa142decc2c1f3061d16eafe624573762074d",
+          "download": false
+        },
+        {
+          "key": "bvh_motion.npz",
+          "path": "bvh_motion.npz",
+          "sha256": "27119a64dc4044d07c0a2312384a13ef1f891a0786145b8f29de24dffce765ed",
+          "download": false
+        },
+        {
+          "key": "comparison.json",
+          "path": "comparison.json",
+          "sha256": "67dd400e752c05fb075665e69cc41f67a50e35be834310069f8fb7aa044e209d",
+          "download": true
+        },
+        {
+          "key": "quality.yaml",
+          "path": "quality.yaml",
+          "sha256": "ad1760cde3227f6c9540562406617e4f5ccd367a5633794dcd352bb5ee3f64c8",
+          "download": false
+        },
+        {
+          "key": "raw__issues.json",
+          "path": "raw/issues.json",
+          "sha256": "ef5934dc3cdcd1b8a381c0dd7288dcf58156cfdb26ac207e8aaefce62ffc9d87",
+          "download": false
+        },
+        {
+          "key": "raw__metrics.csv",
+          "path": "raw/metrics.csv",
+          "sha256": "f1c23123be7fb20da67758258fa9894b6ccccb2d648c407fff1591fe72140d1c",
+          "download": false
+        },
+        {
+          "key": "raw__motionlint_report.json",
+          "path": "raw/motionlint_report.json",
+          "sha256": "9de9ea34c7e6acce52b6321460b1a4e588ec84b27229a458ce95cf0c82e7721d",
+          "download": false
+        },
+        {
+          "key": "raw__quality_gate.json",
+          "path": "raw/quality_gate.json",
+          "sha256": "1087dd70e5a80bf4910b2275ad6af6dea3d26abc45ad680deed242a5df375dce",
+          "download": false
+        },
+        {
+          "key": "raw_motion.npz",
+          "path": "raw_motion.npz",
+          "sha256": "137910ca95f936b8e18d4acf80193d3b681c310844b2eaceb13fffaea75f4c41",
+          "download": false
+        },
+        {
+          "key": "README.md",
+          "path": "README.md",
+          "sha256": "2cc44136c83acaa08be713474f8c942a40a2ba96d7a790fbc47f815833c4b185",
+          "download": false
+        },
+        {
+          "key": "repair_report.json",
+          "path": "repair_report.json",
+          "sha256": "065c9bc88436d2c74efdc1dcc4ea85ccb023b16a57a12ffa45129e284411c5fa",
+          "download": true
+        },
+        {
+          "key": "repaired__issues.json",
+          "path": "repaired/issues.json",
+          "sha256": "ef5934dc3cdcd1b8a381c0dd7288dcf58156cfdb26ac207e8aaefce62ffc9d87",
+          "download": false
+        },
+        {
+          "key": "repaired__metrics.csv",
+          "path": "repaired/metrics.csv",
+          "sha256": "f1c23123be7fb20da67758258fa9894b6ccccb2d648c407fff1591fe72140d1c",
+          "download": false
+        },
+        {
+          "key": "repaired__motionlint_report.json",
+          "path": "repaired/motionlint_report.json",
+          "sha256": "675d63b167f7a1dc8bb89302adb70267c563486cf4e239335c4d223d8fb09697",
+          "download": false
+        },
+        {
+          "key": "repaired__quality_gate.json",
+          "path": "repaired/quality_gate.json",
+          "sha256": "1087dd70e5a80bf4910b2275ad6af6dea3d26abc45ad680deed242a5df375dce",
+          "download": false
+        },
+        {
+          "key": "repaired_actor1.bvh",
+          "path": "repaired_actor1.bvh",
+          "sha256": "ea9ab58a6ceadf3dc481b0cd394b6083761509daeb5cc3ad41ce619bfb4c4f40",
+          "download": true
+        },
+        {
+          "key": "repaired_actor1.conversion.json",
+          "path": "repaired_actor1.conversion.json",
+          "sha256": "20839e2c5ef3b47acc7dc5c51e6bda884ecd1dde0b3e641a5bf871b4c347f7e7",
+          "download": false
+        },
+        {
+          "key": "repaired_actor1.npy",
+          "path": "repaired_actor1.npy",
+          "sha256": "c683446e93b8ca5511468ad2eeac1e17bfd519d44c66a11d59f9ddb220f84688",
+          "download": true
+        },
+        {
+          "key": "repaired_motion.npz",
+          "path": "repaired_motion.npz",
+          "sha256": "4e22dbbcabbcfe317f2a256b83c907f72be938021c5561226ebc11f996f8a482",
+          "download": false
+        }
+      ],
+      "stages": [
+        {
+          "stage": "raw",
+          "score": 97.51,
+          "gate": {
+            "status": "FAIL",
+            "reasons": [
+              "skeleton_integrity score 87.63 is below 90.0",
+              "skeleton_integrity has high-severity issues"
+            ]
+          },
+          "issue_count": 3,
+          "actors": 1,
+          "frames": 300,
+          "fps": 30.0,
+          "array_sha256": {
+            "positions": "b99a0a7100d54a0541a90a08757ba4d8c53f9a07202972549e902d1892ab686a",
+            "root_translation": "aa7ccfc887fb517f3abec904f7e710bc3bdc323e5997ccebfe47d881dfc3f6be"
+          },
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "geometry_source": "native_joint_positions"
+        },
+        {
+          "stage": "repaired",
+          "score": 97.51,
+          "gate": {
+            "status": "FAIL",
+            "reasons": [
+              "skeleton_integrity score 87.63 is below 90.0",
+              "skeleton_integrity has high-severity issues"
+            ]
+          },
+          "issue_count": 3,
+          "actors": 1,
+          "frames": 300,
+          "fps": 30.0,
+          "array_sha256": {
+            "positions": "b99a0a7100d54a0541a90a08757ba4d8c53f9a07202972549e902d1892ab686a",
+            "root_translation": "aa7ccfc887fb517f3abec904f7e710bc3bdc323e5997ccebfe47d881dfc3f6be"
+          },
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "geometry_source": "native_joint_positions"
+        },
+        {
+          "stage": "bvh",
+          "score": 99.37,
+          "gate": {
+            "status": "PASS",
+            "reasons": []
+          },
+          "issue_count": 2,
+          "actors": 1,
+          "frames": 300,
+          "fps": 30.0,
+          "array_sha256": {
+            "positions": "b2c9babf69d703a4d911d704b1c9afa472c0089bbf8405e96310086303d857e9",
+            "rotation_matrices": "976a6d67c4ddc6799a9e3c53e71f22a811e44365d9aecc6454084951edacdde3",
+            "root_translation": "8d5da584717d0a40373f02fc6051b7d4961267930120cc49a22b7d7e86119567"
+          },
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "geometry_source": "bvh_fk"
+        }
+      ],
+      "steps": [
+        {
+          "repair": "foot_lock",
+          "status": "no_op",
+          "applied": false,
+          "reason": "No supported repairable issue",
+          "max_joint_shift_m": null
+        },
+        {
+          "repair": "seam_repair",
+          "status": "no_op",
+          "applied": false,
+          "reason": "No supported repairable issue",
+          "max_joint_shift_m": null
+        },
+        {
+          "repair": "bone_length_projection",
+          "status": "rejected",
+          "applied": false,
+          "reason": "Fixed-length projection exceeds movement bound",
+          "max_joint_shift_m": 0.0
+        },
+        {
+          "repair": "inter_actor_separation",
+          "status": "no_op",
+          "applied": false,
+          "reason": "No supported repairable issue",
+          "max_joint_shift_m": null
+        },
+        {
+          "repair": "collision_repair",
+          "status": "no_op",
+          "applied": false,
+          "reason": "No supported repairable issue",
+          "max_joint_shift_m": null
+        }
+      ]
+    },
+    {
+      "task_id": "a5baa72f-90ed-4de5-a6a0-13e2c7a19eeb",
+      "input_title": "actor1.npy + actor2.npy",
+      "run_id": "eb042458-002c-431f-a4c2-0dd806093922",
+      "input_files": [
+        {
+          "path": "actor1.npy",
+          "sha256": "7c00559797637eaf468cda793e131b7a23ba0c4f3d4e212da15dab50b3ad2953"
+        },
+        {
+          "path": "actor2.npy",
+          "sha256": "4a7a846a651df7e0b73c53ca127e6c6c858ab2956d6e1d9fb99b96b575f8d4e3"
+        }
+      ],
+      "artifact_files": [
+        {
+          "key": "bvh__issues.json",
+          "path": "bvh/issues.json",
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "download": false
+        },
+        {
+          "key": "bvh__metrics.csv",
+          "path": "bvh/metrics.csv",
+          "sha256": "2aef56627a8a7f82d4808b48b4146cb77cfa97aef6f76166e7a1e09c866c7e10",
+          "download": false
+        },
+        {
+          "key": "bvh__motionlint_report.json",
+          "path": "bvh/motionlint_report.json",
+          "sha256": "727bdae00f6244e69316983061b94695e96c924b26576d5a5c5cdc4041eb8d03",
+          "download": false
+        },
+        {
+          "key": "bvh__quality_gate.json",
+          "path": "bvh/quality_gate.json",
+          "sha256": "4992728c1d4d290ff126fa08ef2aa142decc2c1f3061d16eafe624573762074d",
+          "download": false
+        },
+        {
+          "key": "bvh_motion.npz",
+          "path": "bvh_motion.npz",
+          "sha256": "15138ccd7e0b2261a9e6687fc7e2befcc592cf29690b834740102cc37a99b0e2",
+          "download": false
+        },
+        {
+          "key": "comparison.json",
+          "path": "comparison.json",
+          "sha256": "c9d0f50943dbadda6c0ce53678729a9f4e5b72477ecaf712c53f6ac9036160c9",
+          "download": true
+        },
+        {
+          "key": "quality.yaml",
+          "path": "quality.yaml",
+          "sha256": "ad1760cde3227f6c9540562406617e4f5ccd367a5633794dcd352bb5ee3f64c8",
+          "download": false
+        },
+        {
+          "key": "raw__issues.json",
+          "path": "raw/issues.json",
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "download": false
+        },
+        {
+          "key": "raw__metrics.csv",
+          "path": "raw/metrics.csv",
+          "sha256": "2aef56627a8a7f82d4808b48b4146cb77cfa97aef6f76166e7a1e09c866c7e10",
+          "download": false
+        },
+        {
+          "key": "raw__motionlint_report.json",
+          "path": "raw/motionlint_report.json",
+          "sha256": "26cdb598fe038e159e0bd7866291dc88bfe5d6225faea6ffbd8673579fe1d30b",
+          "download": false
+        },
+        {
+          "key": "raw__quality_gate.json",
+          "path": "raw/quality_gate.json",
+          "sha256": "4992728c1d4d290ff126fa08ef2aa142decc2c1f3061d16eafe624573762074d",
+          "download": false
+        },
+        {
+          "key": "raw_motion.npz",
+          "path": "raw_motion.npz",
+          "sha256": "f3141350605a296ffb870026f1d688dcea77f9332f8a07fba31f395052370100",
+          "download": false
+        },
+        {
+          "key": "README.md",
+          "path": "README.md",
+          "sha256": "2cc44136c83acaa08be713474f8c942a40a2ba96d7a790fbc47f815833c4b185",
+          "download": false
+        },
+        {
+          "key": "repair_report.json",
+          "path": "repair_report.json",
+          "sha256": "9bf453f2e3b329c0a52647ce2f5cae1ede5047938d9a7925c9e51f2656635a48",
+          "download": true
+        },
+        {
+          "key": "repaired__issues.json",
+          "path": "repaired/issues.json",
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "download": false
+        },
+        {
+          "key": "repaired__metrics.csv",
+          "path": "repaired/metrics.csv",
+          "sha256": "2aef56627a8a7f82d4808b48b4146cb77cfa97aef6f76166e7a1e09c866c7e10",
+          "download": false
+        },
+        {
+          "key": "repaired__motionlint_report.json",
+          "path": "repaired/motionlint_report.json",
+          "sha256": "fe89cab54f91eea89330e3ed63a71b04310784b88d50bf1cbc9e4cf07950f5d0",
+          "download": false
+        },
+        {
+          "key": "repaired__quality_gate.json",
+          "path": "repaired/quality_gate.json",
+          "sha256": "4992728c1d4d290ff126fa08ef2aa142decc2c1f3061d16eafe624573762074d",
+          "download": false
+        },
+        {
+          "key": "repaired_actor1.bvh",
+          "path": "repaired_actor1.bvh",
+          "sha256": "c8aa95c6161e72b1a2760a0467a04f424cde5b484a136ec07357fc57fd7baec0",
+          "download": true
+        },
+        {
+          "key": "repaired_actor1.conversion.json",
+          "path": "repaired_actor1.conversion.json",
+          "sha256": "9bd30aedd51b05fff571152104999bff5df3f7813e8a4ca75ac5baab5c9f68a5",
+          "download": false
+        },
+        {
+          "key": "repaired_actor1.npy",
+          "path": "repaired_actor1.npy",
+          "sha256": "7c00559797637eaf468cda793e131b7a23ba0c4f3d4e212da15dab50b3ad2953",
+          "download": true
+        },
+        {
+          "key": "repaired_actor2.bvh",
+          "path": "repaired_actor2.bvh",
+          "sha256": "77f75675289299562b420c0955933a5aeb533834c769157ccf0b90eb04563f31",
+          "download": true
+        },
+        {
+          "key": "repaired_actor2.conversion.json",
+          "path": "repaired_actor2.conversion.json",
+          "sha256": "27502bb718888a42ff294f782fc89809c6c2d817da5b12c8ea4e54ed6393e7a0",
+          "download": false
+        },
+        {
+          "key": "repaired_actor2.npy",
+          "path": "repaired_actor2.npy",
+          "sha256": "4a7a846a651df7e0b73c53ca127e6c6c858ab2956d6e1d9fb99b96b575f8d4e3",
+          "download": true
+        },
+        {
+          "key": "repaired_motion.npz",
+          "path": "repaired_motion.npz",
+          "sha256": "884273f9aa74ef3dd10711bcb41011370c4b50194a74f9f012cbef94d63cc540",
+          "download": false
+        }
+      ],
+      "stages": [
+        {
+          "stage": "raw",
+          "score": 100.0,
+          "gate": {
+            "status": "PASS",
+            "reasons": []
+          },
+          "issue_count": 0,
+          "actors": 2,
+          "frames": 30,
+          "fps": 29.97,
+          "array_sha256": {
+            "positions": "30d99a44525ccf51fb005d1210601375c16861bb0732588767e5e4e898a850ef",
+            "root_translation": "29f553a5f1f7f57c7e89f84c61cbe6f7ad2066695065abdf03357643e4bbfa28"
+          },
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "geometry_source": "native_joint_positions"
+        },
+        {
+          "stage": "repaired",
+          "score": 100.0,
+          "gate": {
+            "status": "PASS",
+            "reasons": []
+          },
+          "issue_count": 0,
+          "actors": 2,
+          "frames": 30,
+          "fps": 29.97,
+          "array_sha256": {
+            "positions": "30d99a44525ccf51fb005d1210601375c16861bb0732588767e5e4e898a850ef",
+            "root_translation": "29f553a5f1f7f57c7e89f84c61cbe6f7ad2066695065abdf03357643e4bbfa28"
+          },
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "geometry_source": "native_joint_positions"
+        },
+        {
+          "stage": "bvh",
+          "score": 100.0,
+          "gate": {
+            "status": "PASS",
+            "reasons": []
+          },
+          "issue_count": 0,
+          "actors": 2,
+          "frames": 30,
+          "fps": 29.97000000032937,
+          "array_sha256": {
+            "positions": "38845af63790984f2e23cc05d49770e65071e6f63c7b913365788b1486fe491e",
+            "rotation_matrices": "dfb918ddc2230d121df0c64cfa5219cf6dc6cf9661355d09b95355b39c761bdf",
+            "root_translation": "29f553a5f1f7f57c7e89f84c61cbe6f7ad2066695065abdf03357643e4bbfa28"
+          },
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "geometry_source": "bvh_fk"
+        },
+        {
+          "stage": "character",
+          "score": 100.0,
+          "gate": {
+            "status": "PASS",
+            "reasons": []
+          },
+          "issue_count": 0,
+          "actors": 2,
+          "frames": 30,
+          "fps": 29.970000017863512,
+          "array_sha256": {
+            "positions": "0b6afdd0eca20a560b541736f61754a523a52df861af73a50d5824c5423686af",
+            "rotation_matrices": "70372b73f1b54d2318090db475a41803826b69f7facd8c9db48b3417231d9bda",
+            "root_translation": "6bf9424e34bac719bc01026d08ece8e6766297c8377b6313caa904e94c9ba733"
+          },
+          "rule_sha256": "7d6d4d874313f8839eedf8a31623dbf571a393f9c6744e8e534b319ad8060fc3",
+          "geometry_source": "evaluated_blender_character_bone_heads"
+        }
+      ],
+      "steps": [
+        {
+          "repair": "foot_lock",
+          "status": "no_op",
+          "applied": false,
+          "reason": "No supported repairable issue",
+          "max_joint_shift_m": null
+        },
+        {
+          "repair": "seam_repair",
+          "status": "no_op",
+          "applied": false,
+          "reason": "No supported repairable issue",
+          "max_joint_shift_m": null
+        },
+        {
+          "repair": "bone_length_projection",
+          "status": "no_op",
+          "applied": false,
+          "reason": "No supported repairable issue",
+          "max_joint_shift_m": null
+        },
+        {
+          "repair": "inter_actor_separation",
+          "status": "no_op",
+          "applied": false,
+          "reason": "No supported repairable issue",
+          "max_joint_shift_m": null
+        },
+        {
+          "repair": "collision_repair",
+          "status": "no_op",
+          "applied": false,
+          "reason": "No supported repairable issue",
+          "max_joint_shift_m": null
+        }
+      ],
+      "video": {
+        "fully_decoded": true,
+        "frames": 30,
+        "fps": 29.97,
+        "duration_seconds": 1.0,
+        "sha256": "4ec1460a8ebc06eaa4bd9f4ff85088855813316182214bdea04cc426dafaa273"
+      },
+      "export_id": "d67f4ef5-7755-4906-a4b1-f95a278cfd89"
+    }
+  ],
+  "reimports": [
+    {
+      "task_id": "4429933b-7f12-44f7-bd00-189b1c8d0827",
+      "title": "accepted-repaired.npy",
+      "input_sha256": [
+        "1f4049db52b1d36534792cf2c04f638038285c65edc522e1164c00ff1d3a02f5"
+      ],
+      "matches": [
+        {
+          "source_task_id": "74142207-4ec2-480b-a546-1cb7b7561262",
+          "stage": "repaired",
+          "max_coordinate_error_m": 0.0
+        }
+      ]
+    },
+    {
+      "task_id": "c539a8df-001f-4766-87da-468d24a31864",
+      "title": "repaired_actor1.bvh",
+      "input_sha256": [
+        "2605fb84ec28cb7a89fb87d1e269b8e22e022d4419c5868d21cffe5c4423a96d"
+      ],
+      "matches": [
+        {
+          "source_task_id": "74142207-4ec2-480b-a546-1cb7b7561262",
+          "stage": "bvh",
+          "max_coordinate_error_m": 0.0
+        }
+      ]
+    }
+  ]
+}

@@ -93,10 +93,19 @@ def test_converter_rejects_new_failure_or_worse_geometry():
     assert result["selected"] == "momask" and any("1 cm" in reason for reason in result["reasons"])
 
 
-def test_converter_accepts_continuity_and_geometry_gains():
+def test_converter_accepts_continuity_and_geometry_gains(tmp_path):
+    from motionlint.benchmark.fixtures import standing
+    from motionlint.adapters.intergen_adapter import load_intergen_joints
     baseline = reports({"temporal_continuity": 80, "foot_sliding": 90}, {"temporal_continuity": "FAIL"})
     candidate = reports({"temporal_continuity": 100, "foot_sliding": 92})
-    result = select_converter(baseline, candidate, fidelity_rows(), fidelity_rows(.004, .01, .008))
+    np.save(tmp_path / "motion.npy", standing(30))
+    motion = load_intergen_joints(tmp_path / "motion.npy")
+    from motionlint.pipeline.inspector import inspect
+    evidence = inspect(motion).metadata
+    baseline.metadata.update(evidence)
+    candidate.metadata.update(evidence)
+    result = select_converter(baseline, candidate, fidelity_rows(), fidelity_rows(.004, .01, .008),
+                              baseline_motion=motion, candidate_motion=motion)
     assert result["selected"] == "continuous" and result["reasons"] == []
 
 

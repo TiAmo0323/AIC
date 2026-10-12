@@ -1,0 +1,51 @@
+{
+  "controlled_macro_f1": {
+    "json_file": "evidence/iteration-050-results.json",
+    "json_pointer": "/controlled/macro_f1",
+    "evidence_type": "controlled_injection_only",
+    "rules_sha256": "a49acefd137456dd385c596afcc7166c551cd1a99d9ee2e43940827e189b4766",
+    "code_freeze_sha256": "6a05e1514378fdac3276bf351a3564b27c835e17438bcdfcd3641a45a529c456"
+  },
+  "known_repairable_distance_reduction": {
+    "json_file": "evidence/iteration-050-results.json",
+    "json_pointer": "/repairable_holdout/median_original_support_distance_reduction_ratio",
+    "evidence_type": "known_reference_subset",
+    "rules_sha256": "a49acefd137456dd385c596afcc7166c551cd1a99d9ee2e43940827e189b4766",
+    "code_freeze_sha256": "6a05e1514378fdac3276bf351a3564b27c835e17438bcdfcd3641a45a529c456"
+  },
+  "real_strict_pass_v6": {
+    "json_file": "evidence/iteration-050-results.json",
+    "json_pointer": "/methods/v5/holdout_real/repair_v6/strict_pass_count",
+    "evidence_type": "real_engineering_no_human_truth",
+    "rules_sha256": "a49acefd137456dd385c596afcc7166c551cd1a99d9ee2e43940827e189b4766",
+    "code_freeze_sha256": "6a05e1514378fdac3276bf351a3564b27c835e17438bcdfcd3641a45a529c456"
+  },
+  "actual_character_pass": {
+    "json_file": "evidence/iteration-050-results.json",
+    "json_pointer": "/complete_flow_quality_pass_count",
+    "evidence_type": "actual_written_character",
+    "rules_sha256": "a49acefd137456dd385c596afcc7166c551cd1a99d9ee2e43940827e189b4766",
+    "code_freeze_sha256": "6a05e1514378fdac3276bf351a3564b27c835e17438bcdfcd3641a45a529c456"
+  },
+  "safety_rejection": {
+    "json_file": "evidence/iteration-050-results.json",
+    "json_pointer": "/safety/passed_count",
+    "evidence_type": "predeclared_adverse_candidates",
+    "rules_sha256": "a49acefd137456dd385c596afcc7166c551cd1a99d9ee2e43940827e189b4766",
+    "code_freeze_sha256": "6a05e1514378fdac3276bf351a3564b27c835e17438bcdfcd3641a45a529c456"
+  },
+  "installation": {
+    "json_file": "evidence/iteration-050-results.json",
+    "json_pointer": "/local_wheel/rows",
+    "evidence_type": "automated_external_wheel_installation",
+    "rules_sha256": "a49acefd137456dd385c596afcc7166c551cd1a99d9ee2e43940827e189b4766",
+    "code_freeze_sha256": "6a05e1514378fdac3276bf351a3564b27c835e17438bcdfcd3641a45a529c456"
+  },
+  "browser": {
+    "json_file": "evidence/iteration-050-results.json",
+    "json_pointer": "/browser/checks",
+    "evidence_type": "actual_browser_operations",
+    "rules_sha256": "a49acefd137456dd385c596afcc7166c551cd1a99d9ee2e43940827e189b4766",
+    "code_freeze_sha256": "6a05e1514378fdac3276bf351a3564b27c835e17438bcdfcd3641a45a529c456"
+  }
+}

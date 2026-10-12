@@ -1,0 +1,122 @@
+{
+  "schema_version": 3,
+  "status": "PASS",
+  "video": "MotionLint-050-demo.mp4",
+  "sha256": "bfde8393881f4a53744959fc108e9730312b2bcac59e253a59be0d2499bdc85a",
+  "bytes": 3082264,
+  "fully_decoded": true,
+  "frames": 4664,
+  "fps": 25.0,
+  "duration_seconds": 186.56,
+  "has_fully_decoded_audio": true,
+  "captured_browser_frame_count": 923,
+  "capture_timing_preserved": true,
+  "recording_kind": "Timestamped actual browser frame sampling, encoded at 25 FPS. Synthetic narration, no fabricated human testimony.",
+  "motion_video_evidence": "Existing predeclared Bandai bow / actual Kenney export, same source hash in recording-inputs.json",
+  "recorded_frontend_commit": "f660e85",
+  "recording_receipt_sha256": "82dd29bdcb649b5446857f573452b3717d9fe63a23361230b8d619d74d4ccca5",
+  "captions_sha256": "5fed9cd8b769dca5b571226957b3bb3aaf2acfb22454c98e72c32ab387a1454e",
+  "narration": [
+    {
+      "chapter": 0,
+      "synthetic_voice": "Microsoft Huihui Desktop",
+      "duration_seconds": 12.570022675736961,
+      "atempo": 1.0
+    },
+    {
+      "chapter": 1,
+      "synthetic_voice": "Microsoft Huihui Desktop",
+      "duration_seconds": 13.844625850340137,
+      "atempo": 1.0
+    },
+    {
+      "chapter": 2,
+      "synthetic_voice": "Microsoft Huihui Desktop",
+      "duration_seconds": 14.13233560090703,
+      "atempo": 1.0
+    },
+    {
+      "chapter": 3,
+      "synthetic_voice": "Microsoft Huihui Desktop",
+      "duration_seconds": 13.44204081632653,
+      "atempo": 1.0
+    },
+    {
+      "chapter": 4,
+      "synthetic_voice": "Microsoft Huihui Desktop",
+      "duration_seconds": 12.630702947845805,
+      "atempo": 1.0
+    },
+    {
+      "chapter": 5,
+      "synthetic_voice": "Microsoft Huihui Desktop",
+      "duration_seconds": 12.369342403628117,
+      "atempo": 1.0
+    },
+    {
+      "chapter": 6,
+      "synthetic_voice": "Microsoft Huihui Desktop",
+      "duration_seconds": 12.41201814058957,
+      "atempo": 1.0
+    },
+    {
+      "chapter": 7,
+      "synthetic_voice": "Microsoft Huihui Desktop",
+      "duration_seconds": 14.497233560090702,
+      "atempo": 1.0
+    },
+    {
+      "chapter": 8,
+      "synthetic_voice": "Microsoft Huihui Desktop",
+      "duration_seconds": 15.203764172335601,
+      "atempo": 1.0
+    }
+  ],
+  "chapters": [
+    {
+      "start_seconds": 0,
+      "end_seconds": 18.552,
+      "title": "导入与实际动作播放"
+    },
+    {
+      "start_seconds": 18.552,
+      "end_seconds": 36.701,
+      "title": "问题区间、物理数值与阈值"
+    },
+    {
+      "start_seconds": 36.701,
+      "end_seconds": 56.363,
+      "title": "有界修复与候选审查"
+    },
+    {
+      "start_seconds": 56.363,
+      "end_seconds": 80.581,
+      "title": "修复前后同帧联动播放"
+    },
+    {
+      "start_seconds": 80.581,
+      "end_seconds": 99.084,
+      "title": "下载与实际 BVH 重新导入"
+    },
+    {
+      "start_seconds": 99.084,
+      "end_seconds": 120.685,
+      "title": "总分提高仍拒绝新增严重问题"
+    },
+    {
+      "start_seconds": 120.685,
+      "end_seconds": 139.245,
+      "title": "固定样本的实际 BVH 阶段复检"
+    },
+    {
+      "start_seconds": 139.245,
+      "end_seconds": 166.041,
+      "title": "实际 Kenney 角色播放与对应报告"
+    },
+    {
+      "start_seconds": 166.041,
+      "end_seconds": 186.564,
+      "title": "独立安装包的实际 CLI 输出"
+    }
+  ]
+}

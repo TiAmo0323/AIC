@@ -119,7 +119,7 @@ def main():
                     raw=result.raw_lodge if result.raw_lodge is not None else np.load(paths[0],allow_pickle=False) if original.source=="lodge" else None
                     save_motion(candidate,raw,folder)
                 candidate.metadata={**candidate.metadata,"stage":method}
-                report=inspect(candidate);gate=evaluate_gate(report);comparison=compare(before,report)
+                report=inspect(candidate);gate=evaluate_gate(report);comparison=compare(before,report,baseline_motion=original,candidate_motion=candidate)
                 _write_report(folder,report);_write_json(folder/"quality_gate.json",gate.to_dict())
                 _write_json(folder/"comparison.json",comparison)
                 rows.append({"sample_id":sample["id"],"method":method,"source":original.source,"rule_sha256":report.metadata["config_sha256"],

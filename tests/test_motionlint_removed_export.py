@@ -1,4 +1,4 @@
-"""Retire the export API while keeping existing motion repair usable."""
+"""The new exporter keeps compatibility and ignores historical job state."""
 import json
 from concurrent.futures import Future
 
@@ -10,9 +10,10 @@ import motionlint.api as api
 from motionlint.benchmark.fixtures import standing
 
 
-def test_export_endpoints_are_absent_and_core_routes_remain():
+def test_export_endpoints_and_core_routes_are_available():
     routes = api.app.openapi()["paths"]
-    assert not any("export-character" in path or "character-export" in path for path in routes)
+    assert 'post' in routes['/v1/motionlint/export-character']
+    assert 'get' in routes['/v1/motionlint/tasks/{source}/{task_id}/character-export']
     for path in ("/v1/motionlint/repair", "/v1/motionlint/inspect-stage", "/v1/motionlint/compare"):
         assert "post" in routes[path]
 

@@ -45,17 +45,28 @@ def load_imported_motion(folder):
     paths = [Path(folder) / entry["path"] for entry in data["files"]]
     if any(hashlib.sha256(path.read_bytes()).hexdigest() != entry.get("sha256") for path, entry in zip(paths, data["files"])):
         raise ValueError("导入的原始文件已变化，请重新导入。")
+    expected = data.get('cache_sha256', {}).get('normalized_motion.npz')
+    if expected and hashlib.sha256((Path(folder) / 'normalized_motion.npz').read_bytes()).hexdigest() != expected:
+        raise ValueError('导入时冻结的动作缓存已变化，请重新导入。')
     # Freeze the evaluated geometry at import time. A later SMPL-X configuration
     # change must not make a new report disagree with the cached skeleton view.
     with np.load(Path(folder) / "normalized_motion.npz", allow_pickle=False) as archive:
         description = json.loads(str(archive["description"].item()))
-        arrays = {key: archive[key] for key in ("positions", "rotations_6d", "rotation_matrices", "root_translation", "contacts") if key in archive}
+        arrays = {key: archive[key] for key in ("positions", "rotations_6d", "rotation_matrices", "root_translation", "contacts", "local_positions", "channel_values") if key in archive}
     metadata = description["metadata"]
     if "source_paths" in metadata:
         metadata["source_paths"] = [str(path) for path in paths]
     else:
         metadata["source_path"] = str(paths[0])
-    return MotionSequence(**{**description, **arrays})
+    motion = MotionSequence(**{**description, **arrays})
+    if motion.source == 'bvh' and (motion.local_positions is None or motion.channel_values is None):
+        # Recover animation channels from verified original files for historical
+        # imports; never infer them from global joints or replace the cache.
+        restored = load_motion(paths[0], paths[1] if len(paths) == 2 else None, **data['options'])
+        if not np.allclose(restored.positions, motion.positions, atol=1e-8, rtol=0):
+            raise ValueError('Historical BVH geometry differs from the current reader; re-import the original')
+        return restored
+    return motion
 
 
 def public_import(data):
@@ -101,6 +112,8 @@ def finish_import(folder, files, options):
             description[field.name] = value
     np.savez_compressed(folder / "normalized_motion.npz", description=json.dumps(description, ensure_ascii=False), **arrays)
     np.save(folder / "preview_positions.npy", motion.positions.astype(np.float32), allow_pickle=False)
+    data['cache_sha256'] = {name: hashlib.sha256((folder / name).read_bytes()).hexdigest()
+                            for name in ('normalized_motion.npz', 'preview_positions.npy')}
     # Completion marker is written last; task scans ignore interrupted uploads.
     _write_json(folder / "import.json", data)
     return {"task": {"source": "import", "task_id": folder.name}, "stage": "raw", "import": public_import(data),
@@ -109,6 +122,9 @@ def finish_import(folder, files, options):
 
 def preview_frames(folder, start, count):
     data = import_manifest(folder)
+    expected = data.get('cache_sha256', {}).get('preview_positions.npy')
+    if expected and hashlib.sha256((Path(folder) / 'preview_positions.npy').read_bytes()).hexdigest() != expected:
+        raise ValueError('骨架预览缓存已变化，请重新导入。')
     positions = np.load(Path(folder) / "preview_positions.npy", mmap_mode="r", allow_pickle=False)
     try:
         if positions.shape != (data["frame_count"], data["actor_count"], data["joint_count"], 3):

@@ -7,8 +7,9 @@ from pathlib import Path
 from motionlint.core.config import load_config
 from motionlint.core.motion_sequence import MotionSequence
 from motionlint.core.registry import TestRegistry
+from motionlint.core.context import evaluation_context
 from motionlint.core.result import MotionQualityReport
-from motionlint.core.provenance import input_hashes, rule_hash, evaluated_array_hashes
+from motionlint.core.provenance import input_hashes, rule_hash, evaluated_array_hashes, detector_hash
 from motionlint.tests import collision, foot_sliding, ground_contact, motion_jerk, skeleton_integrity, temporal_continuity
 
 
@@ -35,11 +36,14 @@ def inspect(motion: MotionSequence, *, config_path: str | Path | None = None) ->
         for issue in test.issues:
             issue.timestamp_seconds = round(issue.start_frame / motion.fps, 6)
     score = round(sum(test.score * float(config["tests"][test.test_name]["weight"]) for test in tests), 2)
+    context, context_hash = evaluation_context(motion, config)
     return MotionQualityReport(
         overall_score=score,
         tests=tests,
-        metadata={"schema_version": 2, "source": motion.source, "fps": motion.fps, "frame_count": motion.frame_count, "actor_count": motion.actor_count, "config_version": config["version"],
-                  "config_sha256": rule_hash(config), "input_sha256": input_hashes(motion.metadata),
+        metadata={"schema_version": 3, "source": motion.source, "fps": motion.fps, "frame_count": motion.frame_count, "actor_count": motion.actor_count, "config_version": config["version"],
+                  "config_sha256": rule_hash(config), "detector_code_sha256": detector_hash(), "evaluation_context": context, "evaluation_context_sha256": context_hash,
+                  "evidence_type": motion.metadata.get("evidence_type", "real_input_engineering_no_human_truth"),
+                  "ground_source": motion.metadata.get("floor_origin", "explicit_metadata" if motion.metadata.get("floor_height_m") is not None else "estimated_fifth_percentile"), "input_sha256": input_hashes(motion.metadata),
                   "evaluated_array_sha256": evaluated_array_hashes(motion),
                   "stage": motion.metadata.get("stage", "repaired" if motion.metadata.get("repair") else "input"),
                   "evaluation_coverage": {test.test_name: test.metrics["evaluation_status"] for test in tests},

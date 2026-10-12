@@ -10,7 +10,8 @@ from pathlib import Path
 
 import numpy as np
 
-from LODGE_api.lodge2bvh import BVH_OFFSETS, BVH_PARENTS, SMPL_TO_BVH22, matrix_to_zyx_euler_degrees, write_bvh
+from motionlint.core.skeleton import BVH_OFFSETS, BVH_PARENTS, SMPL_TO_BVH22
+from motionlint.bvh_writer import matrix_to_zyx_euler_degrees, write_bvh
 from motionlint.adapters.bvh_adapter import load_bvh
 from motionlint.cli.main import _write_json
 from motionlint.repairs.kinematics import align_rotation, unit
@@ -92,9 +93,9 @@ def fidelity(target: np.ndarray, actual: np.ndarray) -> dict:
             "position_error_max_m": float(error.max()), "root_error_max_m": float(error[:, 0].max())}
 
 
-def convert_continuous_joints(input_path: Path, output_path: Path, *, fps: int = 30) -> dict:
-    if not isinstance(fps, int) or isinstance(fps, bool) or fps <= 0:
-        raise ValueError("FPS must be a positive integer")
+def convert_continuous_joints(input_path: Path, output_path: Path, *, fps: float = 30) -> dict:
+    if isinstance(fps, bool) or not np.isfinite(fps) or fps <= 0:
+        raise ValueError("FPS must be positive and finite")
     target, fitted, offsets, local = fit_positions(np.load(input_path, allow_pickle=False))
     euler = matrix_to_zyx_euler_degrees(local)
     write_bvh(output_path, fitted[:, 0], euler, fps, offsets=offsets)

@@ -29,6 +29,6 @@ def repair_seams(
         raw = np.load(source_path, allow_pickle=False)
     repaired_raw, details = smooth_chunk_seams(raw, chunk_frames=chunk_frames, window_frames=window_frames, boundary_frames=boundary_frames, rotation_joint_ids=rotation_joint_ids, repair_translation=repair_translation)
     details["movement_bound_m"] = max_correction_m
-    repaired = normalize_lodge_array(repaired_raw, fps=motion.fps, source_path=motion.metadata.get("source_path"), model_path=motion.metadata.get("geometry_model_path"))
+    repaired = normalize_lodge_array(repaired_raw, fps=motion.fps, source_path=motion.metadata.get("source_path"), frozen_geometry=motion.metadata)
     repaired.metadata["repair"] = "seam_repair"
     return repaired, repaired_raw, details

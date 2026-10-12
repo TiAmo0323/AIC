@@ -24,8 +24,13 @@ def estimate_support(motion: MotionSequence, settings: dict) -> FootSupport:
     up = int(motion.metadata.get("up_axis", 1))
     height = motion.positions[:, :, feet, up]
     baseline = np.nanpercentile(height, 5, axis=0)
+    floor_source = 'estimated_per_joint_fifth_percentile'
+    if settings.get('shared_floor', False):
+        floor, floor_source = floor_heights(motion, height, settings)
+        baseline = np.broadcast_to(floor[:,None],baseline.shape)
     if settings.get("use_explicit_floor", False) and motion.metadata.get("floor_height_m") is not None:
         floor, _ = floor_heights(motion, height, settings)
+        floor_source = motion.metadata.get('floor_origin','explicit_metadata')
         baseline = np.broadcast_to(floor[:, None], baseline.shape)
     near = height <= baseline[None] + float(settings["contact_height_m"])
     eligible = near[:-1] & near[1:]
@@ -59,6 +64,9 @@ def estimate_support(motion: MotionSequence, settings: dict) -> FootSupport:
             eligible[..., ankle] &= ~eligible[..., toe]
     return FootSupport(eligible, feet, {
         "contact_source": source,
+        'floor_source':floor_source,
+        'floor_reference_m':baseline.tolist(),
+        'support_states':'standing/transfer/airborne/toe-pivot; horizontal speed is never an exclusion',
         "support_joint_interval_count": int(eligible.sum()),
         "height_contact_candidate_count": candidate_count,
         "vertical_swing_excluded_count": vertical_excluded,

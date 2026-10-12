@@ -58,9 +58,10 @@ try {
   writeFileSync(temporary, compiled)
   const Component = (await import(pathToFileURL(temporary))).default
   const asset = ref({task_id: 'first', fps: 24, frame_count: 241})
+  const stage = ref('raw')
   const preview = ref()
   app = renderer.createApp(defineComponent({setup: () => () => h(Component, {ref: preview, asset: asset.value,
-    apiBase: 'http://localhost:8003', playback: {speed: 1}, onTimeupdate: value => times.push(value)})}))
+    apiBase: 'http://localhost:8003', stage: stage.value, playback: {speed: 1}, onTimeupdate: value => times.push(value)})}))
   app.mount(node('root'))
   await setImmediate()
   assert.equal(draws.length, 2, 'Mounted component draws the imported joints')
@@ -81,6 +82,13 @@ try {
   oldResolve({data: makeBlock(240, 1)})
   await oldSeek
   assert.equal(times.at(-1), 0, 'A late response cannot seek the newly selected motion')
+  const count = requests.length
+  stage.value = 'repaired'
+  asset.value = {...asset.value, run_id: 'repair-run'}
+  await nextTick()
+  await setImmediate()
+  assert.ok(requests.length > count, 'Changing stage/run clears the cached raw preview')
+  assert.equal(times.at(-1), 0)
   app.unmount(); app = null
   assert.equal(scheduled.size, 0, 'Closing the preview cancels its animation')
   console.log('Vue skeleton preview mounting, pose drawing, exact seeking and stale-response protection: PASS')

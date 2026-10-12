@@ -86,10 +86,18 @@ def import_fbx(path: Path) -> list:
     return imported
 
 
-def import_bvh(path: Path, fps: int) -> list:
+def set_scene_fps(fps: float) -> None:
+    if not math.isfinite(fps) or fps <= 0:
+        raise ValueError('Render FPS must be positive and finite')
+    integer_fps = max(1, round(fps))
+    bpy.context.scene.render.fps = integer_fps
+    bpy.context.scene.render.fps_base = integer_fps / fps
+
+
+def import_bvh(path: Path, fps: float) -> list:
     before = set(bpy.data.objects.keys())
     bpy.ops.import_anim.bvh(filepath=str(path), frame_start=1, global_scale=1.0, update_scene_fps=True)
-    bpy.context.scene.render.fps = fps
+    set_scene_fps(fps)
     return [obj for obj in bpy.data.objects if obj.name not in before]
 
 
@@ -1584,7 +1592,7 @@ def render_output(output_path: Path, fps: int, frame_end: int, report: dict, fra
     scene = bpy.context.scene
     scene.frame_start = max(1, int(frame_start))
     scene.frame_end = max(scene.frame_start, int(frame_end))
-    scene.render.fps = fps
+    set_scene_fps(fps)
     scene.render.filepath = str(output_path)
     scene.render.image_settings.file_format = "FFMPEG"
     scene.render.ffmpeg.format = "MPEG4"
@@ -1596,7 +1604,7 @@ def render_output(output_path: Path, fps: int, frame_end: int, report: dict, fra
         {
             "resolution_x": int(scene.render.resolution_x),
             "resolution_y": int(scene.render.resolution_y),
-            "fps": int(scene.render.fps),
+            "fps": scene.render.fps / scene.render.fps_base,
             "frame_start": int(scene.frame_start),
             "frame_end": int(scene.frame_end),
             "output_format": scene.render.image_settings.file_format,
@@ -1640,7 +1648,7 @@ def main() -> int:
         source_bvh_files = manifest.get("source_bvh_files") or [manifest["source_bvh"]]
         output_mp4 = Path(manifest["output_mp4"]).resolve()
         debug_blend = Path(manifest.get("debug_blend") or output_mp4.with_suffix(".blend")).resolve()
-        fps = int(manifest.get("fps") or 30)
+        fps = float(manifest.get("fps") or 30)
         max_render_frames = int(manifest.get("max_render_frames") or 0)
         report["motion_profile"] = str(manifest.get("motion_profile") or "default")
         report["motion_prompt"] = str(manifest.get("motion_prompt") or "")

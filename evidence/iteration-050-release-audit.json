@@ -1,0 +1,3816 @@
+{
+  "schema_version": 3,
+  "status": "PASS",
+  "frozen_code_and_rule_unchanged": true,
+  "protected_sample_count": 720,
+  "unchanged_sample_count": 720,
+  "unique_protected_file_count": 983,
+  "rows": [
+    {
+      "id": "turn_0_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_0_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_1_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_2_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_3_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "turn_4_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_0_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_1_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_2_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_3_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "straight_walk_4_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_0_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_1_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_2_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_3_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "direction_change_4_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_0_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_1_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_2_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_3_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "jump_landing_4_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_0_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_1_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_2_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_3_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "dance_step_4_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_0_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_1_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_2_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_3_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_temporal_continuity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_temporal_continuity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_temporal_continuity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_skeleton_integrity_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_skeleton_integrity_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_skeleton_integrity_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_foot_sliding_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_foot_sliding_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_foot_sliding_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_ground_contact_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_ground_contact_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_ground_contact_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_collision_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_collision_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_collision_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_motion_jerk_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_motion_jerk_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_motion_jerk_2",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_clean_0",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "two_actor_contact_4_clean_1",
+      "source": "controlled",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_bow_normal",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_bow_active",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_bow_angry",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_bow_tired",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_bye_normal",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_bye_active",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_bye_angry",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_bye_tired",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_guide_normal",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_guide_active",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_guide_angry",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_guide_tired",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_run_normal",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_run_active",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_run_angry",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_run_tired",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_walk_normal",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_walk_active",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_walk_angry",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_walk_tired",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_walk-back_normal",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_walk-back_active",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_walk-back_angry",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "bandai_walk-back_tired",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_00_00",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_00_01",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_00_02",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_01_00",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_01_01",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_01_02",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_02_00",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_02_01",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_02_02",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_03_00",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_03_01",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_03_02",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_04_00",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_04_01",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_04_02",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_05_00",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_05_01",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_05_02",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_06_00",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_06_01",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_06_02",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_07_00",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_07_01",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_07_02",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_08_00",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_08_01",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_08_02",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_09_00",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_09_01",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_09_02",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_10_00",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_10_01",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_10_02",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_11_00",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_11_01",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "ig_11_02",
+      "source": "real",
+      "unchanged": true
+    },
+    {
+      "id": "new_location_0",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "new_location_1",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "new_location_2",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "new_location_3",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "new_location_4",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "other_actor_0",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "other_actor_1",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "other_actor_2",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "other_actor_3",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "other_actor_4",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "contact_loss_0",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "contact_loss_1",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "contact_loss_2",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "contact_loss_3",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "contact_loss_4",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "step_bound_0",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "step_bound_1",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "step_bound_2",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "step_bound_3",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "step_bound_4",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "total_bound_0",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "total_bound_1",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "total_bound_2",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "total_bound_3",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "total_bound_4",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "bone_change_0",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "bone_change_1",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "bone_change_2",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "bone_change_3",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "bone_change_4",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "mapping_0",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "mapping_1",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "mapping_2",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "mapping_3",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "mapping_4",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "nan_0",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "nan_1",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "nan_2",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "nan_3",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "nan_4",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "inf_0",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "inf_1",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "inf_2",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "inf_3",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "inf_4",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "truncated_0",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "truncated_1",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "truncated_2",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "truncated_3",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "truncated_4",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "timeline_0",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "timeline_1",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "timeline_2",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "timeline_3",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "timeline_4",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "export_regression_0",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "export_regression_1",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "export_regression_2",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "export_regression_3",
+      "source": "safety",
+      "unchanged": true
+    },
+    {
+      "id": "export_regression_4",
+      "source": "safety",
+      "unchanged": true
+    }
+  ],
+  "bvh_roundtrip_count": 24,
+  "bvh_roundtrips": [
+    {
+      "id": "bandai_bow_normal",
+      "input_sha256": "4e390b9c92caf7bb92b49bb0b5df72cf6e9f48900656b55a100a77b6bab0946b",
+      "written_sha256": "8e356f73355ae01240b5d242d9e86a7cc5575c87cc7bdce905e95e7736eb3040",
+      "max_coordinate_error_m": 3.447737392454928e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_bow_active",
+      "input_sha256": "dfca1bec17dbb0d9b105fb48d2ac35cd43961689704a1015694ddc66e05dac49",
+      "written_sha256": "f54a584c1fab522536e8a6f2cd27d718a2f5c3676b9a84a4aad9d9deab329f5c",
+      "max_coordinate_error_m": 3.646069049122416e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_bow_angry",
+      "input_sha256": "58eb125a58fa4339668dbb4965af935057cbbdd9daa325b8369ae2acea627f6b",
+      "written_sha256": "a6712c5311405fb9ff76ddb4e660a46008728b3019a8996c72cc2de9bb045675",
+      "max_coordinate_error_m": 3.4742539963400707e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_bow_tired",
+      "input_sha256": "5b88224bce01b0594698f94157962a17490b4ab7cbd795d873154ab40a1b1eaa",
+      "written_sha256": "14ad336c223a3b3cdb6125c41a16373b59f875657f03c8f8d4d61cdcffc717bb",
+      "max_coordinate_error_m": 3.751972019626648e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_bye_normal",
+      "input_sha256": "cf821ed70f42832e9b519103ffb5e0a0f458ab46582340071b8867a633e8ee4d",
+      "written_sha256": "f64772862443784910854b4dd676d3196fa47889d9bb9590f49109367d759900",
+      "max_coordinate_error_m": 1.3612836022284558e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_bye_active",
+      "input_sha256": "8b8dfe1ff3041614c610a61df00eb704e24aa120a12c5721f217e3f15e864a8b",
+      "written_sha256": "d23da27c1f4af508cf266d955b856f5e852c4e701dc1d36dc6e5fca9f76152de",
+      "max_coordinate_error_m": 3.658651918481497e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_bye_angry",
+      "input_sha256": "79e46492cc2de435dfdcd30ad7d91e3dd0efa7d8dbd915a937004ba5f8eb1e20",
+      "written_sha256": "5da1f40e087ec106c51dfdf9cab79c9959b2825528e68a586253bc19ece3302e",
+      "max_coordinate_error_m": 3.367069357172947e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_bye_tired",
+      "input_sha256": "d6bff6c288b3e55a01337be416647885e3bf8e1f52e7ff1b628fdba19b4acf72",
+      "written_sha256": "ded2e9b71506a63915967d6fe6809117d0b3666bdda11dfd1a2deb5d708e0a07",
+      "max_coordinate_error_m": 3.326013230512393e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_guide_normal",
+      "input_sha256": "30069344e592775775a5868cf625b06d902bea61ca6b68ffae3b6d0560306ad9",
+      "written_sha256": "facbdabffb6af8d200e320e572fa35bb9a3d381dbb621a18624221c842a01f0f",
+      "max_coordinate_error_m": 3.6045346746021e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_guide_active",
+      "input_sha256": "1249b64fe678a83ce48a6cb81c5e353e2d887d2775d90a727ed757eda4138ac6",
+      "written_sha256": "c36894a9897fb07c9d611cf05bbd2953f19438bfc0acaba09e1fd8e633d6f9b9",
+      "max_coordinate_error_m": 3.950235974979152e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_guide_angry",
+      "input_sha256": "049efe4527b6659f1c9b7fbae10a4eb574b95552ad3dbf90279f5e7eeb7dfd6c",
+      "written_sha256": "ebc0133ed316c93170540eeb7f775b65a6db7f24d20d2d82ae55d759acf3a6a6",
+      "max_coordinate_error_m": 4.259223287219743e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_guide_tired",
+      "input_sha256": "9c24e0b6b3ee6d22fbe7674fd1a54a4b7497a0b60e3c56181a2f3b1d5cbdc074",
+      "written_sha256": "e6a401c662a1b1d299fa501eb9b902efcddc946e0f93b1111f086b93979b8b92",
+      "max_coordinate_error_m": 3.65544689122274e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_run_normal",
+      "input_sha256": "93cbc794bf178ce7d98a1a95efdee52699b4c0cdfcd9ec619f7ae9ec7bda024f",
+      "written_sha256": "1e36db095bc1002230fda0151a6377e66681a57bf382a143b4ff523773265c5e",
+      "max_coordinate_error_m": 3.570417909954212e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_run_active",
+      "input_sha256": "390f6b4491760bbd0882bb7e9daf1b728a4fa8caeca851f60181a5f5cdc2260c",
+      "written_sha256": "f2d98f9a20f28bb29415801a344719086e41c0707e9c935f1dfc5d9a66d9b04f",
+      "max_coordinate_error_m": 3.713551224559708e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_run_angry",
+      "input_sha256": "19dbaac8abf162f43d026b88711078ca2467e9d3b5bc2373b2520d59a8233822",
+      "written_sha256": "6db22855f041b5686fb16f64604b2003c7e575627761de6beb300eb2e95e80bf",
+      "max_coordinate_error_m": 3.6418719270748374e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_run_tired",
+      "input_sha256": "af362d4be32f9401ed1ff18b2116ffbeca9ff16329a7cd2e3178307b48cf7de1",
+      "written_sha256": "f90b4103d0447eb4a1f5f3efeb4c318395383ae94a399588ae97855e283d6531",
+      "max_coordinate_error_m": 3.9398308082669594e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_walk_normal",
+      "input_sha256": "5764cebc2fedabf287880a7f25cb06753e1679675a02a6f033998de041ba8032",
+      "written_sha256": "dc2df9ed8e1752f901ecbe23040adb9755fcd9b4fabc1c647a8e9929e49e1b17",
+      "max_coordinate_error_m": 3.5970209706159286e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_walk_active",
+      "input_sha256": "df0d24edcaba9dd768c0efb7b5f378316e1b2cc25922c2332b420f3f5eaf1487",
+      "written_sha256": "7dce9b435f896e28017505ba57ac8b4cbcd5eca2534a9c35d1dfc31843e93ba0",
+      "max_coordinate_error_m": 3.6046447083117647e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_walk_angry",
+      "input_sha256": "80ad2b0e7656b1b8b0f2a679f9bca0886f521c54d97ae93092ef5a714ab88e17",
+      "written_sha256": "ba9be3b781cde5e52260cd4cac18fe06ca6bfb6e0f1f60aaf0b03e5efad61b34",
+      "max_coordinate_error_m": 3.586255428609238e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_walk_tired",
+      "input_sha256": "c23ae74ce470c3588bd12232fdeae0c5001b736bdf1234c1873aec26723c40c1",
+      "written_sha256": "5ac23b7ad724a9692b32338ff471e9b2bc3e644a1cb61f403f5ee0b7c72e969e",
+      "max_coordinate_error_m": 3.618175385768381e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_walk-back_normal",
+      "input_sha256": "4c182559dbd28e4ba485f664dea49817a30fc0acde29b482f1baaeff4fa80397",
+      "written_sha256": "bec9bda2904e4a8d64d9c468099754a96899ccb0bd7a75781df4a0f8f3c8d514",
+      "max_coordinate_error_m": 3.5813543031826815e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_walk-back_active",
+      "input_sha256": "ffd3efe4a814a3bdf0aeb3d89676c2f6f52242de97c6cb1f540fffdc6f9365c6",
+      "written_sha256": "f0f824baa84ebaac9d89ad41c42af1c11f5d4e545f87d259ca435814a24c8dd1",
+      "max_coordinate_error_m": 3.5969677643802516e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_walk-back_angry",
+      "input_sha256": "fbf24fa41d45f3532bc35bb66c8761738129fbf0fd29b490de0e4296c7e65a28",
+      "written_sha256": "328ce285ef6959be5707beae1ad7fd3befdd1208799598af6da981747334526b",
+      "max_coordinate_error_m": 4.1129677710252384e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    },
+    {
+      "id": "bandai_walk-back_tired",
+      "input_sha256": "f469fdd93dfa2345c2e4ddf0721bc452366e4de2f1be09cdcbc1708f99041f67",
+      "written_sha256": "9d067c0d9b676082adf2f83d115da1a1ee3b51271d212baa481e2a79e2aae7b3",
+      "max_coordinate_error_m": 3.617474031184184e-08,
+      "hierarchy_channels_rotation_order_fps_preserved": true
+    }
+  ],
+  "independent_truth_valid_count": 600,
+  "contact_input_hashes_observed_at_release": {
+    "turn_0/contacts.npy": "c9b5c55d42a0afdd2f9f21852486097c551b7899f2031c6e69124aa0bc117c7d",
+    "turn_1/contacts.npy": "c9b5c55d42a0afdd2f9f21852486097c551b7899f2031c6e69124aa0bc117c7d",
+    "turn_2/contacts.npy": "c9b5c55d42a0afdd2f9f21852486097c551b7899f2031c6e69124aa0bc117c7d",
+    "turn_3/contacts.npy": "c9b5c55d42a0afdd2f9f21852486097c551b7899f2031c6e69124aa0bc117c7d",
+    "turn_4/contacts.npy": "c9b5c55d42a0afdd2f9f21852486097c551b7899f2031c6e69124aa0bc117c7d",
+    "straight_walk_0/contacts.npy": "73e2bbe76c0b786c7ecf459f343078016e5a58bcd75bffc49f7625a6039ba434",
+    "straight_walk_1/contacts.npy": "73e2bbe76c0b786c7ecf459f343078016e5a58bcd75bffc49f7625a6039ba434",
+    "straight_walk_2/contacts.npy": "73e2bbe76c0b786c7ecf459f343078016e5a58bcd75bffc49f7625a6039ba434",
+    "straight_walk_3/contacts.npy": "73e2bbe76c0b786c7ecf459f343078016e5a58bcd75bffc49f7625a6039ba434",
+    "straight_walk_4/contacts.npy": "73e2bbe76c0b786c7ecf459f343078016e5a58bcd75bffc49f7625a6039ba434",
+    "direction_change_0/contacts.npy": "73e2bbe76c0b786c7ecf459f343078016e5a58bcd75bffc49f7625a6039ba434",
+    "direction_change_1/contacts.npy": "73e2bbe76c0b786c7ecf459f343078016e5a58bcd75bffc49f7625a6039ba434",
+    "direction_change_2/contacts.npy": "73e2bbe76c0b786c7ecf459f343078016e5a58bcd75bffc49f7625a6039ba434",
+    "direction_change_3/contacts.npy": "73e2bbe76c0b786c7ecf459f343078016e5a58bcd75bffc49f7625a6039ba434",
+    "direction_change_4/contacts.npy": "73e2bbe76c0b786c7ecf459f343078016e5a58bcd75bffc49f7625a6039ba434",
+    "jump_landing_0/contacts.npy": "6244eb5dbda9f444c6d84fd9c1f0d1840df584906305b48b26475db60f70e1d7",
+    "jump_landing_1/contacts.npy": "6244eb5dbda9f444c6d84fd9c1f0d1840df584906305b48b26475db60f70e1d7",
+    "jump_landing_2/contacts.npy": "6244eb5dbda9f444c6d84fd9c1f0d1840df584906305b48b26475db60f70e1d7",
+    "jump_landing_3/contacts.npy": "6244eb5dbda9f444c6d84fd9c1f0d1840df584906305b48b26475db60f70e1d7",
+    "jump_landing_4/contacts.npy": "6244eb5dbda9f444c6d84fd9c1f0d1840df584906305b48b26475db60f70e1d7",
+    "dance_step_0/contacts.npy": "73e2bbe76c0b786c7ecf459f343078016e5a58bcd75bffc49f7625a6039ba434",
+    "dance_step_1/contacts.npy": "73e2bbe76c0b786c7ecf459f343078016e5a58bcd75bffc49f7625a6039ba434",
+    "dance_step_2/contacts.npy": "73e2bbe76c0b786c7ecf459f343078016e5a58bcd75bffc49f7625a6039ba434",
+    "dance_step_3/contacts.npy": "73e2bbe76c0b786c7ecf459f343078016e5a58bcd75bffc49f7625a6039ba434",
+    "dance_step_4/contacts.npy": "73e2bbe76c0b786c7ecf459f343078016e5a58bcd75bffc49f7625a6039ba434",
+    "two_actor_contact_0/contacts.npy": "908fe3a838ed1cdc85d1c7b9fd23ba7446a9f0a34f6acae936a9858c8f047c65",
+    "two_actor_contact_1/contacts.npy": "908fe3a838ed1cdc85d1c7b9fd23ba7446a9f0a34f6acae936a9858c8f047c65",
+    "two_actor_contact_2/contacts.npy": "908fe3a838ed1cdc85d1c7b9fd23ba7446a9f0a34f6acae936a9858c8f047c65",
+    "two_actor_contact_3/contacts.npy": "908fe3a838ed1cdc85d1c7b9fd23ba7446a9f0a34f6acae936a9858c8f047c65",
+    "two_actor_contact_4/contacts.npy": "908fe3a838ed1cdc85d1c7b9fd23ba7446a9f0a34f6acae936a9858c8f047c65"
+  },
+  "contact_hash_timing_limit": "Contact SHA values were added at release audit. They are not presented as pretest freeze receipts.",
+  "scope": "Existing immutable inputs and readback only; no held-out detector recalibration"
+}

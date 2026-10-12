@@ -19,10 +19,42 @@ def check(motion: MotionSequence, settings: dict) -> TestResult:
     if not {"Head", "LeftHand", "RightHand", "LeftForeArm", "RightForeArm", "LeftArm", "RightArm"} <= lookup.keys():
         return TestResult(name, "WARN", 0, metrics={"reason": "Missing canonical head/arm mapping; collision coverage unavailable"})
     issues: list[MotionIssue] = []
+    measurements, exclusions = [], []
+    allowed = motion.metadata.get('allowed_contacts', []) if settings.get('explicit_contact_intervals') else []
+    if not isinstance(allowed, list):
+        raise ValueError('allowed_contacts must be a list of explicit joint pairs and frame intervals')
+    for contact in allowed:
+        if (not isinstance(contact, dict) or not isinstance(contact.get('start_frame'), int)
+                or not isinstance(contact.get('end_frame'), int)
+                or not 0 <= contact['start_frame'] <= contact['end_frame'] < motion.frame_count
+                or any(not isinstance(contact.get(key), int) or not 0 <= contact[key] < motion.actor_count
+                       for key in ('actor_id', 'other_actor_id'))
+                or any(contact.get(key) not in lookup for key in ('joint', 'other_joint'))):
+            raise ValueError('Invalid explicit allowed contact: actors, mapped joints and inclusive frame interval required')
+
+    def risk_mask(distance, threshold, metric, actor, joints, other_actor=None):
+        mask = distance < threshold
+        if settings.get('explicit_contact_intervals'):
+            measurements.append({'metric': metric, 'actor_id': actor, 'joint_ids': joints,
+                                 'other_actor_id': other_actor, 'threshold': threshold,
+                                 'distance_m': distance.tolist()})
+        # A segment test cannot be exempted by a point pair declaration.
+        if len(joints) == 2:
+            second_actor = actor if other_actor is None else other_actor
+            pair = {(actor, motion.joint_names[joints[0]]), (second_actor, motion.joint_names[joints[1]])}
+            for contact in allowed:
+                declared = {(contact['actor_id'], contact['joint']), (contact['other_actor_id'], contact['other_joint'])}
+                if pair == declared:
+                    start, end = contact['start_frame'], contact['end_frame']
+                    exclusions.append({'metric': metric, 'declaration': dict(contact),
+                                       'excluded_risk_frames': int(mask[start:end + 1].sum()),
+                                       'minimum_distance_m': float(distance[start:end + 1].min())})
+                    mask[start:end + 1] = False
+        return mask
 
     def compare_distance(a: np.ndarray, b: np.ndarray, threshold: float, metric: str, actor: int | None, joints: list[int], message: str, other_actor: int | None = None) -> None:
         distance = np.linalg.norm(a - b, axis=-1)
-        for start, end in segments(distance < threshold):
+        for start, end in segments(risk_mask(distance, threshold, metric, actor, joints, other_actor)):
             repair_name = None
             if motion.source in {"intergen", "lodge"} and actor is not None:
                 if other_actor is None:
@@ -40,7 +72,7 @@ def check(motion: MotionSequence, settings: dict) -> TestResult:
                 compare_distance(positions[:, actor, wrist], positions[:, actor, head], float(settings["wrist_head_clearance_m"]), "wrist_head_distance_m", actor, [wrist, head], f"{side} hand is near head")
                 distances, _, _ = _segment_point_distances(positions[:, actor, elbow], positions[:, actor, wrist], positions[:, actor, head])
                 threshold = float(settings["forearm_head_clearance_m"])
-                for start, end in segments(distances < threshold):
+                for start, end in segments(risk_mask(distances, threshold, 'forearm_head_distance_m', actor, [elbow, wrist, head])):
                     supported = motion.source in {"intergen", "lodge"}
                     issues.append(MotionIssue(name, "high", start, end, "forearm_head_distance_m", float(np.min(distances[start:end + 1])), threshold, f"{side} forearm is near head", actor_id=actor, joint_ids=[elbow, wrist, head], repairable=supported, recommended_repair="collision_repair" if supported else None))
 
@@ -70,7 +102,7 @@ def check(motion: MotionSequence, settings: dict) -> TestResult:
                             distance, _, _ = _segment_point_distances(positions[:, other, lookup["Hips"]],
                                                                     positions[:, other, torso_top], positions[:, actor, wrist])
                             threshold = float(settings["wrist_head_clearance_m"])
-                            for start, end in segments(distance < threshold):
+                            for start, end in segments(risk_mask(distance, threshold, 'hand_torso_distance_m', actor, [wrist, lookup['Hips'], torso_top], other)):
                                 issues.append(MotionIssue(name, "high", start, end, "hand_torso_distance_m",
                                     float(distance[start:end + 1].min()), threshold, "Hand is near the other actor's torso segment",
                                     actor_id=actor, joint_ids=[wrist], other_actor_id=other,
@@ -84,6 +116,8 @@ def check(motion: MotionSequence, settings: dict) -> TestResult:
                "maximum_penetration_estimate_m": max((issue.penetration_estimate_m for issue in issues), default=0.),
                "minimum_distance_m": min((issue.value for issue in issues), default=None),
                "clearance_deficit_m": max((issue.penetration_estimate_m for issue in issues), default=0.),
-               "expected_contact_policy": "No automatic semantic exemptions; handshake/high-five proximity needs human review",
+               "expected_contact_policy": "Only explicitly declared joint pairs and frame intervals are exempted; no prompt-derived exemptions",
                "geometry_limits": "Skeleton clearance deficit; not measured mesh penetration"}
+    if settings.get('explicit_contact_intervals'):
+        metrics.update(distance_measurements=measurements, contact_exclusions=exclusions)
     return result(name, issues, metrics, motion.frame_count, motion.actor_count, 4)

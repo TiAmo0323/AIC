@@ -25,7 +25,7 @@ def check(motion: MotionSequence, settings: dict) -> TestResult:
     penetration = heights < floor[np.newaxis, :, np.newaxis] - penetration_limit
     if motion.contacts is not None and motion.contacts.shape[2] == len(feet):
         floating = (motion.contacts > 0.5) & (heights > floor[np.newaxis, :, np.newaxis] + floating_limit)
-        float_source = "lodge_contact_channels"
+        float_source = "explicit_contact_channels"
     else:
         # Without model contacts, test whether every foot leaves the fitted floor.
         floating_actor = np.min(heights, axis=2) > floor[np.newaxis, :] + floating_limit

@@ -65,19 +65,20 @@
           <button v-for="tab in visibleStudioTabs" :key="tab.id" type="button" class="ghost-btn" :class="{active: studioTab === tab.id}" :title="`${tab.label}（${tab.id}）`" @click.stop="selectStudioTab(tab.id)">{{ tab.label }}</button>
         </nav>
         <MotionSettings v-if="motionSettingsOpen" v-model:playback="playback" :policy="motionPolicy" :labels="qualityTestLabels" :error="motionSettingsError" @close="motionSettingsOpen = false" />
-        <SkinCatalogBar :options="skinOptions" />
+        <SkinCatalogBar :options="skinOptions" v-if="!standalone" />
         <MotionImport v-if="importPanelOpen" :api-base="motionlintApiBase" :busy="isGenerating || qualityLoading"
           :imported-asset="importedAsset" :external-error="importError" @busy="qualityLoading = $event" @imported="acceptImportedMotion" />
         <TaskManager v-if="taskManagerOpen" :api-bases="generationApiBases" :busy="isGenerating || qualityLoading"
           :revision="taskRevision" :error="taskManagerError" @open="openManagedTask" @retry="retryManagedTask" />
+        <PipelineJobs v-if="qualityPanelOpen" :api-base="motionlintApiBase" :task="currentMotionlintRef" @open="loadImportedTask" />
 
         <section class="generation-stage" :class="{ generating: isGenerating }">
           <div class="stage-frame" aria-label="动画展示区">
             <div class="stage-skin-badge">
               <span></span>
-              {{ importedAsset ? '导入动作骨架预览' : qualityPanelOpen && generatedTaskId ? qualityStageLabels[qualityStage] : displayedSkinLabel }}
+              {{ activeSkeletonAsset && !(qualityStage === 'character' && generatedVideoUrl) ? qualityStageLabels[qualityStage] + ' · 骨架预览' : qualityPanelOpen && generatedTaskId ? qualityStageLabels[qualityStage] : displayedSkinLabel }}
             </div>
-            <SkeletonPreview v-if="importedAsset" ref="skeletonPreviewRef" :asset="importedAsset" :api-base="motionlintApiBase" :playback="playback" @timeupdate="motionCurrentTime = $event" />
+            <SkeletonPreview v-if="activeSkeletonAsset && !(qualityStage === 'character' && generatedVideoUrl)" ref="skeletonPreviewRef" :asset="activeSkeletonAsset" :stage="qualityStage" :api-base="motionlintApiBase" :playback="playback" @timeupdate="motionCurrentTime = $event" />
             <video
               v-else-if="generatedVideoUrl"
               ref="generatedVideoRef"
@@ -98,14 +99,14 @@
           </div>
         </section>
 
-        <section class="render-progress" aria-label="生成进度">
+        <section v-if="!standalone" class="render-progress" aria-label="生成进度">
           <div class="progress-track">
             <div class="progress-fill" :style="{ width: `${generationProgress}%` }"></div>
           </div>
           <span class="progress-value">{{ generationProgress }}%</span>
         </section>
         <p class="task-status" v-if="taskStatusText">{{ taskStatusText }}</p>
-        <button type="button" class="ghost-btn" :disabled="isGenerating" @click="loadBackendSkinCatalog">刷新角色资源</button>
+        <button v-if="!standalone" type="button" class="ghost-btn" :disabled="isGenerating" @click="loadBackendSkinCatalog">刷新角色资源</button>
         <TaskFeedback :failure="taskFailure" :checks="resourceChecks" :busy="isGenerating || qualityLoading"
           @retry="retryFailedTask" @retry-render="retryFailedRender" @reconnect="reconnectTask" @dismiss="taskFailure = null" />
         <p class="skin-result-notice" v-if="skinResultNotice">{{ skinResultNotice }}</p>
@@ -119,8 +120,8 @@
               <button type="button" class="ghost-btn" :disabled="qualityLoading || !generatedTaskId" @click="inspectCurrentMotion">
                 {{ qualityLoading ? '检查中…' : '重新检查' }}
               </button>
-              <button v-if="!importedAsset" type="button" class="ghost-btn primary" :disabled="qualityLoading || !qualityReport || !['raw', 'repaired'].includes(qualityStage)" @click="repairCurrentMotion">修复全部可修复项</button>
-              <a v-else :href="`${motionlintApiBase}/v1/motionlint/imports/${generatedTaskId}/report`">下载检查报告</a>
+              <button type="button" class="ghost-btn primary" :disabled="qualityLoading || !qualityReport || !['raw', 'repaired'].includes(qualityStage)" @click="repairCurrentMotion">修复全部可修复项</button>
+              <a v-if="importedAsset" :href="`${motionlintApiBase}/v1/motionlint/imports/${generatedTaskId}/report`">下载原始检查报告</a>
             </div>
           </div>
           <div class="regression-controls motionlint-history-controls">
@@ -136,9 +137,9 @@
               <label for="quality-stage">检查阶段</label>
               <select id="quality-stage" v-model="qualityStage" :disabled="qualityLoading" @change="inspectCurrentMotion">
                 <option value="raw">原始动作</option>
-                <option v-if="!importedAsset" value="repaired">修复后的动作</option>
-                <option v-if="!importedAsset" value="bvh">导出的 BVH 骨架</option>
-                <option v-if="!importedAsset" value="character">视频中的角色骨架</option>
+                <option v-if="!importedAsset || repairArtifacts" value="repaired">修复后的动作</option>
+                <option v-if="!importedAsset || repairArtifacts?.stages.bvh" value="bvh">导出的 BVH 骨架</option>
+                <option v-if="!importedAsset || characterExportState.status === 'ready'" value="character">视频中的角色骨架</option>
               </select>
             </div>
             <p v-if="qualityReport" class="motionlint-empty">本次结果：{{ qualityStageLabels[qualityReport.metadata?.inspection_stage || qualityStage] }}。{{ qualityStage === 'character' ? '检查视频场景里的骨骼，穿模仍需观看画面确认。' : qualityStage === 'bvh' ? 'BVH 没有对应的独立视频；角色视频需要单独检查。' : '分数只适用于当前阶段的动作。' }}</p>
@@ -165,7 +166,7 @@
                 <small>{{ test.metrics?.evaluation_status === 'unavailable' ? '未评估：' + localizeMessage(test.metrics.reason) : `${test.issues?.length || 0} 个问题` }}</small>
               </div>
             </div>
-            <MotionTimeline v-if="qualityReport" :issues="qualityIssues" :frame-count="qualityReport.metadata?.frame_count || 1" :fps="qualityReport.metadata?.fps || 30" :labels="qualityTestLabels" :current-time="motionCurrentTime" :can-seek="Boolean(importedAsset) || (Boolean(generatedVideoUrl) && qualityStage !== 'bvh')" @seek="seekToIssue" />
+            <MotionTimeline v-if="qualityReport" :issues="qualityIssues" :report="qualityReport" :frame-count="qualityReport.metadata?.frame_count || 1" :fps="qualityReport.metadata?.fps || 30" :labels="qualityTestLabels" :current-time="motionCurrentTime" :can-seek="Boolean(activeSkeletonAsset) || (Boolean(generatedVideoUrl) && qualityStage !== 'bvh')" @seek="seekToIssue" />
             <div v-if="qualityIssues.length" class="quality-issues">
               <div class="quality-issues-title">问题时间点</div>
               <button v-for="(issue, index) in qualityIssues.slice(0, 8)" :key="`${issue.test_name}-${issue.start_frame}-${issue.metric}-${issue.actor_id}-${index}`" type="button" class="quality-issue-row" @click="seekToIssue(issue)">
@@ -180,12 +181,41 @@
               <small v-if="repairSummary.historical_report || repairSummary.metadata?.config_sha256 !== qualityReport?.metadata?.config_sha256">这是历史或不同规则的修复记录。下列改善量仅属于该记录，不能与当前检查分数相减；请重新修复和复查。</small>
               <div>修复前 {{ Number(repairSummary.before_score).toFixed(1) }} → 修复后 {{ Number(repairSummary.after_score).toFixed(1) }}（{{ repairSummary.improvement >= 0 ? '+' : '' }}{{ Number(repairSummary.improvement).toFixed(1) }}）</div>
               <strong>候选改善：{{ repairSummary.steps?.some(step => step.applied) ? '已接受部分修复' : '保留原结果' }} · 当前阶段整体达标：{{ qualityGate?.status ? statusLabel(qualityGate.status) : '尚未复查' }}</strong>
-              <div v-for="(step, index) in repairSummary.steps || []" :key="`${step.repair}-${index}`" class="repair-detail">{{ repairLabel(step.repair) }} · {{ step.status ? statusLabel(step.status) : (step.applied ? '已接受' : '未应用') }}<template v-if="step.reason"> · {{ localizeMessage(step.reason) }}</template><template v-if="step.max_joint_shift_m != null"> · 最大关节位移 {{ (step.max_joint_shift_m * 1000).toFixed(1) }} 毫米</template></div>
-              <small>{{ repairSummary.steps?.some((step) => step.applied) ? `视频渲染：${statusLabel(comparisonRenderStatus)}` : '这条动作没有通过复测的修复步骤，原始动作保持不变。' }}</small>
+              <section v-if="repairSummary.support_comparison?.available" class="support-evidence" aria-label="固定原始支撑区间的修复效果">
+                <strong>原始 → 修复数组 · 固定原始支撑区间</strong>
+                <div>累计滑动距离 {{ Number(repairSummary.support_comparison.original_support_distance_before_m).toFixed(4) }} → {{ Number(repairSummary.support_comparison.original_support_distance_after_m).toFixed(4) }} 米<template v-if="repairSummary.support_comparison.original_support_distance_reduction_ratio != null">，降低 {{ (repairSummary.support_comparison.original_support_distance_reduction_ratio * 100).toFixed(1) }}%</template></div>
+                <details><summary>逐人物、逐脚查看实际变化</summary>
+                  <div v-for="row in repairSummary.support_comparison.per_foot" :key="`${row.actor_id}-${row.joint_id}`">人物 {{ row.actor_id + 1 }} · {{ row.joint_name }}：{{ row.distance_before_m.toFixed(4) }} → {{ row.distance_after_m.toFixed(4) }} 米，脚滑区间 {{ row.sliding_intervals_before }} → {{ row.sliding_intervals_after }}</div>
+                </details>
+              </section>
+              <div v-for="(step, index) in repairSummary.steps || []" :key="`${step.repair}-${index}`" class="repair-detail">
+                {{ repairLabel(step.repair) }} · {{ step.status ? statusLabel(step.status) : (step.applied ? '已接受' : '未应用') }}<template v-if="step.rejection_reasons?.length"> · {{ localizeMessage(step.rejection_reasons) }}</template><template v-else-if="step.reason"> · {{ localizeMessage(step.reason) }}</template><template v-if="step.max_joint_shift_m != null"> · 最大关节位移 {{ (step.max_joint_shift_m * 1000).toFixed(1) }} 毫米</template>
+                <details v-if="step.candidate_trials?.length" class="repair-trials"><summary>查看 {{ step.candidate_trials.length }} 次修复尝试</summary>
+                  <div v-for="(trial, trialIndex) in step.candidate_trials" :key="trialIndex">尝试 {{ trialIndex + 1 }} · {{ trial.status === 'accepted' ? '通过候选审查' : statusLabel(trial.status) }}<template v-if="trial.target_after != null"> · 目标评分 {{ trial.target_before }} → {{ trial.target_after }}</template><template v-if="trial.rejection_reasons?.length"> · {{ localizeMessage(trial.rejection_reasons) }}</template><template v-else-if="trial.reason"> · {{ localizeMessage(trial.reason) }}</template></div>
+                  <small>每步只应用最终选中的一个候选。全部尝试与最终选择保存在下载报告中。</small>
+                </details>
+              </div>
+              <small>{{ importedAsset ? '骨架比较已就绪，可逐帧检查实际保存的修复结果。' : repairSummary.steps?.some((step) => step.applied) ? `视频渲染：${statusLabel(comparisonRenderStatus)}` : '这条动作没有通过复测的修复步骤，原始动作保持不变。' }}</small>
               <small v-if="comparisonRenderError">{{ localizeMessage(comparisonRenderError) }}</small>
               <button v-if="comparisonRenderStatus === 'failed' && repairSummary.steps?.some(step => step.applied)" type="button" class="ghost-btn" :disabled="isGenerating || qualityLoading" @click="retryComparisonRender">重新渲染对比视频</button>
               <div v-for="row in repairSummary.issue_summary || []" :key="row.test" class="repair-detail">{{ qualityTestLabels[row.test] || row.test }}：问题段 {{ row.segments_before }} → {{ row.segments_after }}，涉及帧 {{ row.frames_before }} → {{ row.frames_after }}<template v-if="row.sliding_frames_before != null">，脚滑关节帧 {{ row.sliding_frames_before }} → {{ row.sliding_frames_after }}</template></div>
             </div>
+            <section v-if="repairArtifacts" class="repair-summary repair-artifacts" aria-label="修复产物下载与复检">
+              <strong>保存的修复记录 · {{ repairArtifacts.run_id.slice(0, 8) }}</strong>
+              <a :href="motionlintApiBase + repairArtifacts.download_url">下载动作与完整报告 ZIP</a>
+              <a :href="`${motionlintApiBase}/v1/motionlint/tasks/${motionlintSource}/${generatedTaskId}/repairs/${repairArtifacts.run_id}/html`" target="_blank">打开离线 HTML 报告</a>
+              <div v-for="file in repairArtifacts.files" :key="file.key"><a :href="motionlintApiBase + file.download_url">下载 {{ file.path }}</a></div>
+              <div><button type="button" class="ghost-btn" :disabled="qualityLoading" @click="reimportRepair('repaired')">将修复文件重新导入复检</button>
+                <button v-if="repairArtifacts.stages.bvh" type="button" class="ghost-btn" :disabled="qualityLoading" @click="reimportRepair('bvh')">将 BVH 重新导入复检</button></div>
+              <div v-if="repairArtifacts.stages.bvh"><button type="button" class="ghost-btn" :disabled="qualityLoading || ['queued', 'running'].includes(characterExportState.status)" @click="exportKenney">导出 Kenney 角色并复检</button>
+                <span v-if="characterExportState.status !== 'unavailable'"> · {{ statusLabel(characterExportState.status) }}</span></div>
+              <small v-if="characterExportState.error" role="alert">{{ characterExportState.error }}</small>
+              <div v-if="characterExportState.status === 'ready'"><a :href="motionlintApiBase + characterExportState.download_url">下载角色视频与复检报告</a>
+                <button type="button" class="ghost-btn" :disabled="qualityLoading" @click="qualityStage = 'character'; inspectCurrentMotion()">查看实际角色复检</button>
+                <small>视频完整解码 {{ characterExportState.video.frames }} 帧 · 角色质量门 {{ statusLabel(characterExportState.gate.status) }}</small></div>
+              <small v-for="warning in repairArtifacts.warnings" :key="warning">{{ warning }}</small>
+            </section>
+            <SkeletonComparison v-if="repairArtifacts && ['raw', 'repaired'].includes(qualityStage)" :key="repairArtifacts.run_id" :asset="{...currentMotionlintRef, ...repairArtifacts.stages.repaired, run_id: repairArtifacts.run_id}" :artifacts="repairArtifacts" :api-base="motionlintApiBase" :playback="playback" />
             <div v-if="comparisonRenderStatus === 'ready' && ['raw', 'repaired'].includes(qualityStage)" class="comparison-videos" aria-label="修复前后视频对比">
               <div><strong>修复前 · 主播放</strong><video ref="comparisonOriginalRef" :src="comparisonOriginalUrl" :poster="comparisonOriginalPoster" controls playsinline preload="auto" @loadedmetadata="applyPlaybackSettings" @timeupdate="syncComparisonVideo" @play="playComparisonVideo" @pause="pauseComparisonVideo"></video></div>
               <div><strong>修复后 · 同步静音</strong><video ref="comparisonRepairedRef" :src="comparisonRepairedUrl" :poster="comparisonRepairedPoster" controls muted playsinline preload="auto" @loadedmetadata="applyPlaybackSettings"></video></div>
@@ -241,7 +271,7 @@
           <button type="button" class="ghost-btn" @click="copyVideoPath">复制后端保存路径</button>
         </div>
 
-        <form class="composer" @submit.prevent="sendMessage" @keydown.enter.exact.prevent="handleComposerEnter" @click.stop>
+        <form class="composer" v-if="!standalone" @submit.prevent="sendMessage" @keydown.enter.exact.prevent="handleComposerEnter" @click.stop>
           <div class="composer-input-row">
             <button type="button" class="edge-btn" aria-label="上传文件" title="上传文件" @click="triggerFileUpload">
               <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -327,8 +357,10 @@ import MotionTimeline from './components/MotionTimeline.vue'
 import MotionSettings from './components/MotionSettings.vue'
 import TaskFeedback from './components/TaskFeedback.vue'
 import TaskManager from './components/TaskManager.vue'
+import PipelineJobs from './components/PipelineJobs.vue'
 import MotionImport from './components/MotionImport.vue'
 import SkeletonPreview from './components/SkeletonPreview.vue'
+import SkeletonComparison from './components/SkeletonComparison.vue'
 import {readActiveTask, saveActiveTask, taskIsActive} from './features/taskBrowser.js'
 import { createTaskPoller, errorMessage, mergeSkinCatalogs, optionsForBackend } from './features/generationWorkflow.js'
 import { qualityTestLabels, statusLabel, repairLabel, localizeMessage } from './utils/zhDisplay.js'
@@ -352,7 +384,8 @@ const lodgeBlenderExecutable = (import.meta.env.VITE_LODGE_BLENDER_EXE || '').tr
 const lodgeTargetFbx = (import.meta.env.VITE_LODGE_TARGET_FBX || '').trim()
 const lodgeRetargetMapping = (import.meta.env.VITE_LODGE_RETARGET_MAPPING || '').trim()
 const lodgeRetargetScript = (import.meta.env.VITE_LODGE_RETARGET_SCRIPT || '').trim()
-const motionlintApiBase = (import.meta.env.VITE_MOTIONLINT_API_BASE || `${apiProtocol}://${runtimeHost}:8003`).replace(/\/$/, '')
+const motionlintApiBase = (window.MOTIONLINT_API_BASE || import.meta.env.VITE_MOTIONLINT_API_BASE || `${apiProtocol}://${runtimeHost}:8003`).replace(/\/$/, '')
+const standalone = typeof window !== 'undefined' && window.MOTIONLINT_STANDALONE === true
 
 const prompt = ref('')
 const isGenerating = ref(false)
@@ -377,8 +410,14 @@ const taskManagerOpen = ref(false)
 const taskManagerError = ref('')
 const taskRevision = ref(0)
 const generationApiBases = {intergen: intergenApiBase, lodge: lodgeApiBase}
-const importPanelOpen = ref(false)
+const importPanelOpen = ref(standalone)
 const importedAsset = ref(null)
+const stagePreview = ref(null)
+const repairArtifacts = ref(null)
+const characterExportState = ref({status: 'unavailable'})
+let characterTimer = null, characterEpoch = 0
+const stopCharacterPolling = () => {characterEpoch++; if (characterTimer !== null) window.clearTimeout(characterTimer); characterTimer = null}
+const activeSkeletonAsset = computed(() => stagePreview.value || importedAsset.value)
 const importError = ref('')
 const skeletonPreviewRef = ref(null)
 const skinOptions = ref([...defaultSkinOptions])
@@ -398,7 +437,7 @@ const generatedVideoDownloadUrl = ref('')
 const generatedVideoFilePath = ref('')
 const generatedTaskId = ref('')
 const generatedTaskBaseUrl = ref('')
-const qualityPanelOpen = ref(false)
+const qualityPanelOpen = ref(standalone)
 const qualityLoading = ref(false)
 const qualityReport = ref(null)
 const qualityGate = ref(null)
@@ -410,8 +449,8 @@ const studioTabs = [
   {id: 'Repair', label: '自动修复'}, {id: 'Regression', label: '回归比较'},
   {id: 'Settings', label: '设置'}
 ]
-const visibleStudioTabs = computed(() => importedAsset.value ? studioTabs.filter(tab => tab.id !== 'Repair') : studioTabs)
-const studioTab = ref('Generate')
+const visibleStudioTabs = computed(() => standalone ? studioTabs.filter(tab => tab.id !== 'Generate') : studioTabs)
+const studioTab = ref(standalone ? 'Inspect' : 'Generate')
 const motionCurrentTime = ref(0)
 const motionSettingsOpen = ref(false)
 const motionPolicy = ref(null)
@@ -515,7 +554,7 @@ const motionlintSource = computed(() => importedAsset.value ? 'import' : generat
 const taskKey = (task) => `${task.source}:${task.task_id}`
 const taskLabel = (task) => `${task.source === 'import' ? '导入动作 · ' + (task.title || '') : task.source === 'intergen' ? '文字动作（InterGen）' : '音乐舞蹈（LODGE）'} · ${task.task_id.slice(0, 8)}`
 const currentMotionlintRef = computed(() => ({ source: motionlintSource.value, task_id: generatedTaskId.value }))
-watch(() => taskKey(currentMotionlintRef.value), resetRegressionComparison, {flush: 'sync'})
+watch(() => taskKey(currentMotionlintRef.value), () => {resetRegressionComparison(); repairArtifacts.value = null; stagePreview.value = null; stopCharacterPolling(); characterExportState.value = {status: 'unavailable'}}, {flush: 'sync'})
 watch(() => `${taskKey(currentMotionlintRef.value)}:${qualityStage.value}`, () => {
   if (motionSettingsOpen.value) loadMotionSettings()
 })
@@ -523,6 +562,7 @@ watch(() => `${taskKey(currentMotionlintRef.value)}:${qualityStage.value}`, () =
 const history = ref([])
 
 const loadBackendSkinCatalog = async () => {
+  if (standalone) return
   const results = await Promise.allSettled([
     axios.get(`${intergenApiBase}/v1/intergen/skins`, {timeout: 10000}),
     axios.get(`${lodgeApiBase}/v1/lodge/skins`, {timeout: 10000})
@@ -542,6 +582,7 @@ onMounted(() => {
   const saved = readActiveTask(taskStorage)
   if (saved) {
     if (saved.source === 'import') {loadImportedTask(saved.taskId); return}
+    if (standalone) return
     isGenerating.value = true
     taskStatusText.value = '正在恢复上次查看的任务…'
     startPolling(saved.taskId, `${generationApiBases[saved.source]}/v1/${saved.source}/tasks`, saved.requestedSkinIds, saved.personSkinIds)
@@ -674,6 +715,9 @@ const inspectCurrentMotion = async () => {
   try {
     const response = await axios.post(`${motionlintApiBase}/v1/motionlint/inspect-stage`, { ...currentMotionlintRef.value, stage: qualityStage.value })
     if (response.data.import) importedAsset.value = response.data.import
+    repairArtifacts.value = response.data.artifacts || null
+    stagePreview.value = response.data.preview || null
+    if (repairArtifacts.value) await refreshCharacterExport()
     qualityReport.value = response.data.report
     qualityGate.value = response.data.gate
     qualityIssues.value = (qualityReport.value.tests || [])
@@ -773,7 +817,7 @@ const playComparisonVideo = async () => {
 const pauseComparisonVideo = () => comparisonRepairedRef.value?.pause()
 
 const repairCurrentMotion = async () => {
-  if (!generatedTaskId.value || isGenerating.value || importedAsset.value) return
+  if (!generatedTaskId.value || isGenerating.value || qualityLoading.value) return
   qualityLoading.value = true
   try {
     const response = await axios.post(`${motionlintApiBase}/v1/motionlint/repair`, currentMotionlintRef.value)
@@ -786,6 +830,10 @@ const repairCurrentMotion = async () => {
       .flatMap((test) => test.issues || [])
       .sort((a, b) => a.start_frame - b.start_frame)
     repairSummary.value = response.data.repair
+    repairArtifacts.value = response.data.artifacts || null
+    stagePreview.value = response.data.preview || null
+    stopCharacterPolling()
+    characterExportState.value = {status: 'unavailable'}
     comparisonRenderStatus.value = response.data.render_status
     await refreshComparisonRender()
   } catch (error) {
@@ -795,10 +843,44 @@ const repairCurrentMotion = async () => {
   }
 }
 
+const reimportRepair = async stage => {
+  if (qualityLoading.value || !repairArtifacts.value) return
+  qualityLoading.value = true
+  try {
+    const result = await axios.post(`${motionlintApiBase}/v1/motionlint/reimport`, {...currentMotionlintRef.value, stage, run_id: repairArtifacts.value.run_id})
+    await acceptImportedMotion(result.data)
+    taskStatusText.value = '已作为新任务读取实际导出文件并重新执行六项检测。'
+  } catch (error) {window.alert(`重新导入失败：${localizeMessage(error.response?.data?.detail || error.message)}`)}
+  finally {qualityLoading.value = false}
+}
+
+const refreshCharacterExport = async (ref = {...currentMotionlintRef.value}, epoch = characterEpoch) => {
+  const current = () => epoch === characterEpoch && taskKey(ref) === taskKey(currentMotionlintRef.value)
+  if (!ref.task_id || !current()) return
+  if (characterTimer !== null) window.clearTimeout(characterTimer)
+  characterTimer = null
+  try {
+    const result = await axios.get(`${motionlintApiBase}/v1/motionlint/tasks/${ref.source}/${ref.task_id}/character-export`, {timeout: 15000})
+    if (!current()) return
+    characterExportState.value = result.data
+    if (['queued', 'running'].includes(result.data.status)) characterTimer = window.setTimeout(() => refreshCharacterExport(ref, epoch), 2500)
+  } catch (error) {if (current()) characterExportState.value = {status: 'failed', error: localizeMessage(error.response?.data?.detail || error.message)}}
+}
+const exportKenney = async () => {
+  if (qualityLoading.value || !repairArtifacts.value || ['queued', 'running'].includes(characterExportState.value.status)) return
+  stopCharacterPolling()
+  const ref = {...currentMotionlintRef.value}, epoch = characterEpoch
+  characterExportState.value = {status: 'queued'}
+  try {
+    await axios.post(`${motionlintApiBase}/v1/motionlint/export-character`, ref, {timeout: 15000})
+    await refreshCharacterExport(ref, epoch)
+  } catch (error) {if (epoch === characterEpoch && taskKey(ref) === taskKey(currentMotionlintRef.value)) characterExportState.value = {status: 'failed', error: localizeMessage(error.response?.data?.detail || error.message)}}
+}
+
 const issueTime = (issue) => Number(issue.timestamp_seconds ?? issue.start_frame / (qualityReport.value?.metadata?.fps || 30))
 
 const seekToIssue = async (issue) => {
-  if (importedAsset.value) {await skeletonPreviewRef.value?.seek(issueTime(issue)); return}
+  if (activeSkeletonAsset.value && !(qualityStage.value === 'character' && generatedVideoUrl.value)) {await skeletonPreviewRef.value?.seek(issueTime(issue)); return}
   if (qualityStage.value === 'bvh') return
   const video = generatedVideoRef.value
   if (!video) return
@@ -1057,6 +1139,12 @@ const acceptImportedMotion = async result => {
   importPanelOpen.value = true
   generatedTaskId.value = result.task.task_id
   generatedTaskBaseUrl.value = `${motionlintApiBase}/v1/motionlint/imports`
+  repairArtifacts.value = result.artifacts || null
+  stagePreview.value = result.preview || null
+  if (repairArtifacts.value) {
+    try {repairSummary.value = (await axios.get(`${motionlintApiBase}/v1/motionlint/tasks/import/${generatedTaskId.value}/repair-summary`)).data.repair} catch {}
+    await refreshCharacterExport()
+  }
   qualityReport.value = result.report
   qualityGate.value = result.gate
   qualityIssues.value = (result.report.tests || []).flatMap(test => test.issues || []).sort((a, b) => a.start_frame - b.start_frame)
@@ -1330,7 +1418,7 @@ const retryFailedRender = async () => {
   }
 }
 
-onUnmounted(() => {taskPoller.stop(); stopComparisonPolling(); resetRegressionComparison()})
+onUnmounted(() => {taskPoller.stop(); stopComparisonPolling(); stopCharacterPolling(); resetRegressionComparison()})
 
 
 const composerPlaceholder = computed(() => {
@@ -1628,6 +1716,9 @@ const saveRender = async () => {
   color: #6ee7b7;
   font-size: 13px;
 }
+.repair-artifacts{display:flex;flex-direction:column;gap:9px;overflow-wrap:anywhere}
+.repair-artifacts a{color:#bcf5df;text-underline-offset:3px}
+.repair-artifacts button{margin:3px 8px 3px 0}
 
 
 .comparison-videos {
@@ -1658,6 +1749,10 @@ const saveRender = async () => {
 
 .regression-result.regression { color: #fca5a5; }
 .regression-error, .regression-reasons { color: #fca5a5; font-size: 13px; overflow-wrap: anywhere; }
+.support-evidence { padding: 10px; border: 1px solid #4d6d85; border-radius: 8px; color: #dbeafe; }
+.support-evidence details, .repair-trials { margin-top: 6px; font-size: 12px; line-height: 1.7; }
+.support-evidence summary, .repair-trials summary { cursor: pointer; color: #bfdbfe; }
+.repair-trials div { padding: 5px 0; border-bottom: 1px solid #475569; }
 
 .regression-table { margin-top: 9px; }
 .regression-row {

@@ -1,0 +1,18 @@
+{
+  "Shoulder_L": "LeftShoulder",
+  "UpperArm_L": "LeftArm",
+  "LowerArm_L": "LeftForeArm",
+  "Hand_L": "LeftHand",
+  "UpperLeg_L": "LeftUpLeg",
+  "LowerLeg_L": "LeftLeg",
+  "Foot_L": "LeftFoot",
+  "Toes_L": "LeftToe",
+  "Shoulder_R": "RightShoulder",
+  "UpperArm_R": "RightArm",
+  "LowerArm_R": "RightForeArm",
+  "Hand_R": "RightHand",
+  "UpperLeg_R": "RightUpLeg",
+  "LowerLeg_R": "RightLeg",
+  "Foot_R": "RightFoot",
+  "Toes_R": "RightToe"
+}

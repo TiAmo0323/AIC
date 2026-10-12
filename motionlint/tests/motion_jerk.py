@@ -29,6 +29,11 @@ def check(motion: MotionSequence, settings: dict) -> TestResult:
         relative = np.matmul(matrices[1:], np.swapaxes(matrices[:-1], -1, -2))
         step = np.degrees(np.arccos(np.clip((np.trace(relative, axis1=-2, axis2=-1) - 1) / 2, -1, 1)))
         acceleration = np.abs(np.diff(step, axis=0)) * motion.fps ** 2
+        if settings.get('signed_angular_derivatives', False):
+            from motionlint.core.rotation_rates import increments_degrees
+            velocity_steps=increments_degrees(matrices)
+            acceleration=np.linalg.norm(np.diff(velocity_steps,axis=0),axis=-1)*motion.fps**2
+            metrics['angular_derivative_method']='Signed local SO(3) increments per second'
         threshold = float(settings["angular_acceleration_deg_s2"])
         metrics["max_angular_acceleration_deg_s2"] = float(np.nanmax(acceleration))
         for actor in range(motion.actor_count):

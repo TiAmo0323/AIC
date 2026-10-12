@@ -16,9 +16,9 @@ from motionlint.pipeline.regression import compare
 RUNTIME_ROOT = Path(__file__).resolve().parents[2] / "HumanAction-runtime"
 
 
-def select_converter(baseline, candidate, baseline_fidelity: list[dict], candidate_fidelity: list[dict], *, config_path=None) -> dict:
+def select_converter(baseline, candidate, baseline_fidelity: list[dict], candidate_fidelity: list[dict], *, config_path=None, baseline_motion=None, candidate_motion=None) -> dict:
     """Accept measured BVH gains without hiding a new failed test or worse fit."""
-    comparison = compare(baseline, candidate, config_path=config_path)
+    comparison = compare(baseline, candidate, config_path=config_path, baseline_motion=baseline_motion, candidate_motion=candidate_motion)
     reasons = list(comparison["reasons"])
     if candidate.overall_score < baseline.overall_score:
         reasons.append("Overall score decreased")
@@ -46,6 +46,7 @@ def convert_snapshot(snapshots: list[Path], output: Path, *, fps: int, policy: P
     from LODGE_api.lodge2bvh import SMPL_TO_BVH22
     candidates = {}
     reports = {}
+    motions = {}
     fidelity_rows = {}
     target = load_intergen_joints(snapshots, fps=fps).positions[:, :, SMPL_TO_BVH22]
     for method in ("momask", "continuous"):
@@ -64,6 +65,7 @@ def convert_snapshot(snapshots: list[Path], output: Path, *, fps: int, policy: P
                     convert_continuous_joints(snapshot, bvh, fps=fps)
                 paths.append(bvh)
             sequence = load_bvh_pair(paths)
+            motions[method] = sequence
             reports[method] = inspect(sequence, config_path=policy)
             _write_report(directory / "quality", reports[method])
             fidelity_rows[method] = [fidelity(target[:, actor], sequence.positions[:, actor]) for actor in range(len(snapshots))]
@@ -75,7 +77,8 @@ def convert_snapshot(snapshots: list[Path], output: Path, *, fps: int, policy: P
             selection = {"selected": "momask", "reasons": [f"Continuous converter unavailable: {type(exc).__name__}: {exc}"]}
     if "continuous" in candidates:
         selection = select_converter(reports["momask"], reports["continuous"], fidelity_rows["momask"],
-                                     fidelity_rows["continuous"], config_path=policy)
+                                     fidelity_rows["continuous"], config_path=policy,
+                                     baseline_motion=motions["momask"], candidate_motion=motions["continuous"])
     for actor, source in enumerate(candidates[selection["selected"]], 1):
         destination = output / f"repaired_actor{actor}.bvh"
         shutil.copyfile(source, destination)

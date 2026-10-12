@@ -18,6 +18,8 @@ def check(motion: MotionSequence, settings: dict) -> TestResult:
     parents = motion.metadata.get("parents")
     if parents is None or len(parents) != positions.shape[2]:
         return TestResult(name, "WARN", 0, metrics={"reason": "No compatible skeleton parent mapping"})
+    if settings.get('validate_hierarchy', False) and (parents[0] != -1 or any(not isinstance(parent,(int,np.integer)) or parent < 0 or parent >= joint for joint,parent in enumerate(parents[1:],1))):
+        return TestResult(name,'WARN',0,metrics={'reason':'Skeleton hierarchy must be connected, parent-first and acyclic'})
 
     nonfinite = ~np.isfinite(positions).all(axis=-1)
     for actor in range(motion.actor_count):
@@ -28,8 +30,9 @@ def check(motion: MotionSequence, settings: dict) -> TestResult:
     variation_limit = float(settings["bone_length_variation_ratio"])
     collapse_limit = float(settings["joint_collapse_m"])
     max_variation = 0.0
+    helpers = set(motion.metadata.get('non_anatomical_bone_ids', [])) if settings.get('ignore_declared_helpers') else set()
     for joint, parent in enumerate(parents):
-        if parent < 0:
+        if parent < 0 or joint in helpers:
             continue
         lengths = np.linalg.norm(positions[:, :, joint] - positions[:, :, parent], axis=-1)
         for actor in range(motion.actor_count):
@@ -42,9 +45,10 @@ def check(motion: MotionSequence, settings: dict) -> TestResult:
                 max_variation = max(max_variation, float(np.nanmax(relative)))
                 for start, end in segments(relative > variation_limit):
                     issues.append(MotionIssue(name, "high", start, end, "bone_length_variation_ratio", float(np.nanmax(relative[start:end + 1])), variation_limit, "Bone length changed", actor_id=actor, joint_ids=[parent, joint], repairable=motion.source == "intergen", recommended_repair="bone_length_projection" if motion.source == "intergen" else None))
-            else:
+            if median <= collapse_limit or settings.get('check_all_collapses', False):
                 for start, end in segments(lengths[:, actor] < collapse_limit):
                     issues.append(MotionIssue(name, "high", start, end, "joint_collapse_m", float(np.nanmin(lengths[start:end + 1, actor])), collapse_limit, "Joint is collapsed onto its parent", actor_id=actor, joint_ids=[parent, joint]))
 
-    metrics = {"nonfinite_joint_frames": int(np.count_nonzero(nonfinite)), "max_bone_length_variation_ratio": max_variation}
+    metrics = {"nonfinite_joint_frames": int(np.count_nonzero(nonfinite)), "max_bone_length_variation_ratio": max_variation,
+               'excluded_helper_edges': sorted(helpers), 'helper_policy': 'Declared non-anatomical root-to-Hips edges only; finite data and hierarchy remain checked'}
     return result(name, issues, metrics, motion.frame_count, motion.actor_count, positions.shape[2])

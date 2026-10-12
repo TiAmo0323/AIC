@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import numpy as np
 
 from motionlint.core.config import load_config
-from motionlint.core.foot_support import estimate_support
 from motionlint.core.motion_sequence import MotionSequence
 from motionlint.core.result import MotionQualityReport
 from motionlint.pipeline.inspector import inspect
@@ -15,6 +14,9 @@ from motionlint.repairs.bone_length import project_bone_lengths
 from motionlint.repairs.inter_actor import separate_actors
 from motionlint.repairs.foot_lock import repair_foot_sliding
 from motionlint.repairs.seam_repair import repair_seams
+from motionlint.repairs.support_metrics import compare_support
+
+REPAIR_ALGORITHM_VERSION = 6
 
 
 def summarize_issues(before: dict, after: dict) -> list[dict]:
@@ -44,12 +46,19 @@ class RepairOutcome:
     after: MotionQualityReport
     raw_lodge: np.ndarray | None
     steps: list[dict]
+    support_comparison: dict = field(default_factory=dict)
 
     def to_dict(self) -> dict:
-        return {"algorithm_version": 4, "before_score": self.before.overall_score, "after_score": self.after.overall_score,
+        statuses = {s['status'] for s in self.steps}
+        status = 'accepted' if any(s['applied'] for s in self.steps) else next(
+            (s for s in ('failed', 'rejected', 'unsupported', 'no_op') if s in statuses), 'no_op')
+        return {"algorithm_version": REPAIR_ALGORITHM_VERSION, "status": status,
+                "reason_codes": sorted({code for step in self.steps for code in step.get('rejection_codes', [])}),
+                "before_score": self.before.overall_score, "after_score": self.after.overall_score,
                 "improvement": round(self.after.overall_score - self.before.overall_score, 2), "steps": self.steps,
-                "schema_version": 2, "metadata": self.after.metadata,
+                "schema_version": 3, "metadata": self.after.metadata,
                 "before_metadata": self.before.metadata,
+                "support_comparison": self.support_comparison,
                 "final_selection": [{"repair": step["repair"], "status": step["status"], "variant": step.get("variant"), "applied": step["applied"]} for step in self.steps],
                 "issue_summary": summarize_issues(self.before.to_dict(), self.after.to_dict())}
 
@@ -58,61 +67,74 @@ def _test(report: MotionQualityReport, name: str):
     return next(test for test in report.tests if test.test_name == name)
 
 
+def _support_comparison(original, candidate, report, config):
+    if (_test(report, "foot_sliding").metrics.get("evaluation_status") == "unavailable"
+            or not original.metadata.get("foot_joint_ids") or original.frame_count < 2):
+        return {"available": False, "reason": "No original support intervals could be evaluated"}
+    result = compare_support(original, candidate, config["tests"]["foot_sliding"])
+    return {"available": bool(result["per_foot"]), **result}
+
+
 def _assess(name, target, original, candidate, before, after, config, ablations=frozenset()):
-    previous = {test.test_name: test for test in before.tests}
-    drops = {test.test_name: round(previous[test.test_name].score - test.score, 2)
-             for test in after.tests if test.test_name != target
-             and previous[test.test_name].score - test.score > config["regression"]["max_test_score_drop"]}
-    newly_failed = [test.test_name for test in after.tests if test.test_name != target
-                    and test.status == "FAIL" and previous[test.test_name].status != "FAIL"]
-    displacement = np.linalg.norm(candidate.positions - original.positions, axis=-1)
-    maximum = float(displacement.max())
+    from motionlint.pipeline.safety import audit
     limits = config["repairs"][name]
     bound = limits.get("max_correction_m", limits.get("max_actor_shift_m", limits.get("max_wrist_shift_m")))
-    bound_exceeded = bound is not None and maximum > float(bound) + 1e-6
-    old_critical = {(i.test_name, i.actor_id, tuple(i.joint_ids), i.start_frame, i.end_frame)
-                    for t in before.tests for i in t.issues if i.severity == "critical"}
-    new_critical = {(i.test_name, i.actor_id, tuple(i.joint_ids), i.start_frame, i.end_frame)
-                    for t in after.tests for i in t.issues if i.severity == "critical"} - old_critical
-    guard = {}
-    if name in {"foot_lock", "inter_actor_separation"}:
-        support = estimate_support(original, config["tests"]["foot_sliding"])
-        up = int(original.metadata.get("up_axis", 1))
-        axes = [axis for axis in range(3) if axis != up]
-        counts = []
-        for value in (original, candidate):
-            speed = np.linalg.norm(np.diff(value.positions[:, :, support.feet][:, :, :, axes], axis=0), axis=-1) * value.fps
-            counts.append(int(np.count_nonzero((speed > config["tests"]["foot_sliding"]["horizontal_speed_m_s"]) & support.intervals)))
-        guard = {"original_support_sliding_before": counts[0], "original_support_sliding_after": counts[1],
-                 "improved": counts[1] < counts[0], "not_worsened": counts[1] <= counts[0]}
-    regression_ok = "regression" in ablations or (after.overall_score >= before.overall_score and not drops and not newly_failed)
+    safety = audit(before, after, config, baseline_motion=original, candidate_motion=candidate,
+                   movement_bound_m=bound, allow_bone_repair=target == "skeleton_integrity", ignore=ablations)
+    previous = {t.test_name: t for t in before.tests}
+    guard = safety["support_guard"]
+    reasons, codes = list(safety["regression_reasons"]), list(safety["rejection_codes"])
+    target_improved = (_test(after, target).score > previous[target].score or (name == "foot_lock" and guard.get("improved", False)))
+    if not target_improved:
+        codes.append("target_not_improved"); reasons.append("Target metric did not improve")
     contact_ok = "contact" in ablations or guard.get("improved" if name == "foot_lock" else "not_worsened", True)
-    bone_ok = (target == "skeleton_integrity" or _test(after,"skeleton_integrity").score >= previous["skeleton_integrity"].score - .001)
-    accepted = (_test(after, target).score > previous[target].score and regression_ok
-                and after.critical_issue_count <= before.critical_issue_count
-                and not bound_exceeded and not new_critical
-                and bone_ok
-                and contact_ok)
-    return {"repair": name, "applied": accepted, "target_before": previous[target].score,
-            "target_after": _test(after, target).score, "overall_before": before.overall_score,
-            "overall_after": after.overall_score, "other_test_drops": drops,
-            "newly_failed_tests": newly_failed, "support_guard": guard, "bone_constraint_ok": bone_ok, "max_joint_shift_m": maximum, "movement_bound_m": bound, "bound_exceeded": bound_exceeded, "new_critical_issue_count": len(new_critical)}
+    if not contact_ok and not codes:
+        codes.append("fixed_support_not_improved"); reasons.append("Original support intervals did not improve")
+    # Existing partially evaluated inputs can receive supported repairs, but the
+    # public strict comparison remains incomplete and the full gate fails.
+    assessment = {"repair": name, "applied": target_improved and not reasons and contact_ok,
+                  "target_before": previous[target].score, "target_after": _test(after, target).score,
+                  "overall_before": before.overall_score, "overall_after": after.overall_score,
+                  **{k: safety[k] for k in ("other_test_drops", "newly_failed_tests", "new_severe_issue_frames",
+                     "newly_unavailable_tests", "support_guard", "bone_constraint_ok", "max_joint_shift_m",
+                     "movement_bound_m", "bound_exceeded")},
+                  "comparison_incomplete_reasons": safety["incomplete_reasons"],
+                  "rejection_codes": codes, "rejection_reasons": reasons,
+                  "new_critical_issue_count": sum(i.severity == "critical" for t in after.tests for i in t.issues)
+                      - sum(i.severity == "critical" for t in before.tests for i in t.issues)}
+    if reasons: assessment["reason"] = reasons[0]
+    return assessment
 
 
 def repair(motion: MotionSequence, *, raw_lodge: np.ndarray | None = None, config_path=None, experimental_ablations=frozenset()) -> RepairOutcome:
     if not set(experimental_ablations) <= {"contact", "regression"}:
         raise ValueError("Unknown experimental ablation")
     config = load_config(config_path) if config_path is not None else load_config()
+    from motionlint.core.context import freeze_floor
+    motion = freeze_floor(motion, config)
     before = inspect(motion, config_path=config_path)
     current_motion, current_report, current_raw = motion, before, raw_lodge
     steps = []
     for name, target in (("foot_lock", "foot_sliding"), ("seam_repair", "temporal_continuity"),
                          ("bone_length_projection", "skeleton_integrity"), ("inter_actor_separation", "collision"), ("collision_repair", "collision")):
+        step_input = current_motion
         repairable = [issue for issue in _test(current_report, target).issues
                       if issue.repairable and issue.recommended_repair == name]
         if not repairable:
-            steps.append({"repair": name, "applied": False, "reason": "No supported repairable issue", "status": "unsupported" if _test(current_report, target).issues else "no_op"})
+            steps.append({"repair": name, "applied": False, "reason": "No supported repairable issue", "status": "unsupported" if _test(current_report, target).issues or _test(current_report, target).metrics.get('reason') else "no_op"})
             continue
+        if current_motion.source == 'bvh' and name != 'foot_lock':
+            steps.append({'repair': name, 'applied': False, 'status': 'unsupported',
+                          'reason': 'BVH currently supports mapped leg IK only; other changes require animation authoring'})
+            continue
+        if current_motion.source == 'bvh' and name == 'foot_lock':
+            lookup = {joint: index for index, joint in enumerate(current_motion.joint_names)}
+            chains = [[lookup.get(side + suffix) for suffix in ('UpLeg', 'Leg', 'Foot', 'Toe')] for side in ('Left', 'Right')]
+            complete = all(all(joint is not None for joint in chain) for chain in chains)
+            if not complete or any(current_motion.metadata['parents'][child] != parent for chain in chains for parent, child in zip(chain, chain[1:])):
+                steps.append({'repair': name, 'applied': False, 'status': 'unsupported',
+                              'reason': 'BVH foot lock needs mapped hip/knee/ankle/toe chains with a direct hierarchy'})
+                continue
         # A small fixed candidate set limits movement and allows a gentler IK
         # candidate when full locking would cause a jerk regression.
         variants = [{}]
@@ -130,8 +152,17 @@ def repair(motion: MotionSequence, *, raw_lodge: np.ndarray | None = None, confi
                             for strength, window in ((1., 5), (.5, 5), (1., 9)))
             if not follow:
                 variants.append({"correction_strength": .5, "root_follow": True})
+            variants.extend({"anchor_method": method, "root_follow": True, "root_method": "support",
+                             "smooth_frames": smooth, "center_method": "bounds"}
+                            for method, smooth in (("interval", 0), ("velocity", 0), ("velocity", 5)))
+        if name == "foot_lock":
+            from motionlint.repairs.optimized_root import available
+            if available():
+                variants.extend({"optimizer_mode": mode} for mode in ("coupled", "shared"))
         trials, best = [], None
         for variant in variants:
+            if "optimizer_mode" in variant and best is not None and best[4]["support_guard"].get("original_support_distance_after_m", 1) < 1e-7:
+                continue
             settings = {**config["repairs"][name], **variant}
             passes = settings.pop("passes", 1)
             try:
@@ -147,8 +178,11 @@ def repair(motion: MotionSequence, *, raw_lodge: np.ndarray | None = None, confi
                         from dataclasses import replace
                         foot_source = replace(current_motion, contacts=None)
                         support_settings = {**support_settings, "contact_height_m": 1000., "vertical_speed_m_s": 1e12}
-                    candidate, candidate_raw, detail = repair_foot_sliding(foot_source, repairable, raw=current_raw,
-                        support_settings=support_settings, **settings)
+                    if "optimizer_mode" in settings:
+                        from motionlint.repairs.optimized_root import repair_optimized
+                        candidate, candidate_raw, detail = repair_optimized(foot_source, repairable, raw=current_raw, support_settings=support_settings, **settings)
+                    else:
+                        candidate, candidate_raw, detail = repair_foot_sliding(foot_source, repairable, raw=current_raw, support_settings=support_settings, **settings)
                     repetitions = []
                     for _ in range(passes - 1):
                         remaining = _test(inspect(candidate, config_path=config_path), "foot_sliding").issues
@@ -191,21 +225,35 @@ def repair(motion: MotionSequence, *, raw_lodge: np.ndarray | None = None, confi
             candidate.metadata = {**candidate.metadata, "stage": "repaired"}
             candidate_report = inspect(candidate, config_path=config_path)
             trial = _assess(name, target, current_motion, candidate, current_report, candidate_report, config, experimental_ablations)
+            input_guard = _support_comparison(motion, candidate, before, config)
+            trial["input_support_guard"] = input_guard
+            if input_guard["available"] and not input_guard["not_worsened"] and "contact" not in experimental_ablations:
+                trial["applied"] = False
+                trial["reason"] = "Supported feet regressed against the original input"
+                trial["rejection_codes"].append("input_support_regressed")
+                trial["rejection_reasons"].append(trial["reason"])
             cumulative = float(np.linalg.norm(candidate.positions - motion.positions, axis=-1).max())
             total_bound = float(config["repairs"].get("max_total_shift_m", .20))
             trial.update(cumulative_max_joint_shift_m=cumulative, cumulative_movement_bound_m=total_bound)
             if cumulative > total_bound + 1e-6:
                 trial["applied"] = False
                 trial["reason"] = "Total movement from original input exceeds configured bound"
+                trial["rejection_codes"].append("total_movement_bound_exceeded")
+                trial["rejection_reasons"].append(trial["reason"])
             if experimental_ablations:
                 trial["experimental_only"] = True
                 trial["ablations"] = sorted(experimental_ablations)
             trial["status"] = "accepted" if trial["applied"] else "rejected"
             trial["detail"], trial["variant"] = detail, variant
+            trial["candidate_report"] = candidate_report.to_dict()
             if not trial["applied"]:
-                trial.setdefault("reason", detail.get("reason", "Candidate did not improve within the movement, bone, regression and support constraints"))
+                if detail.get("reason"):
+                    trial["reason"] = detail["reason"]
+                    trial["rejection_reasons"].insert(0, detail["reason"])
+                trial.setdefault("reason", "Candidate did not improve within the movement, bone, regression and support constraints")
             trials.append(trial)
-            key = (candidate_report.overall_score, _test(candidate_report, target).score)
+            key = ((-round(trial["support_guard"].get("original_support_distance_after_m", 0.), 6) if name == "foot_lock" else _test(candidate_report, target).score),
+                   -trial["max_joint_shift_m"], candidate_report.overall_score)
             if trial["applied"] and (best is None or key > best[0]):
                 best = (key, candidate, candidate_report, candidate_raw, trial)
         if best is not None:
@@ -214,5 +262,11 @@ def repair(motion: MotionSequence, *, raw_lodge: np.ndarray | None = None, confi
         else:
             step = dict(trials[0])
         step["candidate_trials"] = trials
+        if name == "foot_lock":
+            from motionlint.repairs.optimized_root import available, budget_diagnostic
+            step["optimization_available"] = available()
+            step["constraint_diagnostic"] = budget_diagnostic(step_input, config["tests"]["foot_sliding"], config["repairs"]["foot_lock"]["max_correction_m"])
+            step["solver_scope"] = "Convex subproblem followed by geometry and full regression checks; solver failure is not full-problem infeasibility"
         steps.append(step)
-    return RepairOutcome(current_motion, before, current_report, current_raw, steps)
+    return RepairOutcome(current_motion, before, current_report, current_raw, steps,
+                         _support_comparison(motion, current_motion, before, config))

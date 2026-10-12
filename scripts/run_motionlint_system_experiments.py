@@ -91,7 +91,7 @@ def run(output):
                     target = "collision"
                 elapsed = time.perf_counter() - started
                 after = inspect(candidate)
-                comparison = compare(before, after)
+                comparison = compare(before, after, baseline_motion=source, candidate_motion=candidate)
                 old_tests = {test.test_name: test for test in before.tests}
                 new_tests = {test.test_name: test for test in after.tests}
                 accepted = (comparison["status"] == "PASS" and after.overall_score >= before.overall_score
@@ -132,7 +132,7 @@ def run(output):
     injected[:, 4] += np.arange(frames) * .012
     candidate = normalize_lodge_array(injected)
     before, after = inspect(source), inspect(candidate)
-    comparison = compare(before, after)
+    comparison = compare(before, after, baseline_motion=source, candidate_motion=candidate)
     if comparison["status"] != "REGRESSION DETECTED":
         raise RuntimeError("Injected regression was not detected")
     for name, array, report in (("baseline", raw, before), ("candidate", injected, after)):

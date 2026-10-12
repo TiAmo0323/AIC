@@ -45,7 +45,7 @@ for task_id in sys.argv[1:]:
     _write_report(output / "candidate", result)
     target = original_motion.positions[:, :, SMPL_TO_BVH22]
     row = {"task": task_id, "baseline": baseline.overall_score, "candidate": result.overall_score,
-           "gate": evaluate_gate(result, config_path=policy).to_dict(), "comparison": compare(baseline, result, config_path=policy),
+           "gate": evaluate_gate(result, config_path=policy).to_dict(), "comparison": compare(baseline, result, config_path=policy, baseline_motion=old_motion, candidate_motion=new_motion),
            "baseline_bvh_files": [str(path) for path in baseline_paths],
            "baseline_fidelity": [fidelity(target[:, actor], old_motion.positions[:, actor]) for actor in range(2)],
            "candidate_fidelity": [fidelity(target[:, actor], new_motion.positions[:, actor]) for actor in range(2)],

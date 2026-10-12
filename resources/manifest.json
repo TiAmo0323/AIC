@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "upstreams": {
+    "bandai": {
+      "commit": "74ead3ba1ae4696404e6086233779f60de8bf9ef",
+      "repo": "https://github.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset",
+      "license": "CC-BY-NC-4.0"
+    },
+    "intergen": {
+      "commit": "b1750df4a859443b8a69329f759ce3a7503ae179",
+      "repo": "https://github.com/tr3e/InterGen",
+      "license": "CC-BY-NC-SA-4.0",
+      "checkpoint_url": "https://drive.google.com/uc?id=1sYOJEdbB8hDI5pY1-X960njdFD2WcwFq",
+      "dataset_redistribution": "prohibited; dataset not downloaded",
+      "checkpoint_sha256": "bab341123c27af9d8c3ee7ebc43c2d341bfd0f4103425d06f8af6c717a086f8d",
+      "checkpoint_bytes": 2701617525,
+      "checkpoint_path": "src/InterGen/checkpoints/intergen.ckpt",
+      "clip_commit": "d05afc436d78f1c48dc0dbf8e5980a9d471f35f6"
+    }
+  },
+  "resources": [
+    {
+      "id": "bandai_bow_normal",
+      "path": "bandai/dataset-1_bow_normal_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_bow_normal_001.bvh",
+      "git_blob_sha1": "4f0d1a32d09bfc8f0c70109f0b0df18d2615b952",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "4e390b9c92caf7bb92b49bb0b5df72cf6e9f48900656b55a100a77b6bab0946b"
+    },
+    {
+      "id": "bandai_bow_active",
+      "path": "bandai/dataset-1_bow_active_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_bow_active_001.bvh",
+      "git_blob_sha1": "619570493f515bb89823ff47e94d14ebc66a22b0",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "dfca1bec17dbb0d9b105fb48d2ac35cd43961689704a1015694ddc66e05dac49"
+    },
+    {
+      "id": "bandai_bow_angry",
+      "path": "bandai/dataset-1_bow_angry_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_bow_angry_001.bvh",
+      "git_blob_sha1": "5157fc7ae7c09a11106397465b23608d13d5a257",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "58eb125a58fa4339668dbb4965af935057cbbdd9daa325b8369ae2acea627f6b"
+    },
+    {
+      "id": "bandai_bow_tired",
+      "path": "bandai/dataset-1_bow_tired_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_bow_tired_001.bvh",
+      "git_blob_sha1": "63fb4d356d44862c7a7519156c39b2e9ee7df8f5",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "5b88224bce01b0594698f94157962a17490b4ab7cbd795d873154ab40a1b1eaa"
+    },
+    {
+      "id": "bandai_bye_normal",
+      "path": "bandai/dataset-1_bye_normal_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_bye_normal_001.bvh",
+      "git_blob_sha1": "a8f2e73323ee52257a450f919c117e9f868d6aa3",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "cf821ed70f42832e9b519103ffb5e0a0f458ab46582340071b8867a633e8ee4d"
+    },
+    {
+      "id": "bandai_bye_active",
+      "path": "bandai/dataset-1_bye_active_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_bye_active_001.bvh",
+      "git_blob_sha1": "f9f0bbebace2e1781428273c0437d438197c38fe",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "8b8dfe1ff3041614c610a61df00eb704e24aa120a12c5721f217e3f15e864a8b"
+    },
+    {
+      "id": "bandai_bye_angry",
+      "path": "bandai/dataset-1_bye_angry_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_bye_angry_001.bvh",
+      "git_blob_sha1": "3b23bc9f898808d25c5d2c8f33026432e269bbeb",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "79e46492cc2de435dfdcd30ad7d91e3dd0efa7d8dbd915a937004ba5f8eb1e20"
+    },
+    {
+      "id": "bandai_bye_tired",
+      "path": "bandai/dataset-1_bye_tired_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_bye_tired_001.bvh",
+      "git_blob_sha1": "351b542f884a58a1a5d9bc4e92636b2caf3db8f9",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "d6bff6c288b3e55a01337be416647885e3bf8e1f52e7ff1b628fdba19b4acf72"
+    },
+    {
+      "id": "bandai_guide_normal",
+      "path": "bandai/dataset-1_guide_normal_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_guide_normal_001.bvh",
+      "git_blob_sha1": "20d42911f6a031645f0a68f6c298757f70bdda42",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "30069344e592775775a5868cf625b06d902bea61ca6b68ffae3b6d0560306ad9"
+    },
+    {
+      "id": "bandai_guide_active",
+      "path": "bandai/dataset-1_guide_active_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_guide_active_001.bvh",
+      "git_blob_sha1": "9abd5bbdafed8938101a95c8f72313313cf7f0f0",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "1249b64fe678a83ce48a6cb81c5e353e2d887d2775d90a727ed757eda4138ac6"
+    },
+    {
+      "id": "bandai_guide_angry",
+      "path": "bandai/dataset-1_guide_angry_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_guide_angry_001.bvh",
+      "git_blob_sha1": "4b0fc9cd8170427cadb85ead03c51f5664a5669c",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "049efe4527b6659f1c9b7fbae10a4eb574b95552ad3dbf90279f5e7eeb7dfd6c"
+    },
+    {
+      "id": "bandai_guide_tired",
+      "path": "bandai/dataset-1_guide_tired_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_guide_tired_001.bvh",
+      "git_blob_sha1": "544439bddfb77b75ad6ead4abd984df5b226a590",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "9c24e0b6b3ee6d22fbe7674fd1a54a4b7497a0b60e3c56181a2f3b1d5cbdc074"
+    },
+    {
+      "id": "bandai_run_normal",
+      "path": "bandai/dataset-1_run_normal_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_run_normal_001.bvh",
+      "git_blob_sha1": "3443ea11d9133120d672b30a493101e3b70c1cbb",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "93cbc794bf178ce7d98a1a95efdee52699b4c0cdfcd9ec619f7ae9ec7bda024f"
+    },
+    {
+      "id": "bandai_run_active",
+      "path": "bandai/dataset-1_run_active_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_run_active_001.bvh",
+      "git_blob_sha1": "4cdcd818d550e69f81cc0c7929c0b23072eb7645",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "390f6b4491760bbd0882bb7e9daf1b728a4fa8caeca851f60181a5f5cdc2260c"
+    },
+    {
+      "id": "bandai_run_angry",
+      "path": "bandai/dataset-1_run_angry_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_run_angry_001.bvh",
+      "git_blob_sha1": "1eb3b04d31589d7ca8b96081eecf9a9c225f845f",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "19dbaac8abf162f43d026b88711078ca2467e9d3b5bc2373b2520d59a8233822"
+    },
+    {
+      "id": "bandai_run_tired",
+      "path": "bandai/dataset-1_run_tired_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_run_tired_001.bvh",
+      "git_blob_sha1": "1e4ec5d9eb651301915b4427d689cf51254c043a",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "af362d4be32f9401ed1ff18b2116ffbeca9ff16329a7cd2e3178307b48cf7de1"
+    },
+    {
+      "id": "bandai_walk_normal",
+      "path": "bandai/dataset-1_walk_normal_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_walk_normal_001.bvh",
+      "git_blob_sha1": "3c11688c48cb6586dee074644d4c7236adfb2720",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "5764cebc2fedabf287880a7f25cb06753e1679675a02a6f033998de041ba8032"
+    },
+    {
+      "id": "bandai_walk_active",
+      "path": "bandai/dataset-1_walk_active_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_walk_active_001.bvh",
+      "git_blob_sha1": "780b61b939d6fa80297353ca05e25b7efd61fbb8",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "df0d24edcaba9dd768c0efb7b5f378316e1b2cc25922c2332b420f3f5eaf1487"
+    },
+    {
+      "id": "bandai_walk_angry",
+      "path": "bandai/dataset-1_walk_angry_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_walk_angry_001.bvh",
+      "git_blob_sha1": "6367ae69d97887082d94f7f6289b09b9886a7b01",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "80ad2b0e7656b1b8b0f2a679f9bca0886f521c54d97ae93092ef5a714ab88e17"
+    },
+    {
+      "id": "bandai_walk_tired",
+      "path": "bandai/dataset-1_walk_tired_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_walk_tired_001.bvh",
+      "git_blob_sha1": "6c14134164a4db360a1bacb0e5126a7140ac8984",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "c23ae74ce470c3588bd12232fdeae0c5001b736bdf1234c1873aec26723c40c1"
+    },
+    {
+      "id": "bandai_walk-back_normal",
+      "path": "bandai/dataset-1_walk-back_normal_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_walk-back_normal_001.bvh",
+      "git_blob_sha1": "eb904894e9dc366a76c7b0372a92674cdd1b0acc",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "4c182559dbd28e4ba485f664dea49817a30fc0acde29b482f1baaeff4fa80397"
+    },
+    {
+      "id": "bandai_walk-back_active",
+      "path": "bandai/dataset-1_walk-back_active_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_walk-back_active_001.bvh",
+      "git_blob_sha1": "b613812e03c6d12ba28b290d346e3ab5206cd142",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "ffd3efe4a814a3bdf0aeb3d89676c2f6f52242de97c6cb1f540fffdc6f9365c6"
+    },
+    {
+      "id": "bandai_walk-back_angry",
+      "path": "bandai/dataset-1_walk-back_angry_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_walk-back_angry_001.bvh",
+      "git_blob_sha1": "3b54407471224d9420d086eebb329bb085e1afbd",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "fbf24fa41d45f3532bc35bb66c8761738129fbf0fd29b490de0e4296c7e65a28"
+    },
+    {
+      "id": "bandai_walk-back_tired",
+      "path": "bandai/dataset-1_walk-back_tired_001.bvh",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/data/dataset-1_walk-back_tired_001.bvh",
+      "git_blob_sha1": "a277dd32f69b101fbe6a89f10e46d56b0c232e92",
+      "license": "CC-BY-NC-4.0",
+      "attribution": "Bandai Namco Research Inc. (2022), original motion capture",
+      "redistribute_in_core": false,
+      "sha256": "f469fdd93dfa2345c2e4ddf0721bc452366e4de2f1be09cdcbc1708f99041f67"
+    },
+    {
+      "id": "bandai_LICENSE",
+      "path": "bandai/LICENSE",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/LICENSE",
+      "git_blob_sha1": "c657cab45c850057a63b3605897f5195f3c4ac02",
+      "license": "CC-BY-NC-4.0",
+      "redistribute_in_core": true,
+      "sha256": "3711f963c05d0be80d53e5923308a6dee31b203da23435c9cfb7c7b6e4dd5e19"
+    },
+    {
+      "id": "bandai_README.md",
+      "path": "bandai/README.md",
+      "url": "https://raw.githubusercontent.com/BandaiNamcoResearchInc/Bandai-Namco-Research-Motiondataset/74ead3ba1ae4696404e6086233779f60de8bf9ef/dataset/Bandai-Namco-Research-Motiondataset-1/README.md",
+      "git_blob_sha1": "54dca7a3494264da40aeb3372f21922a3e4e2a16",
+      "license": "CC-BY-NC-4.0",
+      "redistribute_in_core": true,
+      "sha256": "e7df57da8f32880138149a8ec85d44dba225e917a2720d25c636cf5c963ea496"
+    }
+  ]
+}

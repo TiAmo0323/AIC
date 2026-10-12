@@ -1,43 +1,79 @@
-# MotionLint 独立使用
+# MotionLint 0.5.0 独立使用
 
-MotionLint 在 CPU 上检查已有动作，不需要生成模型、SMPL-X、Blender 或网络推理服务。
+使用 Python 3.10 或 3.11。最小核心在 CPU 上运行，生成器、求解器、Blender 和 SMPL-X 均可缺失。
 
 ## 安装
 
-使用 Python 3.10 或 3.11，创建新虚拟环境后，在源码根目录运行：
-
 ```sh
-python -m pip install .
-motionlint --help
+python -m venv .venv
+# Windows
+.venv\Scripts\python -m pip install -c locks/core.txt .
+# Linux
+.venv/bin/python -m pip install -c locks/core.txt .
 ```
 
-Web 工作台与生成/渲染集成仍使用原平台配置；安装核心包不提供这些外部资源。
-
-## 自制示例
+激活环境后可用 `motionlint` 或 `python -m motionlint`。参赛配置包含优化、工作台和 FFmpeg：
 
 ```sh
-python -m motionlint.benchmark.fixtures ./demo
+python -m pip install -c locks/competition.txt ".[competition]"
+motionlint doctor --output reports/doctor.json
+```
+
+也可在仓库外安装本机候选 wheel，或在路径后加 `[competition]`。可恢复依赖清单在 `locks/`，带哈希版本用于依赖校验。受限模型及角色不随安装包提供。
+
+## 无需权重的示例
+
+```sh
+python -m motionlint.benchmark.fixtures demo
 motionlint check demo/clean_00.npy --output-dir reports/clean
 motionlint check demo/foot_sliding_00.npy --output-dir reports/slide
 motionlint repair demo/foot_sliding_00.npy --output-dir reports/repair
-motionlint compare demo/foot_sliding_00.npy reports/repair/repaired_actor1.npy --output-dir reports/comparison
+motionlint compare demo/foot_sliding_00.npy reports/repair/repaired_actor1.npy --output-dir reports/compare
+motionlint pipeline demo/foot_sliding_00.npy --output-dir products/example
 ```
 
-示例为程序生成的骨架，不能证明真实生成动作检测准确。质量失败返回 1 是检测结果，不是安装失败。
+目录包含 JSON、CSV、质量门和离线 `report.html`。修复另存原始与候选快照、全部尝试、最终选择、实际 BVH 和回读复检。流程完成与质量通过分别报告，完成流程可以得到质量 FAIL。
 
-## 约定
+## 无需 Node 的工作台
 
-- 退出码：0 通过，1 质量失败/退步或比较覆盖不足，2 输入或运行错误。批处理包含输入错误时返回 2，否则任一质量失败返回 1。
-- NPY 固定为米/Y-up；支持 joints22 `(T,22,3)` 和 LODGE `(T,135/139/315/319)`。BVH 使用文件 FPS；厘米文件加 `--unit-scale 0.01`，Z-up 加 `--up-axis 2`。
-- BVH `--joint-map map.json` 格式为 `{"原关节名":"LeftFoot"}`。修复暂只支持 InterGen/LODGE NPY，不承诺任意 BVH 的修复。
-- 四个命令均支持 `--config path.yaml`。版本 3 规则在 `motionlint/configs/quality_v3.yaml`，默认版本 4。
-- 报告保存规则哈希、输入哈希、阶段和覆盖情况。不同规则报告不能直接比较；重新用同一规则检查两条输入。
-- 比较时基线无法评估的指标显示 `INCOMPARABLE`，不会把零分到有效分数误算为改善；综合变化为 `null`、CLI 显示 `n/a`。无已确认退步时整体状态为 `COMPARISON INCOMPLETE`。
-- 骨架近距风险不是网格穿透深度；握手/击掌等需要人工判断。缺失映射或短序列明确未评估并阻止完整质量门通过。
-- 修复输出到新目录。命令拒绝把输出写到原输入路径；原始数据不覆盖。
+```sh
+motionlint serve --port 8004 --data-dir ./motionlint-tasks
+```
 
-LODGE 本机若存在已许可的 SMPL-X 模型，会按平台约定使用其几何；无模型使用固定代理并记录来源。跨机器比较必须检查几何来源，不能把两者混为同一条件。
+打开 `http://127.0.0.1:8004`，导入动作、定位数值与阈值、修复、联动播放、查看回归、下载 ZIP / HTML、重导入 BVH。
+任务目录独立于仓库和 site-packages，默认 Windows D 盘缓存、Linux 用户缓存；支持中断识别、取消和保留旧产物重试。现有 Vue 平台和生成后端保留。
+角色导出显式开启，需要完整仓库及已配置 Blender、Kenney、Rokoko 和 FFmpeg：
 
-## 开放范围
+```sh
+motionlint pipeline demo/foot_sliding_00.npy --character --runtime /path/to/HumanAction-runtime --repo /path/to/AIC
+```
 
-当前包是本地审阅候选，尚未发布。遗留骨架常量、手臂辅助函数及连续性辅助函数已记录来源，公开前需完成权利审核；没有给整个上游项目重新指定 MIT。参考 `docs/MOTIONLINT_RELEASE_REVIEW.md`。
+## 输入与比较约定
+
+- NPY：米、Y-up，joints22 `(T,22,3)` 或 LODGE `(T,135/139/315/319)`；双人使用 `--actor2`。
+- BVH：文件 FPS，厘米加 `--unit-scale 0.01`，Z-up 加 `--up-axis 2`；`--joint-map map.json` 为 `{"原名字":"LeftFoot"}`。
+- 完整根、双腿与足部映射的 BVH 可修复脚滑，保留层级、旋转顺序和非目标通道。映射不足显示未评估/不支持。
+- `check / repair / compare / batch` 保留 `--config`。默认规则 v5，历史 v4、v3 配置保留。
+- 报告格式 v3、修复 v6。严格比较需同规则、映射、单位、地面、FPS 和时间对应；单独两份报告缺少数组不能严格通过。
+- 退出码 0 通过，1 质量失败、退步或比较不完整，2 输入/运行错误；批处理运行错误优先。
+- 导入合计 32 MiB、12000 帧；非法数值、错误映射、短序列和人物不匹配明确处理。
+- 脚滑每步最多 0.15m、累计最多 0.20m；原输入不覆盖、正常数组不变，求解失败不表示数学无解。
+- 骨架距离风险不等于网格穿透；角色网格穿地和脚底轨迹另报，自动运动保持指标不表示语义正确率。
+
+## 资源与自动评测
+
+```sh
+motionlint resources resources/manifest.json --cache ./motionlint-resources
+python scripts/setup_intergen_resources.py --runtime /path/to/HumanAction-runtime
+motionlint benchmark build --output-dir dynamic
+motionlint benchmark verify dynamic/manifest.json --output-dir reports/truth
+motionlint benchmark freeze dynamic/manifest.json --output-dir reports/freeze
+motionlint benchmark run dynamic/manifest.json --split development --repair --output-dir reports/dev
+motionlint benchmark run dynamic/manifest.json --split holdout --freeze reports/freeze/freeze.json --repair --output-dir reports/test
+```
+
+InterGen 使用隔离 Python 3.11 GPU 环境，串行生成、批量为 1；资源恢复核验提交、来源及哈希。冻结后不得用保留集调参，代码变化需新测试版本。校验字节哈希请用对应源码包，避免 Git 换行转换改变字节。
+
+## 开放和迁移
+
+本版为开发与参赛审阅候选，未发布 PyPI。整体项目及遗留辅助代码权属待确认，未自动声明 MIT。模型、SMPL-X、FBX、原始音乐及外部动作不进核心 wheel。见 [权利审核](MOTIONLINT_RELEASE_REVIEW.md)、[迁移](MOTIONLINT_MIGRATION_V5.md)、[本轮结果](MOTIONLINT_050_RESULTS.md)。

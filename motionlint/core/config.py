@@ -12,8 +12,8 @@ import yaml
 DEFAULT_CONFIG = Path(__file__).resolve().parents[1] / "configs" / "default_quality.yaml"
 
 
-def load_config(path: str | Path = DEFAULT_CONFIG) -> dict[str, Any]:
-    with Path(path).open("r", encoding="utf-8") as handle:
+def load_config(path: str | Path | None = DEFAULT_CONFIG) -> dict[str, Any]:
+    with Path(path or DEFAULT_CONFIG).open("r", encoding="utf-8") as handle:
         config = yaml.safe_load(handle)
     if not isinstance(config, dict):
         raise ValueError("Quality config must be a mapping")

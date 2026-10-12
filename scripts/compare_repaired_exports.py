@@ -44,6 +44,7 @@ def compare_exports(baseline_path: Path, candidate_path: Path):
     stages = {}
     for stage in ("repaired_bvh", "repaired_character"):
         reports = []
+        motions = []
         gates = []
         for state in states:
             sequence = load_bvh_pair(state["bvh_files"]) if stage == "repaired_bvh" else load_character(state["character_path"])
@@ -53,10 +54,11 @@ def compare_exports(baseline_path: Path, candidate_path: Path):
             if report.overall_score != state["quality"][stage]["score"] or gate.to_dict() != state["quality"][stage]["gate"]:
                 raise ValueError("Independent stage result differs from recorded result")
             reports.append(report)
+            motions.append(sequence)
             gates.append(gate.to_dict())
         stages[stage] = {"baseline_score": reports[0].overall_score, "candidate_score": reports[1].overall_score,
                          "baseline_gate": gates[0], "candidate_gate": gates[1],
-                         "comparison": compare(*reports, config_path=Path(new["export_dir"]) / "quality.yaml")}
+                         "comparison": compare(*reports, config_path=Path(new["export_dir"]) / "quality.yaml", baseline_motion=motions[0], candidate_motion=motions[1])}
     return {"baseline_export": old["export_dir"], "candidate_export": new["export_dir"],
             "input_fingerprints": new["input_fingerprints"], "config_sha256": new["config_sha256"],
             "same_render_settings": {key: manifests[1].get(key) for key in settings}, "stages": stages,

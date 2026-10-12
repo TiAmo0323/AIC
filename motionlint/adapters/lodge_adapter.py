@@ -17,7 +17,7 @@ def load_lodge_npy(path: str | Path, *, fps: float = 30, model_path: str | Path 
     return normalize_lodge_array(raw, fps=fps, source_path=path, model_path=model_path)
 
 
-def normalize_lodge_array(raw: np.ndarray, *, fps: float = 30, source_path: str | Path | None = None, model_path: str | Path | None = None) -> MotionSequence:
+def normalize_lodge_array(raw: np.ndarray, *, fps: float = 30, source_path: str | Path | None = None, model_path: str | Path | None = None, frozen_geometry: dict | None = None) -> MotionSequence:
     try:
         from pymotion.ops.skeleton import fk
         from pymotion.rotations import ortho6d, quat
@@ -38,8 +38,16 @@ def normalize_lodge_array(raw: np.ndarray, *, fps: float = 30, source_path: str 
     column_6d = rotations.reshape(len(raw), 22, 2, 3).swapaxes(-1, -2)
     matrices = ortho6d.to_matrix(column_6d).swapaxes(-1, -2)
     quaternions = quat.from_matrix(matrices)
-    model = resolve_model(model_path)
-    offsets = rest_offsets(model) if model is not None else BVH_OFFSETS.copy()
+    if frozen_geometry is None:
+        model = resolve_model(model_path)
+        offsets = rest_offsets(model) if model is not None else BVH_OFFSETS.copy()
+        geometry_source = "smplx_neutral_model" if model is not None else "fixed_bvh_proxy"
+    else:
+        model = frozen_geometry.get("geometry_model_path")
+        offsets = np.asarray(frozen_geometry["offsets"], dtype=float)
+        geometry_source = frozen_geometry["geometry_source"]
+        if offsets.shape != (22, 3) or not np.isfinite(offsets).all():
+            raise ValueError("Invalid frozen LODGE geometry")
     # SMPL-X transl offsets the body's rest pelvis; PyMotion expects the
     # pelvis position itself. A constant root offset does not alter motion.
     pelvis = root + offsets[0] if model is not None else root
@@ -62,7 +70,7 @@ def normalize_lodge_array(raw: np.ndarray, *, fps: float = 30, source_path: str 
             "feature_count": int(raw.shape[1]),
             "parents": BVH_PARENTS.tolist(),
             "offsets": offsets.tolist(),
-            "geometry_source": "smplx_neutral_model" if model is not None else "fixed_bvh_proxy",
+            "geometry_source": geometry_source,
             "geometry_model_path": str(model) if model is not None else None,
             "up_axis": 1,
             "foot_joint_ids": [3, 7, 4, 8],

@@ -30,8 +30,9 @@ def load_bvh(path: str | Path, *, source: str = "bvh", unit_scale: float = 1., u
     local_quaternions, local_positions, parents, offsets, _, _ = bvh.get_data()
     if not all(np.isfinite(value).all() for value in (local_quaternions, local_positions, offsets)):
         raise ValueError("BVH contains non-finite rotation, translation or offsets")
-    world_positions, _ = fk(local_quaternions, local_positions[:, 0, :], offsets, parents)
     local_matrices = quat.to_matrix(local_quaternions)
+    from motionlint.core.fk import forward_positions
+    world_positions, _ = forward_positions(local_matrices, local_positions, [-1,*parents[1:].tolist()])
     frame_time = float(bvh.data["frame_time"])
     if not np.isfinite(frame_time) or frame_time <= 0:
         raise ValueError(f"Invalid BVH frame_time: {frame_time}")
@@ -65,6 +66,8 @@ def load_bvh(path: str | Path, *, source: str = "bvh", unit_scale: float = 1., u
         frame_count=frames,
         actor_count=1,
         positions=world_positions[:, np.newaxis, :, :] * unit_scale,
+        local_positions=local_positions[:,np.newaxis,:,:] * unit_scale,
+        channel_values=bvh.data['channel_values'][:,np.newaxis,:],
         rotations_6d=local_matrices[..., :2, :].reshape(frames, 1, joints, 6),
         rotation_matrices=local_matrices[:, np.newaxis, :, :, :],
         root_translation=local_positions[:, np.newaxis, 0, :] * unit_scale,
@@ -83,6 +86,13 @@ def load_bvh(path: str | Path, *, source: str = "bvh", unit_scale: float = 1., u
             "right_foot_joint_ids": [lookup[name] for name in ("RightFoot", "RightToe") if name in lookup],
             "geometry_source": "bvh_fk",
             "coordinate_system": "BVH coordinates as stored",
+            'bvh_channel_labels':bvh.data['channel_labels'],
+            'bvh_rotation_order':bvh.data['rot_order'].tolist(),
+            'bvh_hierarchy_text':bvh.data['hierarchy_text'],
+            'bvh_translation_convention':'PyMotion absolute local position channels; OFFSET for joints without position channels',
+            'joint_mapping':dict(joint_mapping or {}),
+            'non_anatomical_bone_ids': [lookup['Hips']] if names[0] in {'Root', 'joint_Root', 'RootNode'}
+                and 'Hips' in lookup and parents[lookup['Hips']] == 0 else [],
         },
     )
 
@@ -101,5 +111,10 @@ def load_bvh_pair(paths, *, unit_scale: float = 1., up_axis: int = 1, joint_mapp
                    rotations_6d=np.concatenate([actor.rotations_6d for actor in actors], axis=1),
                    rotation_matrices=np.concatenate([actor.rotation_matrices for actor in actors], axis=1),
                    root_translation=np.concatenate([actor.root_translation for actor in actors], axis=1),
+                   local_positions=np.concatenate([actor.local_positions for actor in actors],axis=1),
+                   channel_values=np.concatenate([actor.channel_values for actor in actors],axis=1),
                    metadata={**first.metadata, "source_paths": [actor.metadata["source_path"] for actor in actors],
+                             'actor_bvh_headers':[actor.metadata['bvh_hierarchy_text'] for actor in actors],
+                             'actor_bvh_channel_labels':[actor.metadata['bvh_channel_labels'] for actor in actors],
+                             'actor_bvh_rotation_orders':[actor.metadata['bvh_rotation_order'] for actor in actors],
                              "actor_offsets": [actor.metadata["offsets"] for actor in actors]})

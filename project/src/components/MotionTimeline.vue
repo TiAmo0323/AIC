@@ -23,6 +23,8 @@
       <span>{{ localizeMessage(selected.message) }} · {{ parameterLabel(selected.metric) }}：{{ Number(selected.value).toPrecision(4) }}，阈值 {{ selected.threshold }}</span>
       <span>人物 {{ selected.actor_id == null ? '未指定' : selected.actor_id + 1 }} · 关节 {{ selected.joint_ids?.join(', ') || '未指定' }}<template v-if="selected.other_actor_id != null"> ↔ 人物 {{ selected.other_actor_id + 1 }} · 关节 {{ selected.other_joint_ids?.join(', ') }}</template></span>
       <span v-if="selected.penetration_estimate_m != null">骨架安全距离不足 {{ (selected.penetration_estimate_m * 1000).toFixed(1) }} 毫米（非网格穿透量）</span>
+      <span v-if="selected.test_name === 'foot_sliding'">支撑依据：{{ supportEvidence.contact_source || '未记录' }} · 地面 {{ supportEvidence.floor_reference_m ?? '未记录' }} 米 · 原区间比较会保留这些支撑帧</span>
+      <span>报告格式 {{ report?.metadata?.schema_version || '历史' }} · 规则 v{{ report?.metadata?.config_version }} · 阶段 {{ report?.metadata?.inspection_stage || report?.metadata?.stage }}</span>
     </div>
   </section>
 </template>
@@ -30,12 +32,13 @@
 import {computed, ref, watch} from 'vue'
 import {filterIssues, timelineSegments} from '../utils/motionlintView'
 import {localizeMessage, parameterLabel, statusLabel} from '../utils/zhDisplay.js'
-const props = defineProps({issues: {type: Array, default: () => []}, frameCount: {type: Number, default: 1}, fps: {type: Number, default: 30}, labels: {type: Object, default: () => ({})}, currentTime: {type: Number, default: 0}, canSeek: Boolean})
+const props = defineProps({issues: {type: Array, default: () => []}, report: Object, frameCount: {type: Number, default: 1}, fps: {type: Number, default: 30}, labels: {type: Object, default: () => ({})}, currentTime: {type: Number, default: 0}, canSeek: Boolean})
 const emit = defineEmits(['seek'])
 const testFilter = ref(''), severityFilter = ref(''), selected = ref(null)
 const tests = computed(() => Object.keys(props.labels))
 const filtered = computed(() => filterIssues(props.issues, testFilter.value, severityFilter.value))
 const segments = computed(() => timelineSegments(filtered.value))
+const supportEvidence = computed(() => props.report?.tests?.find(t => t.test_name === 'foot_sliding')?.metrics || {})
 watch(() => props.issues, () => {selected.value = null; testFilter.value = ''; severityFilter.value = ''})
 const markerStyle = segment => ({left: `${100 * segment.start_frame / Math.max(1, props.frameCount - 1)}%`, width: `${Math.max(.6, 100 * (segment.end_frame - segment.start_frame + 1) / Math.max(1, props.frameCount))}%`})
 const markerLabel = segment => `${props.labels[segment.test_name] || segment.test_name} · ${(segment.start_frame / props.fps).toFixed(2)}–${(segment.end_frame / props.fps).toFixed(2)} 秒 · ${segment.count} 个问题 · 严重度：${statusLabel(segment.severity)}`

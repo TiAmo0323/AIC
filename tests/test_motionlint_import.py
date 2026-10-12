@@ -154,17 +154,19 @@ def test_invalid_upload_is_rejected_without_partial_task(import_root, monkeypatc
     assert not import_root.exists() or not list(import_root.iterdir())
 
 
-def test_imports_reject_other_stages_and_incompatible_regression(import_root):
+def test_imports_require_repair_before_other_stages_and_reject_incompatible_regression(import_root):
     first = submit([upload("a.npy", npy_bytes(standing(20)))], fps=30)
     second = submit([upload("b.npy", npy_bytes(standing(20)))], fps=60)
     ref = api.TaskRef(**first["task"])
     for stage in ("repaired", "bvh", "character"):
         with pytest.raises(HTTPException) as error:
             api.inspect_stage(api.StageRequest(**ref.model_dump(), stage=stage))
-        assert error.value.status_code == 422
-    with pytest.raises(HTTPException) as error:
-        api.repair_task(ref)
-    assert error.value.status_code == 422
+        assert error.value.status_code == 404
+    result = api.repair_task(ref)
+    assert result['render_status'] == 'skeleton_ready'
+    assert result['artifacts']['stages']['repaired']['frame_count'] == 20
+    rechecked = api.inspect_stage(api.StageRequest(**ref.model_dump(), stage='repaired'))
+    assert rechecked['report']['metadata']['evaluated_array_sha256'] == result['after']['metadata']['evaluated_array_sha256']
     with pytest.raises(HTTPException) as error:
         api.compare_tasks(api.CompareRequest(baseline=ref, candidate=api.TaskRef(**second["task"])))
     assert error.value.status_code == 422

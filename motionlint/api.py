@@ -6,7 +6,7 @@ from pathlib import Path
 import json
 import hashlib
 from concurrent.futures import ThreadPoolExecutor
-from threading import Lock
+from threading import Lock, RLock
 import os
 import shutil
 import subprocess
@@ -29,20 +29,26 @@ from motionlint.pipeline.inspector import inspect
 from motionlint.pipeline.regression import compare
 from motionlint.pipeline.repair_pipeline import repair, summarize_issues
 from motionlint.import_io import MAX_IMPORT_BYTES, finish_import, import_manifest, imported_paths, load_imported_motion, preview_frames, public_import
+from motionlint.artifacts import persist_repair, current_run, stage_motion, public_run, sha256
+from motionlint.character_export import resources as character_resources, export_character, checked_character
+from motionlint.jobs import data_root, Job, list_jobs
 
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(os.environ.get('MOTIONLINT_REPO', Path(__file__).resolve().parents[1])).resolve()
+DATA_ROOT = data_root()
 TASK_ROOTS = {
-    "intergen": REPO_ROOT / "InterGen_api" / "task_runs",
-    "lodge": REPO_ROOT / "LODGE_api" / "task_runs",
-    "import": REPO_ROOT / "motionlint/task_runs/imports",
+    "intergen": REPO_ROOT / "InterGen_api" / "task_runs" if (REPO_ROOT / "InterGen_api/task_runs").is_dir() else DATA_ROOT / 'intergen',
+    "lodge": REPO_ROOT / "LODGE_api" / "task_runs" if (REPO_ROOT / "LODGE_api/task_runs").is_dir() else DATA_ROOT / 'lodge',
+    "import": DATA_ROOT / 'imports',
 }
-RUNTIME_ROOT = REPO_ROOT.parent / "HumanAction-runtime"
+RUNTIME_ROOT = Path(os.environ.get('MOTIONLINT_RUNTIME', REPO_ROOT.parent / "HumanAction-runtime"))
 RENDER_EXECUTOR = ThreadPoolExecutor(max_workers=1)
 RENDER_JOBS = {}
+CHARACTER_EXECUTOR = ThreadPoolExecutor(max_workers=1)
+CHARACTER_JOBS = {}
 MOTION_MUTATION_LOCK = Lock()
 
-app = FastAPI(title="MotionLint Local API", version="0.1.0")
+app = FastAPI(title="MotionLint Local API", version="0.5.0")
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173"], allow_methods=["GET", "POST"], allow_headers=["*"])
 
 
@@ -67,8 +73,200 @@ class ImportOptions(BaseModel):
     joint_mapping: dict[str, str] = Field(default_factory=dict)
 
 
+class ReimportRequest(TaskRef):
+    stage: Literal['repaired', 'bvh'] = 'repaired'
+    run_id: str | None = None
+
+
+class PipelineRequest(TaskRef):
+    character: bool = False
+
+
+PIPELINE_EXECUTOR = ThreadPoolExecutor(max_workers=1)
+PIPELINE_JOBS = {}
+PIPELINE_QUEUE_LOCK = RLock()
+
+
+def _pipeline_worker(job, req):
+    from motionlint.pipeline.local import run_pipeline
+    from motionlint.import_io import import_manifest
+    try:
+        task = _task_folder(req)
+        options = import_manifest(task)['options'] if req.source == 'import' else {'fps': _inspect_task(req)[0].fps}
+        run_pipeline(_motion_paths(req), output=TASK_ROOTS['import'] / str(uuid4()), job=job,
+            character=req.character, runtime=RUNTIME_ROOT, repo=REPO_ROOT, **options)
+    except Exception as exc:
+        if job.state['status'] not in {'failed', 'cancelled'}:
+            job.update('failed', error=f'{type(exc).__name__}: {exc}')
+
+
+@app.post('/v1/motionlint/pipeline')
+def queue_pipeline(req: PipelineRequest):
+    _task_folder(req)
+    with PIPELINE_QUEUE_LOCK:
+        for job_id, future in PIPELINE_JOBS.items():
+            old = Job(job_id=job_id, create=False)
+            if not future.done() and old.state.get('request') == req.model_dump():
+                return old.state
+        job = Job()
+        job.update(request=req.model_dump())
+        PIPELINE_JOBS[job.id] = PIPELINE_EXECUTOR.submit(_pipeline_worker, job, req)
+        return job.state
+
+
+@app.get('/v1/motionlint/jobs')
+def persistent_jobs():
+    return list_jobs()
+
+
+@app.get('/v1/motionlint/jobs/{job_id}')
+def persistent_job(job_id: str):
+    try:
+        return Job(job_id=job_id, create=False).recover()
+    except (ValueError, OSError) as exc:
+        raise HTTPException(404, '任务记录不存在') from exc
+
+
+@app.post('/v1/motionlint/jobs/{job_id}/cancel')
+def cancel_persistent_job(job_id: str):
+    job = Job(job_id=job_id, create=False)
+    job.cancel()
+    return job.state
+
+
+@app.post('/v1/motionlint/jobs/{job_id}/retry')
+def retry_persistent_job(job_id: str):
+    old = Job(job_id=job_id, create=False)
+    if old.recover()['status'] not in {'failed', 'interrupted', 'cancelled'}:
+        raise HTTPException(409, '仅失败、中断或取消的任务可重试')
+    if 'request' not in old.state:
+        raise HTTPException(422, '此任务由命令行启动，请使用原命令重试；已有产物会保留')
+    request = PipelineRequest(**old.state['request'])
+    result = queue_pipeline(request)
+    fresh = Job(job_id=result['job_id'], create=False)
+    fresh.update(parent_job_id=job_id, attempt=old.state['attempt'] + 1)
+    return fresh.state
+
+
+@app.get('/v1/motionlint/tasks/{source}/{task_id}/repairs/{run_id}/html')
+def repair_html(source: str, task_id: str, run_id: str):
+    ref = TaskRef(source=source, task_id=task_id)
+    folder, _ = _checked_run(ref, run_id)
+    return FileResponse(folder / 'report.html', media_type='text/html', filename='motionlint-report.html')
+
+
+def _preview_description(motion, ref, run_id=None):
+    return {'task_id': ref.task_id, 'source': ref.source, 'fps': motion.fps, 'frame_count': motion.frame_count,
+            'actor_count': motion.actor_count, 'joint_count': len(motion.joint_names), 'up_axis': motion.metadata.get('up_axis', 1),
+            'run_id': run_id}
+
+
+def _checked_run(ref, run_id=None):
+    try:
+        return current_run(_task_folder(ref), run_id)
+    except FileNotFoundError as exc:
+        raise HTTPException(404, '请先完成修复，再查看对应产物。') from exc
+    except (ValueError, KeyError, TypeError, OSError) as exc:
+        raise HTTPException(409, str(exc)) from exc
+
+
+@app.get('/v1/motionlint/tasks/{source}/{task_id}/preview')
+def task_preview(source: Literal['intergen', 'lodge', 'import'], task_id: str,
+                 stage: Literal['raw', 'repaired', 'bvh', 'character'] = 'raw',
+                 start: int = Query(0, ge=0), count: int = Query(120, ge=1, le=240), run_id: str | None = None):
+    ref = StageRequest(source=source, task_id=task_id, stage=stage)
+    if stage == 'character':
+        motion = _stage_motion(ref)
+        if run_id and motion.metadata.get('repair_run_id') != run_id:
+            # The scene adapter records the original run in its sidecar manifest.
+            folder, state = checked_character(_task_folder(ref))
+            if state['source_run_id'] != run_id:
+                raise HTTPException(409, '角色骨架对应不同的修复记录')
+    elif run_id:
+        folder, manifest = _checked_run(ref, run_id)
+        if stage not in manifest['stages']:
+            raise HTTPException(404, '对应处理阶段尚未导出')
+        from motionlint.artifacts import read_motion
+        motion = read_motion(folder / manifest['stages'][stage]['snapshot'])
+    else:
+        motion = _stage_motion(ref)
+    if start >= motion.frame_count:
+        raise HTTPException(422, '预览帧超出了动作范围')
+    return {'start': start, 'positions': motion.positions[start:start + count].tolist(), 'fps': motion.fps,
+            'frame_count': motion.frame_count, 'joint_names': motion.joint_names, 'parents': motion.metadata['parents'],
+            'up_axis': motion.metadata.get('up_axis', 1), 'stage': stage,
+            'bounds': [motion.positions.min(axis=(0, 1, 2)).tolist(), motion.positions.max(axis=(0, 1, 2)).tolist()]}
+
+
+@app.get('/v1/motionlint/tasks/{source}/{task_id}/repairs')
+def repair_artifacts(source: Literal['intergen', 'lodge', 'import'], task_id: str):
+    _, manifest = _checked_run(TaskRef(source=source, task_id=task_id))
+    return public_run(manifest, source, task_id)
+
+
+@app.get('/v1/motionlint/tasks/{source}/{task_id}/repairs/{run_id}/bundle')
+def repair_bundle(source: Literal['intergen', 'lodge', 'import'], task_id: str, run_id: str):
+    folder, _ = _checked_run(TaskRef(source=source, task_id=task_id), run_id)
+    ready = json.loads((folder / 'ready.json').read_text(encoding='utf-8'))
+    path = folder / 'bundle.zip'
+    if not path.is_file() or sha256(path) != ready['bundle_sha256']:
+        raise HTTPException(409, '下载包已变化，请重新修复')
+    return FileResponse(path, media_type='application/zip', filename=f'motionlint-{task_id}-{run_id[:8]}.zip')
+
+
+@app.get('/v1/motionlint/tasks/{source}/{task_id}/repairs/{run_id}/files/{key}')
+def repair_file(source: Literal['intergen', 'lodge', 'import'], task_id: str, run_id: str, key: str):
+    folder, manifest = _checked_run(TaskRef(source=source, task_id=task_id), run_id)
+    entry = next((entry for entry in manifest['files'] if entry['key'] == key and entry['download']), None)
+    if not entry:
+        raise HTTPException(404, '该文件不可下载')
+    path = folder / entry['path']
+    return FileResponse(path, media_type='application/octet-stream', filename=path.name)
+
+
+@app.post('/v1/motionlint/reimport')
+def reimport_artifact(req: ReimportRequest):
+    run, manifest = _checked_run(req, req.run_id)
+    if req.stage not in manifest['stages']:
+        raise HTTPException(404, '对应处理阶段尚未导出')
+    if req.stage == 'repaired':
+        entries = manifest['export']
+    else:
+        bvh_options = next((entry['options'] for entry in manifest['export'] if entry['format'] == 'bvh'),
+            {'fps': manifest['stages']['bvh']['fps'], 'unit_scale': 1, 'up_axis': manifest['stages']['bvh']['up_axis'], 'joint_mapping': {}})
+        entries = [{'key': entry['key'], 'options': bvh_options}
+                   for entry in manifest['files'] if entry['download'] and entry['path'].endswith('.bvh')]
+    root = TASK_ROOTS['import']
+    folder = root / str(uuid4())
+    folder.mkdir(parents=True)
+    files = []
+    try:
+        for actor, entry in enumerate(entries, 1):
+            record = next(record for record in manifest['files'] if record['key'] == entry['key'])
+            original = run / record['path']
+            filename = f'actor{actor}{original.suffix}'
+            shutil.copyfile(original, folder / filename)
+            files.append({'name': original.name, 'path': filename})
+        result = finish_import(folder, files, entries[0]['options'])
+        data = import_manifest(folder)
+        data['parent_artifact'] = {'source': req.source, 'task_id': req.task_id, 'run_id': manifest['run_id'], 'stage': req.stage}
+        _write_json(folder / 'import.json', data)
+        return result
+    except Exception as exc:
+        checked = folder.resolve()
+        if checked.parent == root.resolve() and checked.name == folder.name:
+            shutil.rmtree(checked)
+        raise HTTPException(422, f'实际导出文件重新导入失败：{exc}') from exc
+
+
 def _stage_video_path(ref: TaskRef, stage: str) -> Path | None:
     task = _task_folder(ref)
+    if stage == 'character' and (task / 'motionlint/current_repair.json').is_file():
+        try:
+            folder, _ = checked_character(task)
+            return folder / 'kenney.mp4'
+        except (OSError, ValueError, KeyError):
+            return None
     if ref.source == "import":
         return None
     if stage == "character":
@@ -96,8 +294,25 @@ def _stage_video_path(ref: TaskRef, stage: str) -> Path | None:
 
 def _stage_motion(req: StageRequest):
     task = _task_folder(req)
+    if req.stage == 'character' and (task / 'motionlint/current_repair.json').is_file():
+        try:
+            folder, state = checked_character(task)
+            motion = load_character(folder / 'character.npz')
+            motion.metadata.update(stage='character', repair_run_id=state['source_run_id'])
+            return motion
+        except FileNotFoundError as exc:
+            raise HTTPException(404, '请先完成当前修复结果的 Kenney 角色导出。') from exc
+        except (ValueError, KeyError, OSError) as exc:
+            raise HTTPException(409, str(exc)) from exc
+    if req.stage != 'raw' and (task / 'motionlint/current_repair.json').is_file():
+        try:
+            return stage_motion(task, req.stage)[0]
+        except FileNotFoundError as exc:
+            raise HTTPException(404, '该修复阶段尚未导出，请先完成对应导出。') from exc
+        except (ValueError, KeyError, OSError) as exc:
+            raise HTTPException(409, str(exc)) from exc
     if req.source == "import" and req.stage != "raw":
-        raise HTTPException(422, "导入动作当前支持原始数据检查与回归比较。")
+        raise HTTPException(404, "请先修复导入动作，再检查修复或导出阶段。")
     if req.stage == "raw":
         return _motion(req)
     if req.stage == "repaired":
@@ -298,9 +513,17 @@ def motion_settings(source: Literal["intergen", "lodge", "import"] | None = None
     policy = DEFAULT_CONFIG
     if (source is None) != (task_id is None):
         raise HTTPException(422, "source 和 task_id 需要一起指定")
+    frozen = False
     if source is not None:
-        _task_folder(TaskRef(source=source, task_id=task_id))
-    return {"policy": load_config(policy), "frozen": False, "sha256": hashlib.sha256(policy.read_bytes()).hexdigest()}
+        task = _task_folder(TaskRef(source=source, task_id=task_id))
+        if (task / 'motionlint/current_repair.json').is_file():
+            try:
+                folder, _ = current_run(task)
+                policy = folder / 'quality.yaml'
+                frozen = True
+            except (ValueError, OSError, KeyError) as exc:
+                raise HTTPException(409, str(exc)) from exc
+    return {"policy": load_config(policy), "frozen": frozen, "sha256": hashlib.sha256(policy.read_bytes()).hexdigest()}
 
 
 @app.get("/v1/motionlint/tasks/{source}/{task_id}/repair-summary")
@@ -353,9 +576,20 @@ def inspect_task(ref: TaskRef) -> dict:
 @app.post("/v1/motionlint/inspect-stage")
 def inspect_stage(req: StageRequest) -> dict:
     motion = _stage_motion(req)
-    report = inspect(motion)
+    motion.metadata = {**motion.metadata, 'stage': req.stage}
+    policy = None
+    task = _task_folder(req)
+    artifact = None
+    if (task / 'motionlint/current_repair.json').is_file():
+        try:
+            run, manifest = current_run(task)
+            policy = run / 'quality.yaml'
+            artifact = public_run(manifest, req.source, req.task_id)
+        except (ValueError, OSError, KeyError) as exc:
+            raise HTTPException(409, str(exc)) from exc
+    report = inspect(motion, config_path=policy)
     report.metadata["inspection_stage"] = req.stage
-    gate = evaluate_gate(report)
+    gate = evaluate_gate(report, config_path=policy)
     folder = _task_folder(req) / "motionlint/stages" / req.stage
     _write_report(folder, report)
     _write_json(folder / "quality_gate.json", gate.to_dict())
@@ -366,6 +600,9 @@ def inspect_stage(req: StageRequest) -> dict:
             "video_url": f"/v1/motionlint/tasks/{req.source}/{req.task_id}/stage-video/{req.stage}" if video else None}
     if req.source == "import":
         result["import"] = imported_motion(req.task_id)
+    if artifact:
+        result['artifacts'] = artifact
+        result['preview'] = _preview_description(motion, req, artifact['run_id'])
     return result
 
 
@@ -384,40 +621,124 @@ def repair_task(ref: TaskRef) -> dict:
 
 
 def _repair_task(ref: TaskRef) -> dict:
-    if ref.source == "import":
-        raise HTTPException(422, "导入动作当前支持检查与回归比较，尚未提供修复导出。")
     job = RENDER_JOBS.get((ref.source, ref.task_id))
     if job is not None and not job.done():
         raise HTTPException(409, "修复视频仍在渲染，请完成后再重新修复。")
     motion, _, _, folder = _inspect_task(ref)
     outcome = repair(motion)
+    try:
+        run, manifest = persist_repair(_task_folder(ref), outcome, motion, _motion_paths(ref))
+    except (ValueError, OSError, RuntimeError) as exc:
+        raise HTTPException(422, f'修复结果无法可靠导出：{exc}') from exc
     outcome.before.metadata["inspection_stage"] = "raw"
     outcome.after.metadata["inspection_stage"] = "repaired"
     _write_report(folder / "before", outcome.before)
     _write_report(folder / "after", outcome.after)
-    comparison = compare(outcome.before, outcome.after)
+    comparison = compare(outcome.before, outcome.after, baseline_motion=motion, candidate_motion=outcome.motion)
     _write_json(folder / "repair_report.json", outcome.to_dict())
     _write_json(folder / "comparison.json", comparison)
     if ref.source == "lodge":
         raw = outcome.raw_lodge if outcome.raw_lodge is not None else np.load(_motion_paths(ref)[0], allow_pickle=False)
         np.save(folder / "repaired.npy", raw)
-    else:
+    elif ref.source != 'import':
         for actor in range(outcome.motion.actor_count):
             np.save(folder / f"repaired_actor{actor + 1}.npy", outcome.motion.positions[:, actor])
     gate = evaluate_gate(outcome.after)
     _write_json(folder / "after" / "quality_gate.json", gate.to_dict())
     render_status = "unchanged"
-    if any(step["applied"] for step in outcome.steps):
+    if ref.source == 'import':
+        render_status = 'skeleton_ready'
+    elif any(step["applied"] for step in outcome.steps):
         _queue_comparison_render(ref, folder)
         render_status = "queued"
     elif (folder / "render_status.json").is_file():
         _write_json(folder / "render_status.json", {"status": "unavailable", "error": "本次未接受修复，之前的修复视频已失效。"})
-    return {"task": ref.model_dump(), "before": outcome.before.to_dict(), "after": outcome.after.to_dict(), "gate": gate.to_dict(), "repair": outcome.to_dict(), "comparison": comparison, "render_status": render_status}
+    return {"task": ref.model_dump(), "before": outcome.before.to_dict(), "after": outcome.after.to_dict(), "gate": gate.to_dict(), "repair": outcome.to_dict(), "comparison": comparison, "render_status": render_status,
+            'artifacts': public_run(manifest, ref.source, ref.task_id),
+            'preview': _preview_description(outcome.motion, ref, manifest['run_id'])}
 
 
 def _repaired_paths(ref, folder):
     return ([folder / "repaired.npy"] if ref.source == "lodge" else
             [folder / f"repaired_actor{actor}.npy" for actor in (1, 2)])
+
+
+@app.get('/v1/motionlint/character-resources')
+def character_resource_status():
+    return character_resources(REPO_ROOT, RUNTIME_ROOT)
+
+
+@app.post('/v1/motionlint/export-character')
+def start_character_export(ref: TaskRef):
+    task = _task_folder(ref)
+    _, manifest = _checked_run(ref)
+    available = character_resources(REPO_ROOT, RUNTIME_ROOT)
+    if not available['available']:
+        raise HTTPException(422, '缺少角色导出资源：' + ', '.join(name for name, exists in available['checks'].items() if not exists))
+    if 'bvh' not in manifest['stages']:
+        raise HTTPException(422, '当前修复结果没有可用的 BVH，请查看导出失败原因。')
+    with MOTION_MUTATION_LOCK:
+        job = CHARACTER_JOBS.get((ref.source, ref.task_id))
+        if job is not None and not job.done():
+            return {'status': 'running'}
+        export_id = str(uuid4())
+        folder = task / 'motionlint/character_exports' / export_id
+        folder.mkdir(parents=True)
+        _write_json(folder / 'status.json', {'status': 'queued', 'export_id': export_id, 'source_run_id': manifest['run_id']})
+        _write_json(task / 'motionlint/character_request.json', {'export_id': export_id, 'source_run_id': manifest['run_id']})
+        try:
+            CHARACTER_JOBS[(ref.source, ref.task_id)] = CHARACTER_EXECUTOR.submit(export_character, task, REPO_ROOT, RUNTIME_ROOT, export_id, manifest['run_id'])
+        except Exception as exc:
+            _write_json(folder / 'status.json', {'status': 'failed', 'export_id': export_id, 'source_run_id': manifest['run_id'], 'error': str(exc)})
+            raise HTTPException(503, '角色任务提交失败，请重试。') from exc
+    return {'status': 'queued', 'export_id': export_id}
+
+
+@app.get('/v1/motionlint/tasks/{source}/{task_id}/character-export')
+def character_export_status(source: Literal['intergen', 'lodge', 'import'], task_id: str):
+    ref = TaskRef(source=source, task_id=task_id)
+    task = _task_folder(ref)
+    path = task / 'motionlint/character_request.json'
+    if not path.is_file():
+        return {'status': 'unavailable'}
+    request = json.loads(path.read_text(encoding='utf-8'))
+    try:
+        if str(UUID(request['export_id'])) != request['export_id']:
+            raise ValueError('非标准导出编号')
+    except (ValueError, KeyError, TypeError) as exc:
+        raise HTTPException(409, '角色任务记录无效，请重新导出。') from exc
+    state = json.loads((task / 'motionlint/character_exports' / request['export_id'] / 'status.json').read_text(encoding='utf-8'))
+    _, current = _checked_run(ref)
+    if state['source_run_id'] != current['run_id']:
+        return {'status': 'stale', 'error': '角色对应旧的修复记录，请重新导出。'}
+    if state['status'] == 'ready':
+        try:
+            checked_character(task, state['export_id'])
+        except (ValueError, OSError, KeyError) as exc:
+            return {'status': 'stale', 'error': str(exc)}
+        state['video_url'] = f'/v1/motionlint/tasks/{source}/{task_id}/stage-video/character'
+        state['download_url'] = f'/v1/motionlint/tasks/{source}/{task_id}/character-exports/{state["export_id"]}/bundle'
+    elif state['status'] in {'queued', 'running'}:
+        job = CHARACTER_JOBS.get((source, task_id))
+        if job is None:
+            return {'status': 'failed', 'error': '导出被服务重启中断，请重新导出。'}
+        if job.done():
+            return {'status': 'failed', 'error': str(job.exception() or '导出未产生完整状态记录，请重试。')}
+    return state
+
+
+@app.get('/v1/motionlint/tasks/{source}/{task_id}/character-exports/{export_id}/bundle')
+def character_export_bundle(source: Literal['intergen', 'lodge', 'import'], task_id: str, export_id: str):
+    try:
+        folder, state = checked_character(_task_folder(TaskRef(source=source, task_id=task_id)), export_id)
+        path = folder / 'bundle.zip'
+        if sha256(path) != state['bundle_sha256']:
+            raise ValueError('角色下载包已变化')
+    except FileNotFoundError as exc:
+        raise HTTPException(404, '角色导出尚未完成') from exc
+    except (ValueError, KeyError, OSError) as exc:
+        raise HTTPException(409, str(exc)) from exc
+    return FileResponse(path, media_type='application/zip', filename=f'motionlint-kenney-{export_id}.zip')
 
 
 def _render_inputs(ref, folder):
@@ -595,8 +916,11 @@ def compare_tasks(req: CompareRequest) -> dict:
             or baseline_motion.metadata.get("up_axis", 1) != candidate_motion.metadata.get("up_axis", 1)
             or baseline.metadata["geometry_source"] != candidate.metadata["geometry_source"]):
         raise HTTPException(422, "导入动作的回归比较需要相同的骨架、人数、帧率、竖直轴与几何来源。")
-    comparison = compare(baseline, candidate)
-    folder = REPO_ROOT / "reports" / f"{req.baseline.task_id}_vs_{req.candidate.task_id}"
+    from motionlint.core.context import freeze_pair
+    baseline_motion, candidate_motion = freeze_pair(baseline_motion, candidate_motion, load_config())
+    baseline, candidate = inspect(baseline_motion), inspect(candidate_motion)
+    comparison = compare(baseline, candidate, baseline_motion=baseline_motion, candidate_motion=candidate_motion)
+    folder = DATA_ROOT / "comparisons" / str(uuid4())
     _write_json(folder / "comparison.json", comparison)
     return comparison
 

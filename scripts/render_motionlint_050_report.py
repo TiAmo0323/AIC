@@ -6,13 +6,11 @@
 import json
 from pathlib import Path
 import re
+import sys
 from xml.sax.saxutils import escape
 
 
-def main():
-    root=Path(__file__).resolve().parents[1]
-    data=json.loads((root/'evidence/iteration-050-results.json').read_text(encoding='utf-8'))
-    out=root/'output/pdf';out.mkdir(parents=True,exist_ok=True)
+def render_charts(root,data,out):
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
@@ -46,6 +44,15 @@ def main():
     for spine in ax.spines.values():spine.set_visible(False)
     fig.text(.98,.012,'54 injections per class; analytic trajectories, not real-motion accuracy',ha='right',fontsize=9,color='dimgrey')
     fig.tight_layout(rect=(0,.045,1,1));fig.savefig(out/'controlled-f1.png',dpi=150,bbox_inches='tight');fig.savefig(out/'controlled-f1.pdf',bbox_inches='tight');plt.close(fig)
+def main():
+    root=Path(__file__).resolve().parents[1]
+    data=json.loads((root/'evidence/iteration-050-results.json').read_text(encoding='utf-8'))
+    out=root/'output/pdf';out.mkdir(parents=True,exist_ok=True)
+    if '--reuse-charts' in sys.argv:
+        for name in ('real-methods.png','controlled-f1.png'):
+            if not (out/name).is_file():raise FileNotFoundError(name)
+    else:
+        render_charts(root,data,out)
     from reportlab.pdfbase import pdfmetrics
     from reportlab.pdfbase.ttfonts import TTFont
     from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
@@ -66,7 +73,12 @@ def main():
     styles.add(ParagraphStyle('Notice',parent=styles['BodyText'],fontSize=9,leading=14,spaceAfter=5))
     def inline(text):
         escaped=escape(text.replace('`',''))
-        return re.sub(r'\[([^\]]+)\]\(([^)]+)\)',lambda m:f'<link href="{m[2]}" color="#226286">{m[1]}</link>',escaped)
+        def link(match):
+            target=match[2]
+            if target.startswith('../'):
+                target='https://github.com/TiAmo0323/AIC/blob/v0.5.0/'+target[3:]
+            return f'<link href="{target}" color="#226286">{match[1]}</link>'
+        return re.sub(r'\[([^\]]+)\]\(([^)]+)\)',link,escaped)
     text=(out/'MotionLint-050-report.md').read_text(encoding='utf-8')
     lines=text.splitlines();story=[];paragraph=[];table=[]
     def flush():
@@ -107,10 +119,10 @@ def main():
     for line in notices.splitlines():
         if line.startswith('|') and not re.match(r'^\|[ :|\-]+\|$',line):
             story.append(Paragraph(inline(' · '.join(c.strip() for c in line.strip('|').split('|'))),styles['Notice']))
-    story.append(Paragraph('AI 辅助说明：本轮使用 AI 编码助手实施代码、实验运行、浏览器操作及材料自动生成；生成模型为官方 InterGen。未完成人工审核、真实团队分工或权属确认的内容保持待确认状态；本文不作为团队已签署或已完成审核的声明。',styles['BodyText']))
+    story.append(Paragraph('AI 辅助说明：本轮使用 AI 编码助手实施代码、实验运行、浏览器操作及材料自动生成；生成模型为官方 InterGen。维护者已确认独立组件及三个遗留辅助文件的 MIT 开放授权，第三方权利保持独立。本轮没有人工标注、访谈或外部用户安装；本文不作为其他作者已签署的声明。',styles['BodyText']))
     def footer(canvas,doc):
         canvas.setFont('MotionCN',8);canvas.setFillColor(colors.HexColor('#607487'))
-        canvas.drawString(48,28,'MotionLint 0.5.0 · 自动证据 / 参赛审阅候选')
+        canvas.drawString(48,28,'MotionLint 0.5.0 · 自动工程证据 / 参赛技术报告')
         canvas.drawRightString(A4[0]-48,28,str(doc.page))
     report=out/'MotionLint-050-report.pdf'
     SimpleDocTemplate(str(report),pagesize=A4,leftMargin=50,rightMargin=50,topMargin=48,bottomMargin=46,

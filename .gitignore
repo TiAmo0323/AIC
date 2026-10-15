@@ -57,6 +57,7 @@ docs/project-growth/
 *.blend1
 *.mp4
 !submission/demo-engineering-draft.mp4
+!submission/MotionLint-050-demo.mp4
 *.avi
 *.mov
 *.wav

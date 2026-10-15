@@ -1,15 +1,13 @@
-# License review pending
+# Historical license review notice
 
-This is a user-authorized development source snapshot. It is not a formal
-release with a confirmed project-wide license. No MIT license is asserted for the upstream
-HumanAction-Platform repository or the complete current candidate.
+For the current MotionLint standalone release, see LICENSE and LICENSE_SCOPE.md.
+On 2026-10-15 the maintainer explicitly authorized MIT for the self-authored
+component and confirmed the three inherited MotionLint helpers listed there.
 
-The intended default for modules confirmed as wholly self-authored and owned
-by the team is MIT. The team must confirm authorship and the precise scope
-before applying that license and publishing. See
-docs/MOTIONLINT_RELEASE_REVIEW.md for inherited helpers and numeric skeleton
-constants requiring review. Dependency licenses remain applicable to their
-respective packages.
+This file previously described an unpublished review snapshot. Old candidate
+archives retain that historical status. No blanket MIT grant is asserted for
+the original HumanAction-Platform integration tree. Dependency licenses remain
+applicable to their respective packages.
 
 Model weights, SMPL-X files, third-party characters, dataset resources and
 music are not included in the standalone wheel or source candidate.

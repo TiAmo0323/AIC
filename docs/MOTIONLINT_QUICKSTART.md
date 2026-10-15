@@ -76,4 +76,4 @@ InterGen 使用隔离 Python 3.11 GPU 环境，串行生成、批量为 1；资�
 
 ## 开放和迁移
 
-本版为开发与参赛审阅候选，未发布 PyPI。整体项目及遗留辅助代码权属待确认，未自动声明 MIT。模型、SMPL-X、FBX、原始音乐及外部动作不进核心 wheel。见 [权利审核](MOTIONLINT_RELEASE_REVIEW.md)、[迁移](MOTIONLINT_MIGRATION_V5.md)、[本轮结果](MOTIONLINT_050_RESULTS.md)。
+独立组件以 MIT 发布，含维护者确认可开放的三个遗留辅助文件，范围见 [LICENSE_SCOPE.md](../LICENSE_SCOPE.md)。原平台集成目录和第三方资源不自动改为 MIT；未发布 PyPI。模型、SMPL-X、FBX、原始音乐及外部动作不进核心 wheel。安装附件见 [v0.5.0 Release](https://github.com/TiAmo0323/AIC/releases/tag/v0.5.0)，技术边界见 [迁移](MOTIONLINT_MIGRATION_V5.md)、[本轮结果](MOTIONLINT_050_RESULTS.md)。

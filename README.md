@@ -1,6 +1,8 @@
-# MotionLint Studio · 0.5.0 参赛候选
+# MotionLint Studio · 0.5.0
 
 面向 AI 生成动作的自动质检、问题定位、有界修复与实际导出回归工具。在现有 HumanAction-Platform 上迭代；保留 InterGen、LODGE 和 Vue 平台，核心可独立安装。
+
+[正式提交材料](submission/README.md) · [v0.5.0 安装与附件](https://github.com/TiAmo0323/AIC/releases/tag/v0.5.0) · [MIT 开放范围](LICENSE_SCOPE.md)
 
 ```mermaid
 flowchart LR
@@ -21,7 +23,7 @@ flowchart LR
 Python 3.10 / 3.11，Windows / Linux，CPU 核心无需 Docker、生成服务、SMPL-X、Blender 或权重。
 
 ```sh
-git clone -b feat/import-repair-flow https://github.com/TiAmo0323/AIC.git
+git clone https://github.com/TiAmo0323/AIC.git
 cd AIC
 python -m pip install -c locks/core.txt .
 python -m motionlint.benchmark.fixtures demo
@@ -71,7 +73,7 @@ motionlint pipeline demo/foot_sliding_00.npy --output-dir products/demo
 默认规则 v5、修复 v6、报告格式 v3，旧规则和历史结果保留。可控集指标仅代表注入测试；真实输入无人工缺陷或语义真值，不声称真实动作检测准确率。
 脚滑单步 0.15m、累计 0.20m；无法修复、资源不足及阶段质量失败如实保留。
 
-这是用户授权的开发与参赛审阅候选，未发布 PyPI，未给整体项目自动指定 MIT。遗留代码与团队权属待确认；模型、受限数据、SMPL-X、FBX 及未确认授权资产不进核心包。
+独立 MotionLint 组件以 MIT 开放，范围与维护者授权记录见 [LICENSE_SCOPE.md](LICENSE_SCOPE.md)。原平台集成目录不自动改为 MIT；第三方许可保留。模型、受限数据、SMPL-X、FBX 及未确认授权资产不进核心包；未发布 PyPI。
 本轮无人工标注、访谈或同学安装记录；AI 辅助开发和材料生成按实际情况披露。
 
 ## 验证与维护
@@ -82,6 +84,6 @@ python -m pytest -q
 python scripts/ci_wheel_matrix.py
 ```
 
-CI 验证 Windows / Linux × Python 3.10 / 3.11 的核心和优化 wheel 仓库外安装，保存浏览器操作记录。代码冻结后修改检测/修复需新保留测试版本。新问题请附最小输入、FPS、单位、映射及报告，勿上传受限资源或凭据。
+现有 GitHub CI 验证 Windows / Linux × Python 3.10 / 3.11 的源码安装、测试、可控质量门，以及前端测试/构建；不包含优化 extra 或新 wheel 跨平台矩阵。优化 wheel 的四种安装为本机 Windows 验证，另有浏览器操作记录。代码冻结后修改检测/修复需新保留测试版本。新问题请附最小输入、FPS、单位、映射及报告，勿上传受限资源或凭据。
 
 [GitHub Actions](https://github.com/TiAmo0323/AIC/actions) · [官方赛事要求](https://www.aicomp.cn/tracks/tracks-5/4924.html)

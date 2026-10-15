@@ -2,7 +2,7 @@
 
 MotionLint Studio 将公开生成模型、人体模型、角色资产和通用软件作为本地运行时依赖。大模型、检查点、SMPL-X 文件、FBX、Blender 和 FFmpeg 不随本仓库分发；使用者需要分别接受上游条款并自行下载。
 
-wheel 内的 Vue/Axios 工作台已保留生产依赖闭包的完整许可文本，见 [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt)；精确版本和清单见 `resources/frontend-license-inventory.json`。这不构成项目整体许可或团队权属确认。
+wheel 内的 Vue/Axios 工作台已保留生产依赖闭包的完整许可文本，见 [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt)；精确版本和清单见 `resources/frontend-license-inventory.json`。独立 MotionLint 组件的 MIT 授权及排除范围见 [LICENSE_SCOPE.md](LICENSE_SCOPE.md)，不构成对第三方内容或整仓历史平台的再许可。
 
 | 组件 | 用途 | 来源 | 许可 / 处理 |
 |---|---|---|---|

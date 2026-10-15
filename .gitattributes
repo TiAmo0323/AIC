@@ -1,3 +1,6 @@
+# Preserve literal upstream patch whitespace as part of the archived evidence.
+evidence/**/*.patch -whitespace
+
 # Preserve release media bytes and keep binary content out of text diffs.
 *.pdf binary
 *.mp4 binary
